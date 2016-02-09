@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="ComponentProperties\Attach.cs" />
+    <Compile Include="ComponentProperties\Categories.cs" />
     <Compile Include="ComponentProperties\IComponentProperty.cs" />
     <Compile Include="ComponentProperties\ISerialize.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

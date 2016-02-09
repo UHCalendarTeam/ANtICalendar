@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace ICalendar.ComponentProperties
 {
-    public class Attach : IComponentProperty, ISerialize
+    class Categories:IComponentProperty, ISerialize
     {
-        public string Name => "ATTACH";
+        public string Name => "CATEGORIES";
 
-        IComponentProperty ISerialize.Deserialize()
+        public void Serialize()
         {
             throw new NotImplementedException();
         }
 
-        void ISerialize.Serialize()
+        public IComponentProperty Deserialize()
         {
             throw new NotImplementedException();
         }
