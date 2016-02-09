@@ -6,7 +6,11 @@
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\DNX\Microsoft.DNX.Props" Condition="'$(VSToolsPath)' != ''" />
   <PropertyGroup Label="Globals">
+<<<<<<< HEAD
     <ProjectGuid>b5bd0fb9-61d8-4953-bf0b-525353bcce68</ProjectGuid>
+=======
+    <ProjectGuid>f8620384-a940-429b-acd4-33b0ef160652</ProjectGuid>
+>>>>>>> UHCalendar/master
     <RootNamespace>UHCalendar</RootNamespace>
     <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">..\..\artifacts\obj\$(MSBuildProjectName)</BaseIntermediateOutputPath>
     <OutputPath Condition="'$(OutputPath)'=='' ">..\..\artifacts\bin\$(MSBuildProjectName)\</OutputPath>

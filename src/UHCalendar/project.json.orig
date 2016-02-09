@@ -1,5 +1,9 @@
 ﻿{
+<<<<<<< HEAD
   "userSecretsId": "aspnet5-UHCalendar-d1b56047-975b-4f7b-999e-a18d57187d84",
+=======
+  "userSecretsId": "aspnet5-UHCalendar-c3375fed-c948-4764-b064-3460124423e3",
+>>>>>>> UHCalendar/master
   "version": "1.0.0-*",
   "compilationOptions": {
     "emitEntryPoint": true
