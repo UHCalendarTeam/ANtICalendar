@@ -1,0 +1,46 @@
+ICAl:
+  ☐ Implementar una clase por cada propiedad.
+   Properties to implement:
+    Descriptive Component Properties --Adriano: 
+      ☐ Attachment
+      ☐ Categories
+      ☐ Comment
+      ☐ Classificaction
+      ☐ Description
+      ☐ Location
+      ☐ Status
+      ☐ Summary
+      ☐ Resources
+      ☐ Priority
+    Date and Time COmponent Properties --Nacho: 
+      ☐ DT Completed
+      ☐ DT End
+      ☐ DT Due
+      ☐ DT Start
+      ☐ Duration
+      ☐ Free/Busy Time
+      ☐ Time Transparency
+   Relatoinship Component Properties --Adriano:
+      ☐ Attendee
+      ☐ Contact
+      ☐ Organizer
+      ☐ Recurrence ID
+      ☐ Related To
+      ☐ Uniform Resource Locator
+      ☐ Unique Identifier
+   Recurrence Component Properties --Nacho:
+       ☐ Exception DT
+       ☐ Recurrence DT
+       ☐ Recurrence Rule
+   Alarm Component Properties --Nacho:
+       ☐ Action
+       ☐ Repeat Count
+       ☐ Trigger
+   Change Managment Component Properties --nacho: 
+       ☐ DT Created
+       ☐ DT Stamp
+       ☐ Last Modified
+
+
+
+
