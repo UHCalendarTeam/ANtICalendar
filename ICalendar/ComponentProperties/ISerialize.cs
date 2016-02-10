@@ -8,6 +8,8 @@ namespace ICalendar.ComponentProperties
 {
     public interface ISerialize
     {
+
+
         void Serialize();
 
         IComponentProperty Deserialize();

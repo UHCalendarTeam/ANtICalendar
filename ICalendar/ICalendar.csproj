@@ -32,6 +32,10 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETPortable\v4.5\System.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,6 +47,11 @@
     <Compile Include="Class1.cs" />
     <Compile Include="ComponentProperties\Attach.cs" />
     <Compile Include="ComponentProperties\Categories.cs" />
+    <Compile Include="ComponentProperties\DateTime\DateTimeCompleted.cs" />
+    <Compile Include="ComponentProperties\DateTime\DateTimeDue.cs" />
+    <Compile Include="ComponentProperties\DateTime\DateTimeEnd.cs" />
+    <Compile Include="ComponentProperties\DateTime\DateTimeProperty.cs" />
+    <Compile Include="ComponentProperties\DateTime\DateTimeStart.cs" />
     <Compile Include="ComponentProperties\IComponentProperty.cs" />
     <Compile Include="ComponentProperties\ISerialize.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
