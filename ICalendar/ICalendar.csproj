@@ -44,7 +44,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="ComponentProperties\Alarm\Action.cs" />
     <Compile Include="ComponentProperties\Alarm\RepeatCount.cs" />
     <Compile Include="ComponentProperties\Alarm\Trigger.cs" />
