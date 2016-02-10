@@ -45,15 +45,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="ComponentProperties\Alarm\Action.cs" />
+    <Compile Include="ComponentProperties\Alarm\RepeatCount.cs" />
+    <Compile Include="ComponentProperties\Alarm\Trigger.cs" />
     <Compile Include="ComponentProperties\Attach.cs" />
     <Compile Include="ComponentProperties\Categories.cs" />
+    <Compile Include="ComponentProperties\ChangeManagement\DateTimeCreated.cs" />
+    <Compile Include="ComponentProperties\ChangeManagement\DateTimeStamp.cs" />
+    <Compile Include="ComponentProperties\ChangeManagement\LastModified.cs" />
+    <Compile Include="ComponentProperties\ChangeManagement\SequenceNumber.cs" />
     <Compile Include="ComponentProperties\DateTime\DateTimeCompleted.cs" />
     <Compile Include="ComponentProperties\DateTime\DateTimeDue.cs" />
     <Compile Include="ComponentProperties\DateTime\DateTimeEnd.cs" />
     <Compile Include="ComponentProperties\DateTime\DateTimeProperty.cs" />
     <Compile Include="ComponentProperties\DateTime\DateTimeStart.cs" />
+    <Compile Include="ComponentProperties\DateTime\Duration.cs" />
+    <Compile Include="ComponentProperties\DateTime\FreeBusyTime.cs" />
+    <Compile Include="ComponentProperties\DateTime\TimeTransparency.cs" />
     <Compile Include="ComponentProperties\IComponentProperty.cs" />
     <Compile Include="ComponentProperties\ISerialize.cs" />
+    <Compile Include="ComponentProperties\Recurrence\ExceptionDateTime.cs" />
+    <Compile Include="ComponentProperties\Recurrence\RecurrenceDateTime.cs" />
+    <Compile Include="ComponentProperties\Recurrence\RecurrenceRule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
