@@ -1,5 +1,6 @@
 ICAl:
-  ☐ Implementar una clase por cada propiedad.
+  ✔ Cambiar library icalendar a una library de asp.net 5 --dependency injection-- @done (16-02-11 12:15)
+  ✔ Implementar una clase por cada propiedad. @done (16-02-11 12:15)
    Properties to implement:
     Descriptive Component Properties --Adriano: 
       ☐ Attachment
