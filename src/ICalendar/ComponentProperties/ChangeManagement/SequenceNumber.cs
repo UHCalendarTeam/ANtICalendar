@@ -1,24 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ICalendar.ComponentProperties.ChangeManagement
 {
-    public class LastModified : IComponentProperty, ISerialize
+    public class SequenceNumber: IComponentProperty, ISerialize
     {
         /*
 
-        Calendar Components: VEVENT, VTODO, VJOURNAL, VTIMEZONE
+        Calendar Components: VEVENT, VTODO, VJOURNAL
 
-        Value Type: DATETIME
+        Value Type: INTEGER
 
         Properties Parameters: iana, non-standard
 
         */
 
-        public string Name => "LAST-MODIFIED";
+        public string Name => "SEQUENCE";
         public void Serialize()
         {
             throw new NotImplementedException();
@@ -29,6 +28,6 @@ namespace ICalendar.ComponentProperties.ChangeManagement
             throw new NotImplementedException();
         }
 
-        public System.DateTime Value { get; }
+        public int Value { get; }
     }
 }

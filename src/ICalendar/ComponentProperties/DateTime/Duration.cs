@@ -1,36 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-
-
 
 namespace ICalendar.ComponentProperties.DateTime
 {
-    public class DateTimeCompleted: DateTimeProperty
+    public class Duration: IComponentProperty, ISerialize
     {
         /*
 
-        Calendar Components: VTODO
+        Calendar Components: VTODO, VEVENT, VALARM
 
-        Value Type: UTC
+        Value Type: DURATION
 
         Properties Parameters: iana, non-standard
 
         */
 
-        public override string Name => "COMPLETED";
-        public override void Serialize()
+        public string Name => "DURATION";
+        public void Serialize()
         {
             throw new NotImplementedException();
         }
 
-        public override IComponentProperty Deserialize()
+        public IComponentProperty Deserialize()
         {
             throw new NotImplementedException();
         }
 
-        public override System.DateTime Value { get; }
+
+        //change this to duration type implement
+        public  int Value { get; }
+
     }
 }

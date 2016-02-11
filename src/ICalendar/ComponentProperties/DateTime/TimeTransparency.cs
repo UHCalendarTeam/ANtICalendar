@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace ICalendar.ComponentProperties.Alarm
+namespace ICalendar.ComponentProperties.DateTime
 {
-    public class Action:IComponentProperty, ISerialize
+    public class TimeTransparency:IComponentProperty, ISerialize
     {
         /*
 
-        Calendar Components: VALARM
+        Calendar Components: VEVENT
 
         Value Type: TEXT
 
@@ -19,12 +17,12 @@ namespace ICalendar.ComponentProperties.Alarm
 
         */
 
-            public enum ActionValue
-            {
-                AUDIO, DISPLAY, EMAIL
-            }
+        public enum TransparencyValue
+        {
+            TRANSPARENT, OPAQUE
+        }
 
-        public string Name => "ACTION";
+        public string Name => "TRANSP";
         public void Serialize()
         {
             throw new NotImplementedException();
@@ -35,6 +33,6 @@ namespace ICalendar.ComponentProperties.Alarm
             throw new NotImplementedException();
         }
 
-        public ActionValue Value { get; }
+        public  TransparencyValue Value { get; }
     }
 }

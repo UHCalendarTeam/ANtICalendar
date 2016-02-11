@@ -1,24 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace ICalendar.ComponentProperties.ChangeManagement
+
+namespace ICalendar.ComponentProperties.Alarm
 {
-    public class DateTimeStamp: IComponentProperty, ISerialize
+    public class Action:IComponentProperty, ISerialize
     {
         /*
 
-        Calendar Components: VEVENT, VTODO, VJOURNAL, VFREEBUSY (MUST BE INCLUDED IN ALL)
+        Calendar Components: VALARM
 
-        Value Type: DATETIME
+        Value Type: TEXT
 
         Properties Parameters: iana, non-standard
 
         */
 
-        public string Name => "DTSTAMP";
+            public enum ActionValue
+            {
+                AUDIO, DISPLAY, EMAIL
+            }
+
+        public string Name => "ACTION";
         public void Serialize()
         {
             throw new NotImplementedException();
@@ -29,6 +34,6 @@ namespace ICalendar.ComponentProperties.ChangeManagement
             throw new NotImplementedException();
         }
 
-        public System.DateTime Value { get; }
+        public ActionValue Value { get; }
     }
 }

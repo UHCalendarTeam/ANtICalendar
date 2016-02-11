@@ -1,23 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ICalendar.ComponentProperties.DateTime
 {
-    public class DateTimeEnd: DateTimeProperty
+    public class DateTimeDue: DateTimeProperty
     {
         /*
 
-      Calendar Components: VEVENT, VFREEBUSY
+      Calendar Components: VTODO
 
-      Value Type: UTC
+      Value Type: DATETIME / DATE
 
       Properties Parameters: iana, non-standard, value data type, time zone identifier
 
       */
-        public override string Name => "DTEND";
+
+        public override string Name => "DUE";
         public override void Serialize()
         {
             throw new NotImplementedException();

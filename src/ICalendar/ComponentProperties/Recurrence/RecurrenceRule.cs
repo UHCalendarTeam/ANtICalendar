@@ -1,24 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ICalendar.ComponentProperties.Recurrence
 {
-    public class RecurrenceDateTime:IComponentProperty, ISerialize
+    public class RecurrenceRule:IComponentProperty, ISerialize
     {
         /*
 
-        Calendar Components: VFREEBUSY
+        Calendar Components: VEVENT, VTODO, VJOURNAL -- STANDARD, DAYLIGHT subcomponents
 
-        Value Type: DATETIME/DATE/PERIOD
+        Value Type: RECUR
 
-        Properties Parameters: iana, non-standard, value data type, time zone identifier
+        Properties Parameters: iana, non-standard
 
         */
 
-        public string Name => "RDATE";
+        public string Name => "RRULE";
         public void Serialize()
         {
             throw new NotImplementedException();
@@ -29,6 +28,7 @@ namespace ICalendar.ComponentProperties.Recurrence
             throw new NotImplementedException();
         }
 
-        public IEnumerable<System.DateTime> Value { get; } 
+        //fix this impllement value type recur
+        public int Value { get; }
     }
 }

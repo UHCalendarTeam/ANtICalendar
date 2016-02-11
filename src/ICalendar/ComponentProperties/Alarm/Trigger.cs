@@ -1,24 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace ICalendar.ComponentProperties.ChangeManagement
+namespace ICalendar.ComponentProperties.Alarm
 {
-    public class DateTimeCreated: IComponentProperty, ISerialize
+    public class Trigger: IComponentProperty, ISerialize
     {
         /*
 
-        Calendar Components: VEVENT, VTODO, VJOURNAL
+        Calendar Components: VALARM
 
-        Value Type: DATETIME
+        Value Type: DURATION/DATETIME
 
-        Properties Parameters: iana, non-standard
+        Properties Parameters: iana, non-standard, value data type, time zone identifier, trigger relationship
 
         */
 
-        public string Name => "CREATED";
+        public string Name => "TRIGGER";
         public void Serialize()
         {
             throw new NotImplementedException();

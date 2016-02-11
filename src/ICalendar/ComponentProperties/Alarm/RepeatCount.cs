@@ -1,29 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace ICalendar.ComponentProperties.DateTime
+namespace ICalendar.ComponentProperties.Alarm
 {
-    public class TimeTransparency:IComponentProperty, ISerialize
+    public class RepeatCount: IComponentProperty, ISerialize
     {
         /*
 
-        Calendar Components: VEVENT
+        Calendar Components: VALARM
 
-        Value Type: TEXT
+        Value Type: INTEGER
 
         Properties Parameters: iana, non-standard
 
         */
 
-        public enum TransparencyValue
-        {
-            TRANSPARENT, OPAQUE
-        }
-
-        public string Name => "TRANSP";
+        public string Name => "REPEAT";
         public void Serialize()
         {
             throw new NotImplementedException();
@@ -34,6 +28,6 @@ namespace ICalendar.ComponentProperties.DateTime
             throw new NotImplementedException();
         }
 
-        public  TransparencyValue Value { get; }
+        public  int Value { get; }
     }
 }

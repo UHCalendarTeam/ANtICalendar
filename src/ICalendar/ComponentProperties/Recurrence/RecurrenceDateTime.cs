@@ -1,24 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ICalendar.ComponentProperties.Recurrence
 {
-    public class ExceptionDateTime:IComponentProperty, ISerialize
+    public class RecurrenceDateTime:IComponentProperty, ISerialize
     {
         /*
 
-        Calendar Components: VEVENT, VTODO, VJOURNAL -- STANDARD, DAYLIGHT subcomponents
+        Calendar Components: VFREEBUSY
 
-        Value Type: DATETIME/DATE
+        Value Type: DATETIME/DATE/PERIOD
 
         Properties Parameters: iana, non-standard, value data type, time zone identifier
 
         */
 
-        public string Name => "EXDATE";
+        public string Name => "RDATE";
         public void Serialize()
         {
             throw new NotImplementedException();
@@ -29,6 +28,6 @@ namespace ICalendar.ComponentProperties.Recurrence
             throw new NotImplementedException();
         }
 
-        public IEnumerable<System.DateTime> Value { get; }
+        public IEnumerable<System.DateTime> Value { get; } 
     }
 }

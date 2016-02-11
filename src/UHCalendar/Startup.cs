@@ -50,6 +50,7 @@ namespace UHCalendar
 
             services.AddMvc();
 
+
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
