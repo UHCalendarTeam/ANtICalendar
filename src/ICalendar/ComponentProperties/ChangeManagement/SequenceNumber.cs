@@ -5,17 +5,13 @@ using System.Threading.Tasks;
 
 namespace ICalendar.ComponentProperties.ChangeManagement
 {
-    public class SequenceNumber: IComponentProperty, ISerialize
+    /// <summary>
+    /// Calendar Components: VEVENT, VTODO, VJOURNAL;
+    /// Value Type: INTEGER;
+    /// Properties Parameters: iana, non-standard
+    /// </summary>
+    public class SequenceNumber : IComponentProperty, ISerialize
     {
-        /*
-
-        Calendar Components: VEVENT, VTODO, VJOURNAL
-
-        Value Type: INTEGER
-
-        Properties Parameters: iana, non-standard
-
-        */
 
         public string Name => "SEQUENCE";
         public void Serialize()

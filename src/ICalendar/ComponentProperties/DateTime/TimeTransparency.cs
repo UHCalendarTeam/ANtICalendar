@@ -5,17 +5,13 @@ using System.Threading.Tasks;
 
 namespace ICalendar.ComponentProperties.DateTime
 {
-    public class TimeTransparency:IComponentProperty, ISerialize
+    /// <summary>
+    /// Calendar Components: VEVENT;
+    /// Value Type: TEXT;
+    /// Properties Parameters: iana, non-standard
+    /// </summary>
+    public class TimeTransparency : IComponentProperty, ISerialize
     {
-        /*
-
-        Calendar Components: VEVENT
-
-        Value Type: TEXT
-
-        Properties Parameters: iana, non-standard
-
-        */
 
         public enum TransparencyValue
         {
@@ -33,6 +29,6 @@ namespace ICalendar.ComponentProperties.DateTime
             throw new NotImplementedException();
         }
 
-        public  TransparencyValue Value { get; }
+        public TransparencyValue Value { get; }
     }
 }

@@ -5,17 +5,13 @@ using System.Threading.Tasks;
 
 namespace ICalendar.ComponentProperties.DateTime
 {
-    public class Duration: IComponentProperty, ISerialize
+    /// <summary>
+    /// Calendar Components: VTODO, VEVENT, VALARM;
+    /// Value Type: DURATION;
+    /// Properties Parameters: iana, non-standard
+    /// </summary>
+    public class Duration : IComponentProperty, ISerialize
     {
-        /*
-
-        Calendar Components: VTODO, VEVENT, VALARM
-
-        Value Type: DURATION
-
-        Properties Parameters: iana, non-standard
-
-        */
 
         public string Name => "DURATION";
         public void Serialize()
@@ -30,7 +26,7 @@ namespace ICalendar.ComponentProperties.DateTime
 
 
         //change this to duration type implement
-        public  int Value { get; }
+        public int Value { get; }
 
     }
 }

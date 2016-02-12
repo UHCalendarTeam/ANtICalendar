@@ -5,18 +5,13 @@ using System.Threading.Tasks;
 
 namespace ICalendar.ComponentProperties.ChangeManagement
 {
+    /// <summary>
+    /// Calendar Components: VEVENT, VTODO, VJOURNAL, VTIMEZONE;
+    /// Value Type: DATETIME;
+    /// Properties Parameters: iana, non-standard
+    /// </summary>
     public class LastModified : IComponentProperty, ISerialize
     {
-        /*
-
-        Calendar Components: VEVENT, VTODO, VJOURNAL, VTIMEZONE
-
-        Value Type: DATETIME
-
-        Properties Parameters: iana, non-standard
-
-        */
-
         public string Name => "LAST-MODIFIED";
         public void Serialize()
         {

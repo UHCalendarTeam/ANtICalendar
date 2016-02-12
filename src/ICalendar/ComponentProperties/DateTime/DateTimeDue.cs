@@ -5,18 +5,13 @@ using System.Threading.Tasks;
 
 namespace ICalendar.ComponentProperties.DateTime
 {
-    public class DateTimeDue: DateTimeProperty
+    /// <summary>
+    /// Calendar Components: VTODO;
+    /// Value Type: DATETIME/DATE;
+    /// Properties Parameters: iana, non-standard, value data type, time zone identifier
+    /// </summary>
+    public class DateTimeDue : DateTimeProperty
     {
-        /*
-
-      Calendar Components: VTODO
-
-      Value Type: DATETIME / DATE
-
-      Properties Parameters: iana, non-standard, value data type, time zone identifier
-
-      */
-
         public override string Name => "DUE";
         public override void Serialize()
         {

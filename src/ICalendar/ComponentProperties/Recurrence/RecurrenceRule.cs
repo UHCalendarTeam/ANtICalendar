@@ -5,17 +5,13 @@ using System.Threading.Tasks;
 
 namespace ICalendar.ComponentProperties.Recurrence
 {
-    public class RecurrenceRule:IComponentProperty, ISerialize
+    /// <summary>
+    /// Calendar Components: VEVENT, VTODO, VJOURNAL -- STANDARD, DAYLIGHT subcomponents;
+    /// Value Type: RECUR;
+    /// Properties Parameters: iana, non-standard
+    /// </summary>
+    public class RecurrenceRule : IComponentProperty, ISerialize
     {
-        /*
-
-        Calendar Components: VEVENT, VTODO, VJOURNAL -- STANDARD, DAYLIGHT subcomponents
-
-        Value Type: RECUR
-
-        Properties Parameters: iana, non-standard
-
-        */
 
         public string Name => "RRULE";
         public void Serialize()

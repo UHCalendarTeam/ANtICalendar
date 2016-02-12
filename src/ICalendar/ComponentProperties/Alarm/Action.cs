@@ -6,22 +6,17 @@ using System.Threading.Tasks;
 
 namespace ICalendar.ComponentProperties.Alarm
 {
-    public class Action:IComponentProperty, ISerialize
+    /// <summary>
+    /// Calendar Components: VALARM;
+    /// Value Type: TEXT;
+    /// Properties Parameters: iana, non-standard
+    /// </summary>
+    public class Action : IComponentProperty, ISerialize
     {
-        /*
-
-        Calendar Components: VALARM
-
-        Value Type: TEXT
-
-        Properties Parameters: iana, non-standard
-
-        */
-
-            public enum ActionValue
-            {
-                AUDIO, DISPLAY, EMAIL
-            }
+        public enum ActionValue
+        {
+            AUDIO, DISPLAY, EMAIL
+        }
 
         public string Name => "ACTION";
         public void Serialize()

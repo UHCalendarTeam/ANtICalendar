@@ -5,18 +5,13 @@ using System.Threading.Tasks;
 
 namespace ICalendar.ComponentProperties.DateTime
 {
-    public class FreeBusyTime: IComponentProperty, ISerialize
+    /// <summary>
+    /// Calendar Components: VFREEBUSY;
+    /// Value Type: PERIOD;
+    /// Properties Parameters: iana, non-standard, free/busy time type
+    /// </summary>
+    public class FreeBusyTime : IComponentProperty, ISerialize
     {
-        /*
-
-        Calendar Components: VFREEBUSY
-
-        Value Type: PERIOD
-
-        Properties Parameters: iana, non-standard, free/busy time type
-
-        */
-
         public string Name => "FREEBUSY";
         public void Serialize()
         {

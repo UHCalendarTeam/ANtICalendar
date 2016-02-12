@@ -5,17 +5,13 @@ using System.Threading.Tasks;
 
 namespace ICalendar.ComponentProperties.ChangeManagement
 {
-    public class DateTimeStamp: IComponentProperty, ISerialize
+    /// <summary>
+    /// Calendar Components: VEVENT, VTODO, VJOURNAL, VFREEBUSY (MUST BE INCLUDED IN ALL);
+    /// Value Type: DATETIME;
+    /// Properties Parameters: iana, non-standard
+    /// </summary>
+    public class DateTimeStamp : IComponentProperty, ISerialize
     {
-        /*
-
-        Calendar Components: VEVENT, VTODO, VJOURNAL, VFREEBUSY (MUST BE INCLUDED IN ALL)
-
-        Value Type: DATETIME
-
-        Properties Parameters: iana, non-standard
-
-        */
 
         public string Name => "DTSTAMP";
         public void Serialize()

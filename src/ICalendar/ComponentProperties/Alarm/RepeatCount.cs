@@ -5,17 +5,13 @@ using System.Threading.Tasks;
 
 namespace ICalendar.ComponentProperties.Alarm
 {
-    public class RepeatCount: IComponentProperty, ISerialize
+    /// <summary>
+    /// Calendar Components: VALARM;
+    /// Value Type: INTEGER;
+    /// Properties Parameters: iana, non-standard
+    /// </summary>
+    public class RepeatCount : IComponentProperty, ISerialize
     {
-        /*
-
-        Calendar Components: VALARM
-
-        Value Type: INTEGER
-
-        Properties Parameters: iana, non-standard
-
-        */
 
         public string Name => "REPEAT";
         public void Serialize()
@@ -28,6 +24,6 @@ namespace ICalendar.ComponentProperties.Alarm
             throw new NotImplementedException();
         }
 
-        public  int Value { get; }
+        public int Value { get; }
     }
 }

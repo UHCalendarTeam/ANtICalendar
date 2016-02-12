@@ -5,19 +5,13 @@ using System.Threading.Tasks;
 
 namespace ICalendar.ComponentProperties.DateTime
 {
-    public class DateTimeStart: DateTimeProperty
+    /// <summary>
+    /// Calendar Components: VTODO, VEVENT, VFREBUSY -- STANDARD, DAYLIGHT subcomponents;
+    /// Value Type: DATETIME/DATE;
+    /// Properties Parameters: iana, non-standard, value data type, time zone identifier
+    /// </summary>
+    public class DateTimeStart : DateTimeProperty
     {
-        /*
-
-      Calendar Components: VTODO, VEVENT, VFREBUSY -- STANDARD, DAYLIGHT subcomponents
-
-      Value Type: DATETIME/ DATE
-
-      Properties Parameters: iana, non-standard, value data type, time zone identifier
-
-      */
-
-
         public override string Name => "DTSTART";
         public override void Serialize()
         {

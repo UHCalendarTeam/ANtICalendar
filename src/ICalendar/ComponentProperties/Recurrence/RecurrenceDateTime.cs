@@ -5,18 +5,13 @@ using System.Threading.Tasks;
 
 namespace ICalendar.ComponentProperties.Recurrence
 {
-    public class RecurrenceDateTime:IComponentProperty, ISerialize
+    /// <summary>
+    /// Calendar Components: VFREEBUSY;
+    /// Value Type: DATETIME/DATE/PERIOD;
+    /// Properties Parameters: iana, non-standard, value data type, time zone identifier
+    /// </summary>
+    public class RecurrenceDateTime : IComponentProperty, ISerialize
     {
-        /*
-
-        Calendar Components: VFREEBUSY
-
-        Value Type: DATETIME/DATE/PERIOD
-
-        Properties Parameters: iana, non-standard, value data type, time zone identifier
-
-        */
-
         public string Name => "RDATE";
         public void Serialize()
         {
@@ -28,6 +23,6 @@ namespace ICalendar.ComponentProperties.Recurrence
             throw new NotImplementedException();
         }
 
-        public IEnumerable<System.DateTime> Value { get; } 
+        public IEnumerable<System.DateTime> Value { get; }
     }
 }

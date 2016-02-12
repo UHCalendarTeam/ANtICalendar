@@ -7,21 +7,18 @@ using System.Threading.Tasks;
 
 namespace ICalendar.ComponentProperties.DateTime
 {
-    public class DateTimeCompleted: DateTimeProperty
+    /// <summary>
+    /// Calendar Components: VTODO;
+    /// Value Type: UTC;
+    /// Properties Parameters: iana, non-standard
+    /// </summary>
+    public class DateTimeCompleted : DateTimeProperty
     {
-        /*
-
-        Calendar Components: VTODO
-
-        Value Type: UTC
-
-        Properties Parameters: iana, non-standard
-
-        */
 
         public override string Name => "COMPLETED";
         public override void Serialize()
         {
+
             throw new NotImplementedException();
         }
 
