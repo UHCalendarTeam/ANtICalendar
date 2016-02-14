@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using static ICalendar.ComponentProperties.DateTime.TimeTransparency.TransparencyValue;
 
 namespace ICalendar.ComponentProperties.DateTime
 {
@@ -10,7 +13,7 @@ namespace ICalendar.ComponentProperties.DateTime
     /// Value Type: TEXT;
     /// Properties Parameters: iana, non-standard
     /// </summary>
-    public class TimeTransparency : IComponentProperty, ISerialize
+    public class TimeTransparency : IComponentProperty<TimeTransparency.TransparencyValue>
     {
 
         public enum TransparencyValue
@@ -19,16 +22,34 @@ namespace ICalendar.ComponentProperties.DateTime
         }
 
         public string Name => "TRANSP";
-        public void Serialize()
+        public IEnumerable<IPropertyParameter> PropertyParameters { get; set; }
+
+        public void Serialize(TextWriter writer)
         {
-            throw new NotImplementedException();
+            StringBuilder str = new StringBuilder("TRANSP:");
+            str.Append(Value);
+            writer.WriteLine("{0}", str);
         }
 
-        public IComponentProperty Deserialize()
+        public IComponentProperty<TransparencyValue> Deserialize(string value)
         {
-            throw new NotImplementedException();
+            var valueStartIndex = value.IndexOf(':') + 1;
+            var strValue = value.Substring(valueStartIndex);
+            switch (strValue)
+            {
+                case "TRANSPARENT":
+                    Value = TRANSPARENT;
+                    break;
+                case "OPAQUE":
+                    Value = OPAQUE;
+                    break;
+                default:
+                    Value = OPAQUE;
+                    break;
+            }
+            return this;
         }
 
-        public TransparencyValue Value { get; }
+        public TransparencyValue Value { get; set; }
     }
 }

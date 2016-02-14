@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace ICalendar.ComponentProperties.Recurrence
@@ -10,19 +12,39 @@ namespace ICalendar.ComponentProperties.Recurrence
     /// Value Type: DATETIME/DATE/PERIOD;
     /// Properties Parameters: iana, non-standard, value data type, time zone identifier
     /// </summary>
-    public class RecurrenceDateTime : IComponentProperty, ISerialize
+    public class RecurrenceDateTime : IComponentProperty<IEnumerable<System.DateTime>>
     {
         public string Name => "RDATE";
-        public void Serialize()
+        public IEnumerable<IPropertyParameter> PropertyParameters { get; set; }
+
+        public void Serialize(TextWriter writer)
         {
-            throw new NotImplementedException();
+            StringBuilder str = new StringBuilder("RDATE:");
+            var flag = false;
+            foreach (var cat in Value)
+            {
+                if (flag)
+                    str.Append(',');
+                str.Append(cat);
+                flag = true;
+            }
+            writer.WriteLine("{0}", str);
         }
 
-        public IComponentProperty Deserialize()
+        public IComponentProperty<IEnumerable<System.DateTime>> Deserialize(string value)
         {
-            throw new NotImplementedException();
+            var valuesStartIndex = value.IndexOf(':') + 1;
+            var strValues = value.Substring(valuesStartIndex);
+            var values = strValues.Split(',', ':');
+            List<System.DateTime> valuesConv = new List<System.DateTime>();
+            foreach (var strval in values)
+            {
+                valuesConv.Add(System.DateTime.Parse(strval));
+            }
+            Value = valuesConv;
+            return this;
         }
 
-        public IEnumerable<System.DateTime> Value { get; }
+        public IEnumerable<System.DateTime> Value { get; set; }
     }
 }

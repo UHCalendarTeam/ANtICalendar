@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using static ICalendar.ComponentProperties.Alarm.Action.ActionValue;
 
 
 namespace ICalendar.ComponentProperties.Alarm
@@ -11,7 +14,7 @@ namespace ICalendar.ComponentProperties.Alarm
     /// Value Type: TEXT;
     /// Properties Parameters: iana, non-standard
     /// </summary>
-    public class Action : IComponentProperty, ISerialize
+    public class Action : IComponentProperty<Action.ActionValue>
     {
         public enum ActionValue
         {
@@ -19,16 +22,40 @@ namespace ICalendar.ComponentProperties.Alarm
         }
 
         public string Name => "ACTION";
-        public void Serialize()
+        public IEnumerable<IPropertyParameter> PropertyParameters { get; set; }
+
+        public void Serialize(TextWriter writer)
         {
-            throw new NotImplementedException();
+            StringBuilder str = new StringBuilder("ACTION:");
+            str.Append(Value);
+            writer.WriteLine("{0}", str);
         }
 
-        public IComponentProperty Deserialize()
+        public IComponentProperty<ActionValue> Deserialize(string value)
         {
-            throw new NotImplementedException();
+            var valueStartIndex = value.IndexOf(':') + 1;
+            var strValue = value.Substring(valueStartIndex);
+            switch (strValue)
+            {
+                case "AUDIO":
+                    Value = AUDIO;
+                    break;
+                case "DISPLAY":
+                    Value = DISPLAY;
+                    break;
+                case "EMAIL":
+                    Value = EMAIL;
+                    break;
+                default:
+                    Value = DISPLAY;
+                    break;
+
+            }
+
+
+            return this;
         }
 
-        public ActionValue Value { get; }
+        public ActionValue Value { get; set; }
     }
 }

@@ -5,11 +5,7 @@ using System.Threading.Tasks;
 
 namespace ICalendar.ComponentProperties
 {
-    public interface ISerialize<T>
+    public interface IPropertyParameter
     {
-        void Serialize(System.IO.TextWriter writer);
-
-        IComponentProperty<T> Deserialize(string value);
-
     }
 }
