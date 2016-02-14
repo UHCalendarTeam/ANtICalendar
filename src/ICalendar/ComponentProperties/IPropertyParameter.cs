@@ -7,5 +7,8 @@ namespace ICalendar.ComponentProperties
 {
     public interface IPropertyParameter
     {
+        string Name { get; }
+
+        string Value { get; set; }
     }
 }
