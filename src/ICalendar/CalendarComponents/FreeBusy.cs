@@ -7,9 +7,9 @@ using ICalendar.ComponentProperties;
 
 namespace ICalendar.CalendarComponents
 {
-    public class Event: ICalendarComponent
+    public class FreeBusy:ICalendarComponent
     {
-        public string Name => "VEVENT";
+        public string Name => "VFREEBUSY";
         public IEnumerable<IComponentProperty> Properties { get; set; }
 
         public void Serialize(TextWriter writer)

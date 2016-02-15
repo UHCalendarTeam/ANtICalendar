@@ -7,8 +7,10 @@ using ICalendar.GeneralInterfaces;
 
 namespace ICalendar.CalendarComponents
 {
-    public interface ICalendarComponent
+    public interface ICalendarComponent:ISerialize
     {
         IEnumerable<IComponentProperty> Properties { get; set; }
+
+        string Name { get; }
     }
 }
