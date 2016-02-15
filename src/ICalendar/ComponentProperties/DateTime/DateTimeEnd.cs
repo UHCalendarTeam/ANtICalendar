@@ -23,7 +23,7 @@ namespace ICalendar.ComponentProperties.DateTime
             writer.WriteLine("{0}", str);
         }
 
-        public override IComponentProperty<System.DateTime> Deserialize(string value)
+        public override IComponentProperty Deserialize(string value)
         {
             var valueStartIndex = value.IndexOf(':') + 1;
             var strValue = System.DateTime.Parse(value.Substring(valueStartIndex));

@@ -9,7 +9,7 @@ namespace ICalendar.ComponentProperties.DateTime
     /// <summary>
     /// Abstract Class That Cluster DateTime Functionalities
     /// </summary>
-    public abstract class DateTimeProperty : IComponentProperty<System.DateTime>
+    public abstract class DateTimeProperty : IComponentProperty
     {
         public abstract string Name { get; }
         public IEnumerable<IPropertyParameter> PropertyParameters { get; set; }
@@ -17,7 +17,7 @@ namespace ICalendar.ComponentProperties.DateTime
         public abstract void Serialize(TextWriter writer);
 
 
-        public abstract IComponentProperty<System.DateTime> Deserialize(string value);
+        public abstract IComponentProperty Deserialize(string value);
 
         public abstract System.DateTime Value { get; set; }
 

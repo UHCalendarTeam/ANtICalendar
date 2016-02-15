@@ -13,7 +13,7 @@ namespace ICalendar.ComponentProperties.DateTime
     /// Value Type: TEXT;
     /// Properties Parameters: iana, non-standard
     /// </summary>
-    public class TimeTransparency : IComponentProperty<TimeTransparency.TransparencyValue>
+    public class TimeTransparency : IComponentProperty
     {
 
         public enum TransparencyValue
@@ -31,7 +31,7 @@ namespace ICalendar.ComponentProperties.DateTime
             writer.WriteLine("{0}", str);
         }
 
-        public IComponentProperty<TransparencyValue> Deserialize(string value)
+        public IComponentProperty Deserialize(string value)
         {
             var valueStartIndex = value.IndexOf(':') + 1;
             var strValue = value.Substring(valueStartIndex);

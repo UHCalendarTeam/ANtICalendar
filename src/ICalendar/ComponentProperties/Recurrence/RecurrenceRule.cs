@@ -12,7 +12,7 @@ namespace ICalendar.ComponentProperties.Recurrence
     /// Value Type: RECUR;
     /// Properties Parameters: iana, non-standard
     /// </summary>
-    public class RecurrenceRule : IComponentProperty<int>
+    public class RecurrenceRule : IComponentProperty
     {
 
         public string Name => "RRULE";
@@ -25,7 +25,7 @@ namespace ICalendar.ComponentProperties.Recurrence
             writer.WriteLine("{0}", str);
         }
 
-        public IComponentProperty<int> Deserialize(string value)
+        public IComponentProperty Deserialize(string value)
         {
             var valueStartIndex = value.IndexOf(':') + 1;
             var strValue = int.Parse(value.Substring(valueStartIndex));

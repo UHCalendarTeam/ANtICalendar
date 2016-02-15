@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ICalendar.ComponentProperties;
 
-namespace ICalendar.ComponentProperties
+namespace ICalendar.GeneralInterfaces
 {
-    public interface ISerialize<T>
+    public interface ISerialize
     {
         void Serialize(System.IO.TextWriter writer);
 
-        IComponentProperty<T> Deserialize(string value);
+        IComponentProperty Deserialize(string value);
 
     }
 }

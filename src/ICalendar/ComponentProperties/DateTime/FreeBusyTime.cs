@@ -12,7 +12,7 @@ namespace ICalendar.ComponentProperties.DateTime
     /// Value Type: PERIOD;
     /// Properties Parameters: iana, non-standard, free/busy time type
     /// </summary>
-    public class FreeBusyTime : IComponentProperty<int>
+    public class FreeBusyTime : IComponentProperty
     {
         public string Name => "FREEBUSY";
         public IEnumerable<IPropertyParameter> PropertyParameters { get; set; }
@@ -24,7 +24,7 @@ namespace ICalendar.ComponentProperties.DateTime
             writer.WriteLine("{0}", str);
         }
 
-        public IComponentProperty<int> Deserialize(string value)
+        public IComponentProperty Deserialize(string value)
         {
             var valueStartIndex = value.IndexOf(':') + 1;
             var strValue = int.Parse(value.Substring(valueStartIndex));

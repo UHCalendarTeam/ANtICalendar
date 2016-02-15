@@ -14,7 +14,7 @@ namespace ICalendar.ComponentProperties.Alarm
     /// Value Type: TEXT;
     /// Properties Parameters: iana, non-standard
     /// </summary>
-    public class Action : IComponentProperty<Action.ActionValue>
+    public class Action : IComponentProperty
     {
         public enum ActionValue
         {
@@ -31,7 +31,7 @@ namespace ICalendar.ComponentProperties.Alarm
             writer.WriteLine("{0}", str);
         }
 
-        public IComponentProperty<ActionValue> Deserialize(string value)
+        public IComponentProperty Deserialize(string value)
         {
             var valueStartIndex = value.IndexOf(':') + 1;
             var strValue = value.Substring(valueStartIndex);

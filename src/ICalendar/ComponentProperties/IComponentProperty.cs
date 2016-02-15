@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ICalendar.GeneralInterfaces;
 
 namespace ICalendar.ComponentProperties
 {
-    public interface IComponentProperty<T>:ISerialize<T>
+    public interface IComponentProperty:ISerialize
     {
         string Name { get; }
-
-        T Value { get; set; }
+       
 
         IEnumerable<IPropertyParameter> PropertyParameters { get; set; }
     }

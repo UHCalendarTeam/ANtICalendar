@@ -12,7 +12,7 @@ namespace ICalendar.ComponentProperties.DateTime
     /// Value Type: DURATION;
     /// Properties Parameters: iana, non-standard
     /// </summary>
-    public class Duration : IComponentProperty<int>
+    public class Duration : IComponentProperty
     {
 
         public string Name => "DURATION";
@@ -25,7 +25,7 @@ namespace ICalendar.ComponentProperties.DateTime
             writer.WriteLine("{0}", str);
         }
 
-        public IComponentProperty<int> Deserialize(string value)
+        public IComponentProperty Deserialize(string value)
         {
             var valueStartIndex = value.IndexOf(':') + 1;
             var strValue = int.Parse(value.Substring(valueStartIndex));

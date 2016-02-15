@@ -12,7 +12,7 @@ namespace ICalendar.ComponentProperties.Recurrence
     /// Value Type: DATETIME/DATE/PERIOD;
     /// Properties Parameters: iana, non-standard, value data type, time zone identifier
     /// </summary>
-    public class RecurrenceDateTime : IComponentProperty<IEnumerable<System.DateTime>>
+    public class RecurrenceDateTime : IComponentProperty
     {
         public string Name => "RDATE";
         public IEnumerable<IPropertyParameter> PropertyParameters { get; set; }
@@ -31,7 +31,7 @@ namespace ICalendar.ComponentProperties.Recurrence
             writer.WriteLine("{0}", str);
         }
 
-        public IComponentProperty<IEnumerable<System.DateTime>> Deserialize(string value)
+        public IComponentProperty Deserialize(string value)
         {
             var valuesStartIndex = value.IndexOf(':') + 1;
             var strValues = value.Substring(valuesStartIndex);

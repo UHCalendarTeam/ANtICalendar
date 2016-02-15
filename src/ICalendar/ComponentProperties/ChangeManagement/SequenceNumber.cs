@@ -12,7 +12,7 @@ namespace ICalendar.ComponentProperties.ChangeManagement
     /// Value Type: INTEGER;
     /// Properties Parameters: iana, non-standard
     /// </summary>
-    public class SequenceNumber : IComponentProperty<int>
+    public class SequenceNumber : IComponentProperty
     {
 
         public string Name => "SEQUENCE";
@@ -25,7 +25,7 @@ namespace ICalendar.ComponentProperties.ChangeManagement
             writer.WriteLine("{0}", str);
         }
 
-        public IComponentProperty<int> Deserialize(string value)
+        public IComponentProperty Deserialize(string value)
         {
             var valueStartIndex = value.IndexOf(':') + 1;
             var strValue = int.Parse(value.Substring(valueStartIndex));

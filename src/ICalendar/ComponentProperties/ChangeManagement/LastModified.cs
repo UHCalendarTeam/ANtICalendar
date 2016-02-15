@@ -12,7 +12,7 @@ namespace ICalendar.ComponentProperties.ChangeManagement
     /// Value Type: DATETIME;
     /// Properties Parameters: iana, non-standard
     /// </summary>
-    public class LastModified : IComponentProperty<System.DateTime>
+    public class LastModified : IComponentProperty
     {
         public string Name => "LAST-MODIFIED";
         public IEnumerable<IPropertyParameter> PropertyParameters { get; set; }
@@ -24,7 +24,7 @@ namespace ICalendar.ComponentProperties.ChangeManagement
             writer.WriteLine("{0}", str);
         }
 
-        public IComponentProperty<System.DateTime> Deserialize(string value)
+        public IComponentProperty Deserialize(string value)
         {
             var valueStartIndex = value.IndexOf(':') + 1;
             var strValue = System.DateTime.Parse(value.Substring(valueStartIndex));

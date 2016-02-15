@@ -12,7 +12,7 @@ namespace ICalendar.ComponentProperties.Alarm
     /// Value Type: DURATION/DATETIME;
     /// Properties Parameters: iana, non-standard, value data type, time zone identifier, trigger relationship
     /// </summary>
-    public class Trigger : IComponentProperty<System.DateTime>
+    public class Trigger : IComponentProperty
     {
 
         public string Name => "TRIGGER";
@@ -25,7 +25,7 @@ namespace ICalendar.ComponentProperties.Alarm
             writer.WriteLine("{0}", str);
         }
 
-        public IComponentProperty<System.DateTime> Deserialize(string value)
+        public IComponentProperty Deserialize(string value)
         {
             var valueStartIndex = value.IndexOf(':') + 1;
             var strValue = System.DateTime.Parse(value.Substring(valueStartIndex));
