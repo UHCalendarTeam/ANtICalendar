@@ -4,13 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using ICalendar.GeneralInterfaces;
 
-namespace ICalendar.ComponentProperties
+namespace ICalendar.GeneralInterfaces
 {
     public interface IComponentProperty:ISerialize
     {
         string Name { get; }
        
 
-        IEnumerable<IPropertyParameter> PropertyParameters { get; set; }
+        IList<IPropertyParameter> PropertyParameters { get; set; }
     }
 }

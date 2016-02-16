@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using ICalendar.GeneralInterfaces;
 
-namespace ICalendar.ComponentProperties.DateTime
+namespace ICalendar.ComponentProperties
 {
     /// <summary>
     /// Abstract Class That Cluster DateTime Functionalities
@@ -12,7 +13,7 @@ namespace ICalendar.ComponentProperties.DateTime
     public abstract class DateTimeProperty : IComponentProperty
     {
         public abstract string Name { get; }
-        public IEnumerable<IPropertyParameter> PropertyParameters { get; set; }
+        public IList<IPropertyParameter> PropertyParameters { get; set; }
 
         public abstract void Serialize(TextWriter writer);
 

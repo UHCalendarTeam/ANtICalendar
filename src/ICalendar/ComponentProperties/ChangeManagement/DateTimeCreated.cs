@@ -4,19 +4,20 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ICalendar.GeneralInterfaces;
 
-namespace ICalendar.ComponentProperties.ChangeManagement
+namespace ICalendar.ComponentProperties
 {
     /// <summary>
     /// Calendar Components: VEVENT, VTODO, VJOURNAL;
     /// Value Type: DATETIME;
     /// Properties Parameters: iana, non-standard
     /// </summary>
-    public class DateTimeCreated : IComponentProperty
+    public class DateTimeCreated : IComponentProperty, IValue<System.DateTime>
     {
 
         public string Name => "CREATED";
-        public IEnumerable<IPropertyParameter> PropertyParameters { get; set; }
+        public IList<IPropertyParameter> PropertyParameters { get; set; }
 
 
         public void Serialize(TextWriter writer)

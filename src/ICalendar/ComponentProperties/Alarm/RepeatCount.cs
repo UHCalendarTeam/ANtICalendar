@@ -4,19 +4,20 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ICalendar.GeneralInterfaces;
 
-namespace ICalendar.ComponentProperties.Alarm
+namespace ICalendar.ComponentProperties
 {
     /// <summary>
     /// Calendar Components: VALARM;
     /// Value Type: INTEGER;
     /// Properties Parameters: iana, non-standard
     /// </summary>
-    public class RepeatCount : IComponentProperty
+    public class RepeatCount : IComponentProperty, IValue<int>
     {
 
         public string Name => "REPEAT";
-        public IEnumerable<IPropertyParameter> PropertyParameters { get; set; }
+        public IList<IPropertyParameter> PropertyParameters { get; set; }
 
         public void Serialize(TextWriter writer)
         {

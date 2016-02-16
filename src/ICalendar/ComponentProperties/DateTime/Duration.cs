@@ -4,8 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ICalendar.GeneralInterfaces;
 
-namespace ICalendar.ComponentProperties.DateTime
+namespace ICalendar.ComponentProperties
 {
     /// <summary>
     /// Calendar Components: VTODO, VEVENT, VALARM;
@@ -16,7 +17,7 @@ namespace ICalendar.ComponentProperties.DateTime
     {
 
         public string Name => "DURATION";
-        public IEnumerable<IPropertyParameter> PropertyParameters { get; set; }
+        public IList<IPropertyParameter> PropertyParameters { get; set; }
 
         public void Serialize(TextWriter writer)
         {

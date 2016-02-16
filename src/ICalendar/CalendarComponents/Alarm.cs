@@ -8,10 +8,12 @@ using ICalendar.GeneralInterfaces;
 
 namespace ICalendar.CalendarComponents
 {
-    public class Alarm:ICalendarComponent
+    public class Alarm: ICalendarComponent
     {
         public string Name => "VALARM";
-        public IEnumerable<IComponentProperty> Properties { get; set; }
+        public IList<IComponentProperty> Properties { get; set; }
+
+       
 
         public void Serialize(TextWriter writer)
         {

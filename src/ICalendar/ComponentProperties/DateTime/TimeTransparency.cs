@@ -4,9 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static ICalendar.ComponentProperties.DateTime.TimeTransparency.TransparencyValue;
+using ICalendar.GeneralInterfaces;
+using static ICalendar.ComponentProperties.TimeTransparency.TransparencyValue;
 
-namespace ICalendar.ComponentProperties.DateTime
+namespace ICalendar.ComponentProperties
 {
     /// <summary>
     /// Calendar Components: VEVENT;
@@ -22,7 +23,7 @@ namespace ICalendar.ComponentProperties.DateTime
         }
 
         public string Name => "TRANSP";
-        public IEnumerable<IPropertyParameter> PropertyParameters { get; set; }
+        public IList<IPropertyParameter> PropertyParameters { get; set; }
 
         public void Serialize(TextWriter writer)
         {

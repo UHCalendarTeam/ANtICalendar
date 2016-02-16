@@ -4,10 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ICalendar.GeneralInterfaces;
 
 
-
-namespace ICalendar.ComponentProperties.DateTime
+namespace ICalendar.ComponentProperties
 {
     /// <summary>
     /// Calendar Components: VTODO;

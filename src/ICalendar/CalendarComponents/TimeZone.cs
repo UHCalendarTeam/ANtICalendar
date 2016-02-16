@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ICalendar.ComponentProperties;
+using ICalendar.GeneralInterfaces;
 
 namespace ICalendar.CalendarComponents
 {
@@ -11,7 +12,7 @@ namespace ICalendar.CalendarComponents
     {
         public string Name => "VTIMEZONE";
 
-        public IEnumerable<IComponentProperty> Properties { get; set; }
+        public IList<IComponentProperty> Properties { get; set; }
 
         public void Serialize(TextWriter writer)
         {
