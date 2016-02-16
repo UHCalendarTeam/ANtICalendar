@@ -4,19 +4,20 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ICalendar.GeneralInterfaces;
 
-namespace ICalendar.ComponentProperties.Alarm
+namespace ICalendar.ComponentProperties
 {
     /// <summary>
     /// Calendar Components: VALARM;
     /// Value Type: DURATION/DATETIME;
     /// Properties Parameters: iana, non-standard, value data type, time zone identifier, trigger relationship
     /// </summary>
-    public class Trigger : IComponentProperty
+    public class Trigger : IComponentProperty, IValue<System.DateTime>
     {
 
         public string Name => "TRIGGER";
-        public IEnumerable<IPropertyParameter> PropertyParameters { get; set; }
+        public IList<IPropertyParameter> PropertyParameters { get; set; }
 
         public void Serialize(TextWriter writer)
         {

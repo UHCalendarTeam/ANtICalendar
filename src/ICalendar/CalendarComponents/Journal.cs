@@ -4,13 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ICalendar.ComponentProperties;
+using ICalendar.GeneralInterfaces;
 
 namespace ICalendar.CalendarComponents
 {
     public class Journal:ICalendarComponent
     {
         public string Name => "VJOURNAL";
-        public IEnumerable<IComponentProperty> Properties { get; set; }
+        public IList<IComponentProperty> Properties { get; set; }
 
         public void Serialize(TextWriter writer)
         {

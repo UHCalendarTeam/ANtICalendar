@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 using ICalendar.ComponentProperties;
 using ICalendar.GeneralInterfaces;
 
-namespace ICalendar.CalendarComponents
+namespace ICalendar.GeneralInterfaces
 {
     public interface ICalendarComponent:ISerialize
     {
-        IEnumerable<IComponentProperty> Properties { get; set; }
+        IList<IComponentProperty> Properties { get; set; }
 
         string Name { get; }
     }

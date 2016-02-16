@@ -4,17 +4,18 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static ICalendar.ComponentProperties.Alarm.Action.ActionValue;
+using ICalendar.GeneralInterfaces;
 
 
-namespace ICalendar.ComponentProperties.Alarm
+
+namespace ICalendar.ComponentProperties
 {
     /// <summary>
     /// Calendar Components: VALARM;
     /// Value Type: TEXT;
     /// Properties Parameters: iana, non-standard
     /// </summary>
-    public class Action : IComponentProperty
+    public class Action : IComponentProperty, IValue<Action.ActionValue>
     {
         public enum ActionValue
         {
@@ -22,7 +23,7 @@ namespace ICalendar.ComponentProperties.Alarm
         }
 
         public string Name => "ACTION";
-        public IEnumerable<IPropertyParameter> PropertyParameters { get; set; }
+        public IList<IPropertyParameter> PropertyParameters { get; set; }
 
         public void Serialize(TextWriter writer)
         {
@@ -38,16 +39,16 @@ namespace ICalendar.ComponentProperties.Alarm
             switch (strValue)
             {
                 case "AUDIO":
-                    Value = AUDIO;
+                    Value = ActionValue.AUDIO;
                     break;
                 case "DISPLAY":
-                    Value = DISPLAY;
+                    Value = ActionValue.DISPLAY;
                     break;
                 case "EMAIL":
-                    Value = EMAIL;
+                    Value = ActionValue.EMAIL;
                     break;
                 default:
-                    Value = DISPLAY;
+                    Value = ActionValue.DISPLAY;
                     break;
 
             }
@@ -57,5 +58,6 @@ namespace ICalendar.ComponentProperties.Alarm
         }
 
         public ActionValue Value { get; set; }
+        
     }
 }

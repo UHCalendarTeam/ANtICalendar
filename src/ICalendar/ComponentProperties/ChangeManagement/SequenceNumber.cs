@@ -4,8 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ICalendar.GeneralInterfaces;
 
-namespace ICalendar.ComponentProperties.ChangeManagement
+namespace ICalendar.ComponentProperties
 {
     /// <summary>
     /// Calendar Components: VEVENT, VTODO, VJOURNAL;
@@ -16,7 +17,7 @@ namespace ICalendar.ComponentProperties.ChangeManagement
     {
 
         public string Name => "SEQUENCE";
-        public IEnumerable<IPropertyParameter> PropertyParameters { get; set; }
+        public IList<IPropertyParameter> PropertyParameters { get; set; }
 
         public void Serialize(TextWriter writer)
         {

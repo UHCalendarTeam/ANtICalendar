@@ -4,8 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ICalendar.GeneralInterfaces;
 
-namespace ICalendar.ComponentProperties.Recurrence
+namespace ICalendar.ComponentProperties
 {
     /// <summary>
     /// Calendar Components: VEVENT, VTODO, VJOURNAL -- STANDARD, DAYLIGHT subcomponents;
@@ -15,7 +16,7 @@ namespace ICalendar.ComponentProperties.Recurrence
     public class ExceptionDateTime : IComponentProperty
     {
         public string Name => "EXDATE";
-        public IEnumerable<IPropertyParameter> PropertyParameters { get; set; }
+        public IList<IPropertyParameter> PropertyParameters { get; set; }
 
         public void Serialize(TextWriter writer)
         {
@@ -45,6 +46,6 @@ namespace ICalendar.ComponentProperties.Recurrence
             return this;
         }
 
-        public IEnumerable<System.DateTime> Value { get; set; }
+        public IList<System.DateTime> Value { get; set; }
     }
 }
