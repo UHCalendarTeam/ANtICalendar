@@ -64,7 +64,7 @@ namespace ICalendar.Utils
             
             for (int i = 1; i <= str.Length/75; i++)
             {
-                str.Insert(75*i, "\r\n");
+                str.Insert(75*i, "\r\n ");
             }
             return str.Append("\r\n").ToString();
         }
