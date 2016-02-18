@@ -15,6 +15,6 @@ namespace ICalendar.ComponentProperties
     /// </summary>
     public class ExceptionDateTime : ComponentProperty<IList<System.DateTime>>
     {
-        public new string Name => "EXDATE";
+        public override string Name => "EXDATE";
     }
 }

@@ -14,7 +14,7 @@ namespace ICalendar.ComponentProperties
     /// </summary>
     public class Classification: ComponentProperty<ClassificationValues.ClassificationValue>
     {
-        public new string Name => "CLASSIFICATION";
+        public override string Name => "CLASSIFICATION";
 
     }
 

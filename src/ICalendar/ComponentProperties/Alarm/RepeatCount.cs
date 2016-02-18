@@ -16,7 +16,7 @@ namespace ICalendar.ComponentProperties
     public class RepeatCount : ComponentProperty<int>
     {
 
-        public new string Name => "REPEAT";
+        public override string Name => "REPEAT";
        
 
     }

@@ -15,7 +15,7 @@ namespace ICalendar.ComponentProperties
     /// </summary>
     public class DateTimeEnd : ComponentProperty<System.DateTime>
     {
-        public new string Name => "DTEND";
+        public override string Name => "DTEND";
 
     }
 }

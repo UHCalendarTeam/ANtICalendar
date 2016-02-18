@@ -16,7 +16,7 @@ namespace ICalendar.ComponentProperties
     /// </summary>
     public class TimeTransparency : ComponentProperty<TransparencyValues.TransparencyValue>
     {
-        public new string Name => "TRANSP";
+        public override string Name => "TRANSP";
     }
 
     /// <summary>

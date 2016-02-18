@@ -16,6 +16,6 @@ namespace ICalendar.ComponentProperties
     /// </summary>
     public class DateTimeCompleted : ComponentProperty<System.DateTime>
     {
-        public new string Name => "COMPLETED";
+        public override string Name => "COMPLETED";
     }
 }

@@ -16,7 +16,7 @@ namespace ICalendar.ComponentProperties
     /// ////
     public class Categories : ComponentProperty<IList<string>>
     {
-        public new string Name => "CATEGORIES";
+        public override string Name => "CATEGORIES";
     }
  
 }

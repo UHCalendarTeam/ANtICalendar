@@ -17,7 +17,7 @@ namespace ICalendar.ComponentProperties
     /// </summary>
     public class Status:ComponentProperty<StatusValues.Values>
     {
-        public new string Name => "STATUS";
+        public override string Name => "STATUS";
     }
 
 

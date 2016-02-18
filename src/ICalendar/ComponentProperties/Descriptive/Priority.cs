@@ -17,6 +17,6 @@ namespace ICalendar.ComponentProperties
     /// </summary>
     public class Priority : ComponentProperty<int>
     {
-        public new string Name => "PRIORITY";
+        public override string Name => "PRIORITY";
     }
 }

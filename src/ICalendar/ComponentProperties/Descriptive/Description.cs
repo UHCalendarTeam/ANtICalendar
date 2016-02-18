@@ -21,6 +21,6 @@ namespace ICalendar.ComponentProperties
     /// </summary>
     public class Description: ComponentProperty<string>
     {
-        public new string Name => "DESCRIPTION";
+        public override string Name => "DESCRIPTION";
     }
 }

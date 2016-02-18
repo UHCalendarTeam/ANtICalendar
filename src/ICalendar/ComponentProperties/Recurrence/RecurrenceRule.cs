@@ -16,6 +16,6 @@ namespace ICalendar.ComponentProperties
     public class RecurrenceRule : ComponentProperty<int>
     {
 
-        public new string Name => "RRULE";
+        public override string Name => "RRULE";
     }
 }

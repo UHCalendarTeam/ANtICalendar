@@ -16,7 +16,7 @@ namespace ICalendar.ComponentProperties
     public class Duration : ComponentProperty<int>
     {
 
-        public new string Name => "DURATION";
+        public override string Name => "DURATION";
        
 
     }

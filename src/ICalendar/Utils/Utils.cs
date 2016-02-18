@@ -10,6 +10,7 @@ namespace ICalendar.Utils
 {
     public static class Utils
     {
+        #region string extension methods.
         /// <summary>
         /// Get the index first ':'
         /// </summary>
@@ -68,6 +69,8 @@ namespace ICalendar.Utils
             return str.Append("\r\n").ToString();
         }
 
+        #endregion
+
         /// <summary>
         /// Call this the method when u want the representation in string of the 
         /// COmponents properties classes
@@ -119,7 +122,7 @@ namespace ICalendar.Utils
             return strBuilder.SplitLines();
         }
 
-
+        #region Deserialize extension methods.
         public static ComponentProperty<string> Deserialize(this ComponentProperty<string> property, string value)
         {
             property.Value = value.ValuesSubString();
@@ -190,5 +193,6 @@ namespace ICalendar.Utils
             property.Value = valuesConv;
             return property;
         }
-}
+        #endregion
+    }
 }

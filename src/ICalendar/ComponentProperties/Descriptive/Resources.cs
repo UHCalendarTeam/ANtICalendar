@@ -17,6 +17,6 @@ namespace ICalendar.ComponentProperties
     /// </summary>
     public class Resources: ComponentProperty<IList<string>>
     {
-        public new string Name => "RESOURCES";
+        public override string Name => "RESOURCES";
     }
 }

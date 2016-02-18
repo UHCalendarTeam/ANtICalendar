@@ -15,6 +15,6 @@ namespace ICalendar.ComponentProperties
     /// </summary>
     public class DateTimeStart : ComponentProperty<System.DateTime>
     {
-        public new string Name => "DTSTART";
+        public override string Name => "DTSTART";
     }
 }

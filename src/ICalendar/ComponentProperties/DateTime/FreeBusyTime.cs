@@ -15,6 +15,6 @@ namespace ICalendar.ComponentProperties
     /// </summary>
     public class FreeBusyTime : ComponentProperty<int>
     {
-        public new string Name => "FREEBUSY";
+        public override string Name => "FREEBUSY";
     }
 }

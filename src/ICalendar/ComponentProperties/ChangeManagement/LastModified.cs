@@ -15,6 +15,6 @@ namespace ICalendar.ComponentProperties
     /// </summary>
     public class LastModified : ComponentProperty<System.DateTime>
     {
-        public new string Name => "LAST-MODIFIED";
+        public override string Name => "LAST-MODIFIED";
     }
 }

@@ -15,6 +15,6 @@ namespace ICalendar.ComponentProperties
     /// </summary>
     public class DateTimeDue : ComponentProperty<System.DateTime>
     {
-        public new string Name => "DUE";
+        public override string Name => "DUE";
     }
 }

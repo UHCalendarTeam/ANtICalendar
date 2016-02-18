@@ -20,7 +20,7 @@ namespace ICalendar.ComponentProperties
     public class Action : ComponentProperty<ActionValues.ActionValue>
     {
 
-        public new string Name => "ACTION";
+        public override string Name => "ACTION";
        
         
     }

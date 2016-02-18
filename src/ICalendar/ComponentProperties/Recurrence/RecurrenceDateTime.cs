@@ -15,6 +15,6 @@ namespace ICalendar.ComponentProperties
     /// </summary>
     public class RecurrenceDateTime : ComponentProperty<IList<System.DateTime>>
     {
-        public new string Name => "RDATE";
+        public override string Name => "RDATE";
     }
 }

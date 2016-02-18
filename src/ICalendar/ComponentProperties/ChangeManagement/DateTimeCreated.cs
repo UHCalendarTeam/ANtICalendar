@@ -16,7 +16,7 @@ namespace ICalendar.ComponentProperties
     public class DateTimeCreated : ComponentProperty<System.DateTime>
     {
 
-        public new string Name => "CREATED";
+        public override string Name => "CREATED";
 
     }
 }

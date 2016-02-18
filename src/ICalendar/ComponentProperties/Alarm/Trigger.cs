@@ -16,6 +16,6 @@ namespace ICalendar.ComponentProperties
     public class Trigger : ComponentProperty<System.DateTime>
     {
 
-        public new string Name => "TRIGGER";
+        public override string Name => "TRIGGER";
     }
 }

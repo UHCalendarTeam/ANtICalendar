@@ -16,7 +16,7 @@ namespace ICalendar.ComponentProperties
     public class DateTimeStamp : ComponentProperty<System.DateTime>
     {
 
-        public new string Name => "DTSTAMP";
+        public override string Name => "DTSTAMP";
         
     }
 }

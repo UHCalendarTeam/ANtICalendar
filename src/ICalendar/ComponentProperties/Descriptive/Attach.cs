@@ -17,7 +17,7 @@ namespace ICalendar.ComponentProperties
     public class Attach : ComponentProperty<string>
     {
         #region Properties
-        public new string  Name => "ATTACH";
+        public override string  Name => "ATTACH";
         #endregion
     }
 }

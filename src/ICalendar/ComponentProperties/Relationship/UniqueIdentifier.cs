@@ -17,7 +17,7 @@ namespace ICalendar.ComponentProperties
     /// </summary>
     public class UniqueIdentifier:ComponentProperty<string>
     {
-        public new string Name => "UID";
+        public override string Name => "UID";
 
         /// <summary>
         /// Generete the UID for a CalendarComponent.

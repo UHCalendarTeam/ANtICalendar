@@ -16,7 +16,7 @@ namespace ICalendar.ComponentProperties
     public class SequenceNumber : ComponentProperty<int>
     {
 
-        public new string Name => "SEQUENCE";
+        public override string Name => "SEQUENCE";
         
     }
 }

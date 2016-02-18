@@ -17,6 +17,6 @@ namespace ICalendar.ComponentProperties
     /// </summary>
     public class Location: ComponentProperty<string>
     {
-        public new string Name => "LOCATION";
+        public override string Name => "LOCATION";
     }
 }

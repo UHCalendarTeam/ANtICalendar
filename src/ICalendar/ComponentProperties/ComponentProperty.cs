@@ -12,7 +12,7 @@ namespace ICalendar.ComponentProperties
     {
        
 
-        public string Name { get; }
+        public virtual string Name { get; }
         public IList<IPropertyParameter> PropertyParameters { get; set; }
         public T Value { get; set; }
     }

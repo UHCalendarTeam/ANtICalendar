@@ -7,6 +7,6 @@ namespace ICalendar.ComponentProperties
 {
     public class Comment: ComponentProperty<string>
     {
-        public new string Name => "COMMENT";
+        public override string Name => "COMMENT";
     }
 }
