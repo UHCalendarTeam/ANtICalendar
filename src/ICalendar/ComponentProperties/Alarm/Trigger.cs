@@ -13,7 +13,6 @@ namespace ICalendar.ComponentProperties
     /// </summary>
     public class Trigger : ComponentProperty<System.DateTime>
     {
-
         public override string Name => "TRIGGER";
     }
 }

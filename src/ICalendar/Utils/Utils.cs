@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -101,7 +102,7 @@ namespace ICalendar.Utils
             }
             else if (property is IValue<ClassificationValues.ClassificationValue>)
             {
-                strBuilder.Append(ClassificationValues.ToString(((IValue<ClassificationValues.ClassificationValue>) property).Value));
+                strBuilder.Append(ClassificationValues.ToString(((IValue<ClassificationValues.ClassificationValue>)property).Value));
             }
             else if (property is IValue<int>)
             {
@@ -118,6 +119,7 @@ namespace ICalendar.Utils
                 DateTime propValue = ((IValue<DateTime>)property).Value;
                 strBuilder.Append(propValue.ToString("yyyyMMddTHHmmss") +
                                   (propValue.Kind == DateTimeKind.Utc ? "Z" : ""));
+            }
             else if (property is ComponentProperty<ActionValues.ActionValue>)
             {
                 strBuilder.Append(ActionValues.ToString(((IValue<ActionValues.ActionValue>)property).Value));
@@ -127,7 +129,8 @@ namespace ICalendar.Utils
 
             return strBuilder.SplitLines();
         }
-/// <summary>
+
+        /// <summary>
         /// Converts an string in a DateTime if possible, null otherwise.
         /// </summary>
         /// <param name="stringDate">String with date format to convert</param>
@@ -144,7 +147,7 @@ namespace ICalendar.Utils
                     kind = DateTimeKind.Utc;
                     stringDate = stringDate.Remove(stringDate.Length - 1);
                 }
-                    
+
                 else
                     //way may have to put this kind in the DateTimeProperty class i dont know if it holds
                     kind = DateTimeKind.Unspecified;
@@ -167,7 +170,7 @@ namespace ICalendar.Utils
                 else
                 {
                     if (DateTime.TryParseExact(stringDate, "yyyyMMdd", CultureInfo.CurrentCulture,
-                       kind == DateTimeKind.Utc ? DateTimeStyles.AssumeUniversal : DateTimeStyles.None, out resDateTime))
+                        kind == DateTimeKind.Utc ? DateTimeStyles.AssumeUniversal : DateTimeStyles.None, out resDateTime))
                     {
                         return resDateTime;
                     }
@@ -177,7 +180,10 @@ namespace ICalendar.Utils
                     }
 
                 }
-        
+
+            }
+        }
+
         #region Deserialize extension methods.
         public static ComponentProperty<string> Deserialize(this ComponentProperty<string> property, string value)
         {
@@ -190,8 +196,8 @@ namespace ICalendar.Utils
             property.Value = StatusValues.ConvertValue(value.ValuesSubString().RemoveSpaces()); ;
             return property;
         }
-        
-         public static ComponentProperty<IList<string>> Deserialize(this ComponentProperty<IList<string>> property, string value)
+
+        public static ComponentProperty<IList<string>> Deserialize(this ComponentProperty<IList<string>> property, string value)
         {
             property.Value = value.ValuesList();
             return property;
@@ -217,9 +223,9 @@ namespace ICalendar.Utils
             return property;
         }
 
-        public static ComponentProperty<System.DateTime> Deserialize(this ComponentProperty<System.DateTime> property, string value)
+        public static ComponentProperty<System.DateTime> Deserialize(this ComponentProperty<DateTime> property, string value)
         {
-            property.Value = System.DateTime.Parse(value);
+            property.Value = value.ToDateTime();
             return property;
         }
 
@@ -241,11 +247,8 @@ namespace ICalendar.Utils
             var valuesStartIndex = value.IndexOf(':') + 1;
             var strValues = value.Substring(valuesStartIndex);
             var values = strValues.Split(',', ':');
-            List<System.DateTime> valuesConv = new List<System.DateTime>();
-            foreach (var strval in values)
-            {
-                valuesConv.Add(System.DateTime.Parse(strval));
-            }
+            var valuesConv = values.Select(System.DateTime.Parse).ToList();
+
             property.Value = valuesConv;
             return property;
         }

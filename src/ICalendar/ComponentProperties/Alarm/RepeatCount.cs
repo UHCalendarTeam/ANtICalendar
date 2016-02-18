@@ -15,12 +15,7 @@ namespace ICalendar.ComponentProperties
     {
 
         public override string Name => "REPEAT";
-            }
-            catch (ArgumentException e)
-            {
-
-                throw e;
-            }
+           
        
 
     }
