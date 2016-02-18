@@ -1,0 +1,39 @@
+﻿using System.Collections.Generic;
+using System.IO;
+using ICalendar.GeneralInterfaces;
+using static ICalendar.Utils.Utils;
+
+namespace ICalendar.ComponentProperties
+{
+    /// <summary>
+    /// Purpose: This property defines a short summary or subject for the
+    ///calendar component.
+    /// Conformance: The property can be specified in "VEVENT", "VTODO",
+    ///"VJOURNAL", or "VALARM" calendar components.
+    /// </summary>
+<<<<<<< HEAD
+    public class Summary:IComponentProperty, IValue<string>
+    {
+        public string Name => "SUMMARY";
+
+        public IList<IPropertyParameter> PropertyParameters { get; set; }
+
+        public string Value { get;  set; }
+
+        public void Serialize(TextWriter writer)
+        {
+            writer.WriteLine(this.StringRepresentation());
+        }
+
+        public IComponentProperty Deserialize(string value)
+        {
+            Value = value.ValuesSubString();
+            return this;
+        }
+=======
+    public class Summary:ComponentProperty<string>
+    {
+        public override string Name => "SUMMARY";
+>>>>>>> UHCalendar/ICal
+    }
+}

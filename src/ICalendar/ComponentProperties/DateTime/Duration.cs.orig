@@ -1,0 +1,24 @@
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using ICalendar.GeneralInterfaces;
+
+namespace ICalendar.ComponentProperties
+{
+    /// <summary>
+    /// Calendar Components: VTODO, VEVENT, VALARM;
+    /// Value Type: DURATION;
+    /// Properties Parameters: iana, non-standard
+    /// </summary>
+<<<<<<< HEAD
+    public class Duration : IComponentProperty, IValue<int>
+=======
+    public class Duration : ComponentProperty<int>
+>>>>>>> UHCalendar/ICal
+    {
+
+        public override string Name => "DURATION";
+       
+
+    }
+}

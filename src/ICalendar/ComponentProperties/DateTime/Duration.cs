@@ -10,30 +10,11 @@ namespace ICalendar.ComponentProperties
     /// Value Type: DURATION;
     /// Properties Parameters: iana, non-standard
     /// </summary>
-    public class Duration : IComponentProperty, IValue<int>
+    public class Duration : ComponentProperty<int>
     {
 
-        public string Name => "DURATION";
-        public IList<IPropertyParameter> PropertyParameters { get; set; }
-
-        public void Serialize(TextWriter writer)
-        {
-            StringBuilder str = new StringBuilder("DURATION:");
-            str.Append(Value);
-            writer.WriteLine("{0}", str);
-        }
-
-        public IComponentProperty Deserialize(string value)
-        {
-            var valueStartIndex = value.IndexOf(':') + 1;
-            var strValue = int.Parse(value.Substring(valueStartIndex));
-            Value = strValue;
-            return this;
-        }
-
-
-        //change this to duration type implement
-        public int Value { get; set; }
+        public override string Name => "DURATION";
+       
 
     }
 }

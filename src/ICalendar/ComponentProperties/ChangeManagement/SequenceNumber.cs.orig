@@ -1,0 +1,23 @@
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using ICalendar.GeneralInterfaces;
+
+namespace ICalendar.ComponentProperties
+{
+    /// <summary>
+    /// Calendar Components: VEVENT, VTODO, VJOURNAL;
+    /// Value Type: INTEGER;
+    /// Properties Parameters: iana, non-standard
+    /// </summary>
+<<<<<<< HEAD
+    public class SequenceNumber : IComponentProperty, IValue<int>
+=======
+    public class SequenceNumber : ComponentProperty<int>
+>>>>>>> UHCalendar/ICal
+    {
+
+        public override string Name => "SEQUENCE";
+        
+    }
+}

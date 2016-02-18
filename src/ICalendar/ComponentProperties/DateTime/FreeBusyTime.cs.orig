@@ -1,0 +1,24 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using ICalendar.GeneralInterfaces;
+
+namespace ICalendar.ComponentProperties
+{
+    /// <summary>
+    /// Calendar Components: VFREEBUSY;
+    /// Value Type: PERIOD;
+    /// Properties Parameters: iana, non-standard, free/busy time type
+    /// </summary>
+<<<<<<< HEAD
+    public class FreeBusyTime : IComponentProperty, IValue<int>
+=======
+    public class FreeBusyTime : ComponentProperty<int>
+>>>>>>> UHCalendar/ICal
+    {
+        public override string Name => "FREEBUSY";
+    }
+}

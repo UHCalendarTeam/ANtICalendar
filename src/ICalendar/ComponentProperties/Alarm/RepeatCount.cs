@@ -11,32 +11,17 @@ namespace ICalendar.ComponentProperties
     /// Value Type: INTEGER;
     /// Properties Parameters: iana, non-standard
     /// </summary>
-    public class RepeatCount : IComponentProperty, IValue<int>
+    public class RepeatCount : ComponentProperty<int>
     {
 
-        public string Name => "REPEAT";
-        public IList<IPropertyParameter> PropertyParameters { get; set; }
-
-        public void Serialize(TextWriter writer)
-        {
-            writer.WriteLine(this.StringRepresentation());
-        }
-
-        public IComponentProperty Deserialize(string value)
-        {
-            try
-            {
-                Value = int.Parse(value.ValuesSubString().RemoveSpaces());
+        public override string Name => "REPEAT";
             }
             catch (ArgumentException e)
             {
 
                 throw e;
             }
-            return this;
-        }
-
-        public int Value { get; set; }
+       
 
     }
 }

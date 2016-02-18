@@ -13,26 +13,10 @@ namespace ICalendar.ComponentProperties
     ///the exception of AUDIO alarm that only allows this property to
     ///occur once.
     /// </summary>
-    public class Attach : IComponentProperty, IValue<string>
+    public class Attach : ComponentProperty<string>
     {
         #region Properties
-        public string Name => "ATTACH";
-        public IList<IPropertyParameter> PropertyParameters { get; set; }
-
-        public string Value { get; set; }
+        public override string  Name => "ATTACH";
         #endregion
-
-       
-
-
-        public void Serialize(TextWriter writer)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IComponentProperty Deserialize(string value)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -11,24 +11,9 @@ namespace ICalendar.ComponentProperties
     /// Value Type: DURATION/DATETIME;
     /// Properties Parameters: iana, non-standard, value data type, time zone identifier, trigger relationship
     /// </summary>
-    public class Trigger : IComponentProperty, IValue<DateTime>
+    public class Trigger : ComponentProperty<System.DateTime>
     {
 
-        public string Name => "TRIGGER";
-        public IList<IPropertyParameter> PropertyParameters { get; set; }
-
-        public void Serialize(TextWriter writer)
-        {
-            writer.WriteLine(this.StringRepresentation());
-        }
-
-        public IComponentProperty Deserialize(string value)
-        {
-            value = value.ValuesSubString().RemoveSpaces();
-            Value = value.ToDateTime();
-            return this;
-        }
-
-        public DateTime Value { get; set; }
+        public override string Name => "TRIGGER";
     }
 }

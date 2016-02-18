@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using ICalendar.ComponentProperties;
@@ -11,6 +11,7 @@ namespace ICalendar.Utils
 {
     public static class Utils
     {
+        #region string extension methods.
         /// <summary>
         /// Get the index first ':'
         /// </summary>
@@ -72,13 +73,15 @@ namespace ICalendar.Utils
             return str.Append("\r\n").ToString();
         }
 
+        #endregion
+
         /// <summary>
         /// Call this the method when u want the representation in string of the 
         /// COmponents properties classes
         /// </summary>
         /// <param name="property"></param>
         /// <returns></returns>
-        public static string StringRepresentation(this IComponentProperty property)
+        public static string StringRepresentation<T>(this ComponentProperty<T> property)
         {
             var strBuilder = new StringBuilder(property.Name).Append(':');
             if (property is IValue<string>)
@@ -96,9 +99,9 @@ namespace ICalendar.Utils
                     flag = true;
                 }
             }
-            else if (property is IValue<ClassificationValues.Values>)
+            else if (property is IValue<ClassificationValues.ClassificationValue>)
             {
-                strBuilder.Append(ClassificationValues.ToString(((IValue<ClassificationValues.Values>)property).Value));
+                strBuilder.Append(ClassificationValues.ToString(((IValue<ClassificationValues.ClassificationValue>) property).Value));
             }
             else if (property is IValue<int>)
             {
@@ -106,24 +109,25 @@ namespace ICalendar.Utils
             }
             else if (property is IValue<StatusValues.Values>)
                 strBuilder.Append(StatusValues.ToString(((IValue<StatusValues.Values>)property).Value));
-            else if (property is IValue<Action.ActionValue>)
+            else if (property is IValue<TransparencyValues.TransparencyValue>)
             {
-                strBuilder.Append(((IValue<Action.ActionValue>)property).Value);
+                strBuilder.Append(TransparencyValues.ToString(((IValue<TransparencyValues.TransparencyValue>)property).Value));
             }
             else if (property is IValue<DateTime>)
             {
                 DateTime propValue = ((IValue<DateTime>)property).Value;
                 strBuilder.Append(propValue.ToString("yyyyMMddTHHmmss") +
                                   (propValue.Kind == DateTimeKind.Utc ? "Z" : ""));
-
+            else if (property is ComponentProperty<ActionValues.ActionValue>)
+            {
+                strBuilder.Append(ActionValues.ToString(((IValue<ActionValues.ActionValue>)property).Value));
             }
 
 
 
             return strBuilder.SplitLines();
         }
-
-        /// <summary>
+/// <summary>
         /// Converts an string in a DateTime if possible, null otherwise.
         /// </summary>
         /// <param name="stringDate">String with date format to convert</param>
@@ -173,10 +177,78 @@ namespace ICalendar.Utils
                     }
 
                 }
-
-            }
+        
+        #region Deserialize extension methods.
+        public static ComponentProperty<string> Deserialize(this ComponentProperty<string> property, string value)
+        {
+            property.Value = value.ValuesSubString();
+            return property;
         }
 
+        public static ComponentProperty<StatusValues.Values> Deserialize(this ComponentProperty<StatusValues.Values> property, string value)
+        {
+            property.Value = StatusValues.ConvertValue(value.ValuesSubString().RemoveSpaces()); ;
+            return property;
+        }
+        
+         public static ComponentProperty<IList<string>> Deserialize(this ComponentProperty<IList<string>> property, string value)
+        {
+            property.Value = value.ValuesList();
+            return property;
+        }
 
+        public static ComponentProperty<int> Deserialize(this ComponentProperty<int> property, string value)
+        {
+            try
+            {
+                property.Value = int.Parse(value.ValuesSubString().RemoveSpaces());
+            }
+            catch (ArgumentException e)
+            {
+
+                throw e;
+            }
+            return property;
+        }
+
+        public static ComponentProperty<ClassificationValues.ClassificationValue> Deserialize(this ComponentProperty<ClassificationValues.ClassificationValue> property, string value)
+        {
+            property.Value = ClassificationValues.ConvertValue(value);
+            return property;
+        }
+
+        public static ComponentProperty<System.DateTime> Deserialize(this ComponentProperty<System.DateTime> property, string value)
+        {
+            property.Value = System.DateTime.Parse(value);
+            return property;
+        }
+
+        public static ComponentProperty<TransparencyValues.TransparencyValue> Deserialize(this ComponentProperty<TransparencyValues.TransparencyValue> property, string value)
+        {
+            property.Value = TransparencyValues.ContertValue(value);
+            return property;
+        }
+
+        public static ComponentProperty<ActionValues.ActionValue> Serialize(this ComponentProperty<ActionValues.ActionValue> property, string value)
+        {
+            property.Value = ActionValues.ParseValue(value);
+            return property;
+        }
+
+        //TODO: Nacho mira a ver si esto esta bien!
+        public static ComponentProperty<IList<System.DateTime>> Deserialize(this ComponentProperty<IList<System.DateTime>> property, string value)
+        {
+            var valuesStartIndex = value.IndexOf(':') + 1;
+            var strValues = value.Substring(valuesStartIndex);
+            var values = strValues.Split(',', ':');
+            List<System.DateTime> valuesConv = new List<System.DateTime>();
+            foreach (var strval in values)
+            {
+                valuesConv.Add(System.DateTime.Parse(strval));
+            }
+            property.Value = valuesConv;
+            return property;
+        }
+        #endregion
     }
 }

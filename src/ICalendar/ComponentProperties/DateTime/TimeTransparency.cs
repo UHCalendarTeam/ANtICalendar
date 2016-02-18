@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ICalendar.GeneralInterfaces;
-using static ICalendar.ComponentProperties.TimeTransparency.TransparencyValue;
 
 namespace ICalendar.ComponentProperties
 {
@@ -14,43 +14,54 @@ namespace ICalendar.ComponentProperties
     /// Value Type: TEXT;
     /// Properties Parameters: iana, non-standard
     /// </summary>
-    public class TimeTransparency : IComponentProperty, IValue<TimeTransparency.TransparencyValue>
+    public class TimeTransparency : ComponentProperty<TransparencyValues.TransparencyValue>
     {
+        public override string Name => "TRANSP";
+    }
 
+    /// <summary>
+    /// Enclose the necessary for the TimeTransparensy Values.
+    /// </summary>
+    public  class TransparencyValues
+    {
         public enum TransparencyValue
         {
             TRANSPARENT, OPAQUE
         }
 
-        public string Name => "TRANSP";
-        public IList<IPropertyParameter> PropertyParameters { get; set; }
-
-        public void Serialize(TextWriter writer)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns>Return a TrasparencyValue.Values 
+        /// depending of the given string</returns>
+        public static TransparencyValue ContertValue(string value)
         {
-            StringBuilder str = new StringBuilder("TRANSP:");
-            str.Append(Value);
-            writer.WriteLine("{0}", str);
-        }
-
-        public IComponentProperty Deserialize(string value)
-        {
-            var valueStartIndex = value.IndexOf(':') + 1;
-            var strValue = value.Substring(valueStartIndex);
-            switch (strValue)
+            switch (value)
             {
-                case "TRANSPARENT":
-                    Value = TRANSPARENT;
-                    break;
                 case "OPAQUE":
-                    Value = OPAQUE;
-                    break;
+                    return TransparencyValue.OPAQUE;
+                case "TRANSPARENT":
+                    return TransparencyValue.TRANSPARENT;
                 default:
-                    Value = OPAQUE;
-                    break;
+                    return TransparencyValue.TRANSPARENT;
             }
-            return this;
         }
 
-        public TransparencyValue Value { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns>Returns the string representation of the Transperancy values</returns>
+        public static string ToString(TransparencyValue value)
+        {
+            switch (value)
+            {
+                case TransparencyValue.OPAQUE:
+                    return "OPAQUE";
+                default:
+                    return "TRANSPARENT";
+            }
+        }
     }
 }

@@ -15,23 +15,8 @@ namespace ICalendar.ComponentProperties
     /// Conformance: This property can be specified once in "VEVENT" or
     ///"VTODO" calendar component.
     /// </summary>
-    public class Resources: IComponentProperty, IValue<IList<string>>
+    public class Resources: ComponentProperty<IList<string>>
     {
-        #region Properties
-
-        public string Name => "RESOURCES";
-        public IList<IPropertyParameter> PropertyParameters { get; set; }
-        public IList<string> Value { get;  set; }
-        #endregion
-        public void Serialize(TextWriter writer)
-        {
-            writer.WriteLine(this.StringRepresentation());
-        }
-
-        public IComponentProperty Deserialize(string value)
-        {
-            Value = value.ValuesList();
-            return this;
-        }
+        public override string Name => "RESOURCES";
     }
 }

@@ -11,23 +11,11 @@ namespace ICalendar.ComponentProperties
     /// Conformance: The property can be specified in "VEVENT", "VTODO",
     ///"VJOURNAL", or "VALARM" calendar components.
     /// </summary>
-    public class Summary:IComponentProperty, IValue<string>
+    public class Summary:ComponentProperty<string>
     {
-        public string Name => "SUMMARY";
+        public override string Name => "SUMMARY";
 
-        public IList<IPropertyParameter> PropertyParameters { get; set; }
 
-        public string Value { get;  set; }
 
-        public void Serialize(TextWriter writer)
-        {
-            writer.WriteLine(this.StringRepresentation());
-        }
-
-        public IComponentProperty Deserialize(string value)
-        {
-            Value = value.ValuesSubString();
-            return this;
-        }
     }
 }

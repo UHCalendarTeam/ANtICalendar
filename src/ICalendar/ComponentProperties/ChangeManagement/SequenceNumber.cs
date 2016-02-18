@@ -10,27 +10,10 @@ namespace ICalendar.ComponentProperties
     /// Value Type: INTEGER;
     /// Properties Parameters: iana, non-standard
     /// </summary>
-    public class SequenceNumber : IComponentProperty, IValue<int>
+    public class SequenceNumber : ComponentProperty<int>
     {
 
-        public string Name => "SEQUENCE";
-        public IList<IPropertyParameter> PropertyParameters { get; set; }
-
-        public void Serialize(TextWriter writer)
-        {
-            StringBuilder str = new StringBuilder("SEQUENCE:");
-            str.Append(Value);
-            writer.WriteLine("{0}", str);
-        }
-
-        public IComponentProperty Deserialize(string value)
-        {
-            var valueStartIndex = value.IndexOf(':') + 1;
-            var strValue = int.Parse(value.Substring(valueStartIndex));
-            Value = strValue;
-            return this;
-        }
-
-        public int Value { get; set; }
+        public override string Name => "SEQUENCE";
+        
     }
 }
