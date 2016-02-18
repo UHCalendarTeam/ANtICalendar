@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using ICalendar.ComponentProperties;
+using ICalendar.GeneralInterfaces;
 
 namespace ICalendar.Utils
 {
@@ -97,6 +98,27 @@ namespace ICalendar.Utils
                 output.Add(new PropertyParameters(nameValue[0], nameValue[1]));
             }
             return output;
-        } 
+        }
+
+
+
+        public static ICalendarComponent ComponentMaker(TextReader reader)
+        {
+            //used to create the instances of the objects dinamically
+            var assemblyName = "ICalendar.ComponentProperties";
+            string name = "";
+            string value = "";
+            List<PropertyParameters> parameters = new List<PropertyParameters>();
+            while (CalendarParser(reader, out name, out parameters, out value))
+            {
+                //TODO: Do the necessary with the objects that dont belong to CompProperties
+                if (name == "BEGIN")
+                {
+                   // var obj = Activator.CreateInstanceFrom(assemblyName, value);
+                }
+
+            }
+            return null;
+        }
     }
 }
