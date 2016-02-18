@@ -24,13 +24,13 @@ namespace ICalendar.Utils
         /// <param name="value">the value of the element to be parsed</param>
         /// <returns>Return true if the line is not empty, false otherwise.</returns>
         public static bool CalendarParser(TextReader reader, 
-            out string name, out string parameters, out string value)
+            out string name, out List<PropertyParameters> parameters, out string value)
         {
             var line = TakeLine(reader);
             int indexParams = 0;
             int indexName = 0;
             name = "";
-            parameters = "";
+            parameters = new List<PropertyParameters>();
             value = "";
             if (line == "")
             {
@@ -48,7 +48,7 @@ namespace ICalendar.Utils
             if (line[indexName] == ';')
             {
                 indexParams = line.LastIndexOf(':');
-                parameters = line.Substring(indexName + 1, indexParams);
+                parameters = line.Substring(indexName + 1, indexParams).ParamsParser();
             }
             value = line.Substring(indexParams + 1);
 
@@ -86,15 +86,15 @@ namespace ICalendar.Utils
         /// </summary>
         /// <param name="strParams"></param>
         /// <returns>A list with the Name-Value of the params.</returns>
-        public static List<KeyValuePair<string, string>> ParamsParser(this string strParams)
+        public static List<PropertyParameters> ParamsParser(this string strParams)
         {
-            var output = new List<KeyValuePair<string, string>>();
+            var output = new List<PropertyParameters>();
             var paramsList = new List<string>();
             paramsList.AddRange(strParams.Split(','));
             foreach (var parameter in paramsList)
             {
                 var nameValue = parameter.Split('=');
-                output.Add(new KeyValuePair<string, string>(nameValue[0], nameValue[1]));
+                output.Add(new PropertyParameters(nameValue[0], nameValue[1]));
             }
             return output;
         } 
