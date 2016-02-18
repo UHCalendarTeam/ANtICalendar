@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using ICalendar.GeneralInterfaces;
 
 namespace ICalendar.ComponentProperties
@@ -10,7 +8,7 @@ namespace ICalendar.ComponentProperties
     /// <summary>
     /// Abstract Class That Cluster DateTime Functionalities
     /// </summary>
-    public abstract class DateTimeProperty : IComponentProperty
+    public abstract class DateTimeProperty : IComponentProperty, IValue<DateTime>
     {
         public abstract string Name { get; }
         public IList<IPropertyParameter> PropertyParameters { get; set; }
@@ -20,7 +18,7 @@ namespace ICalendar.ComponentProperties
 
         public abstract IComponentProperty Deserialize(string value);
 
-        public abstract System.DateTime Value { get; set; }
+        public abstract DateTime Value { get; set; }
 
     }
 }

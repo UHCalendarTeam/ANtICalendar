@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using ICalendar.GeneralInterfaces;
 
 namespace ICalendar.ComponentProperties
@@ -13,7 +11,7 @@ namespace ICalendar.ComponentProperties
     /// Value Type: DATETIME;
     /// Properties Parameters: iana, non-standard
     /// </summary>
-    public class LastModified : IComponentProperty
+    public class LastModified : IComponentProperty, IValue<DateTime>
     {
         public string Name => "LAST-MODIFIED";
         public IList<IPropertyParameter> PropertyParameters { get; set; }
@@ -33,6 +31,6 @@ namespace ICalendar.ComponentProperties
             return this;
         }
 
-        public System.DateTime Value { get; set; }
+        public DateTime Value { get; set; }
     }
 }

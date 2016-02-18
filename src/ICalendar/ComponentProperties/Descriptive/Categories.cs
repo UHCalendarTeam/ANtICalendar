@@ -14,7 +14,7 @@ namespace ICalendar.ComponentProperties
     /// 
     /// </summary>
     /// ////
-    public class Categories:IComponentProperty, ISerialize, IValue<IList<string>>
+    public class Categories:IComponentProperty, IValue<IList<string>>
     {
         #region Properties
         public string Name => "CATEGORIES";
@@ -27,7 +27,7 @@ namespace ICalendar.ComponentProperties
         {
 
             
-            writer.WriteLine(this.stringRepresentation());        
+            writer.WriteLine(this.StringRepresentation());        
             
         }
 

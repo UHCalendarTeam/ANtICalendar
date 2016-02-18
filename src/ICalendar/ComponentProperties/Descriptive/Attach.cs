@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using ICalendar.ComponentProperties;
 using ICalendar.GeneralInterfaces;
 
 namespace ICalendar.ComponentProperties
@@ -14,7 +13,7 @@ namespace ICalendar.ComponentProperties
     ///the exception of AUDIO alarm that only allows this property to
     ///occur once.
     /// </summary>
-    public class Attach : IComponentProperty, ISerialize
+    public class Attach : IComponentProperty, IValue<string>
     {
         #region Properties
         public string Name => "ATTACH";

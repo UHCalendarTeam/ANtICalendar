@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using ICalendar.ComponentProperties;
 using ICalendar.GeneralInterfaces;
+using Action = ICalendar.ComponentProperties.Action;
 
 namespace ICalendar.Utils
 {
@@ -18,6 +21,7 @@ namespace ICalendar.Utils
             var valuesStartIndex = str.IndexOf(':') + 1;
             return valuesStartIndex;
         }
+
         /// <summary>
         /// Remove the white spaces and the CRLFs
         /// </summary>
@@ -41,6 +45,7 @@ namespace ICalendar.Utils
         {
             return ValuesSubString(str).Split(',').ToList();
         }
+
         /// <summary>
         /// Remove the white spaces.
         /// </summary>
@@ -50,6 +55,7 @@ namespace ICalendar.Utils
         {
             return str.Replace(" ", "");
         }
+
         /// <summary>
         /// Call this method after the creation of a Component Properties.
         /// 
@@ -58,10 +64,10 @@ namespace ICalendar.Utils
         /// <returns>Return the same string with with the lines brokens after 75 chars</returns>
         public static string SplitLines(this StringBuilder str)
         {
-            
-            for (int i = 1; i <= str.Length/75; i++)
+
+            for (int i = 1; i <= str.Length / 75; i++)
             {
-                str.Insert(75*i, "\r\n");
+                str.Insert(75 * i, "\r\n");
             }
             return str.Append("\r\n").ToString();
         }
@@ -72,14 +78,14 @@ namespace ICalendar.Utils
         /// </summary>
         /// <param name="property"></param>
         /// <returns></returns>
-        public static string stringRepresentation(this IComponentProperty property)
+        public static string StringRepresentation(this IComponentProperty property)
         {
             var strBuilder = new StringBuilder(property.Name).Append(':');
             if (property is IValue<string>)
             {
-                strBuilder.Append(((IValue<string>) property).Value);
+                strBuilder.Append(((IValue<string>)property).Value);
             }
-            else if (property is IValue<IList<string>> )
+            else if (property is IValue<IList<string>>)
             {
                 var flag = false;
                 foreach (var cat in ((IValue<IList<string>>)property).Value)
@@ -92,20 +98,85 @@ namespace ICalendar.Utils
             }
             else if (property is IValue<ClassificationValues.Values>)
             {
-                strBuilder.Append(ClassificationValues.ToString(((IValue<ClassificationValues.Values>) property).Value));
+                strBuilder.Append(ClassificationValues.ToString(((IValue<ClassificationValues.Values>)property).Value));
             }
             else if (property is IValue<int>)
             {
-                strBuilder.Append(((IValue<int>) property).Value.ToString());
+                strBuilder.Append(((IValue<int>)property).Value.ToString());
             }
             else if (property is IValue<StatusValues.Values>)
-                strBuilder.Append(StatusValues.ToString(((IValue<StatusValues.Values>) property).Value));
-            else if (property is IValue<string>)
+                strBuilder.Append(StatusValues.ToString(((IValue<StatusValues.Values>)property).Value));
+            else if (property is IValue<Action.ActionValue>)
             {
-                
+                strBuilder.Append(((IValue<Action.ActionValue>)property).Value);
             }
-           
+            else if (property is IValue<DateTime>)
+            {
+                DateTime propValue = ((IValue<DateTime>)property).Value;
+                strBuilder.Append(propValue.ToString("yyyyMMddTHHmmss") +
+                                  (propValue.Kind == DateTimeKind.Utc ? "Z" : ""));
+
+            }
+
+
+
             return strBuilder.SplitLines();
         }
+
+        /// <summary>
+        /// Converts an string in a DateTime if possible, null otherwise.
+        /// </summary>
+        /// <param name="stringDate">String with date format to convert</param>
+        /// <returns></returns>
+        public static DateTime ToDateTime(this string stringDate)
+        {
+            if (string.IsNullOrEmpty(stringDate))
+                return DateTime.MinValue;
+            else
+            {
+                DateTimeKind kind;
+                if (stringDate.Contains("Z"))
+                {
+                    kind = DateTimeKind.Utc;
+                    stringDate = stringDate.Remove(stringDate.Length - 1);
+                }
+                    
+                else
+                    //way may have to put this kind in the DateTimeProperty class i dont know if it holds
+                    kind = DateTimeKind.Unspecified;
+
+                bool hasTime = stringDate.Contains("T");
+
+                DateTime resDateTime;
+                if (hasTime)
+                {
+                    if (DateTime.TryParseExact(stringDate, "yyyyMMddTHHmmss", CultureInfo.CurrentCulture,
+                        kind == DateTimeKind.Utc ? DateTimeStyles.AssumeUniversal : DateTimeStyles.None, out resDateTime))
+                    {
+                        return resDateTime;
+                    }
+                    else
+                    {
+                        return DateTime.MinValue;
+                    }
+                }
+                else
+                {
+                    if (DateTime.TryParseExact(stringDate, "yyyyMMdd", CultureInfo.CurrentCulture,
+                       kind == DateTimeKind.Utc ? DateTimeStyles.AssumeUniversal : DateTimeStyles.None, out resDateTime))
+                    {
+                        return resDateTime;
+                    }
+                    else
+                    {
+                        return DateTime.MinValue;
+                    }
+
+                }
+
+            }
+        }
+
+
     }
 }

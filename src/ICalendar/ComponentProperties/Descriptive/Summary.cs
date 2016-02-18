@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ICalendar.GeneralInterfaces;
 using static ICalendar.Utils.Utils;
 
@@ -15,14 +11,17 @@ namespace ICalendar.ComponentProperties
     /// Conformance: The property can be specified in "VEVENT", "VTODO",
     ///"VJOURNAL", or "VALARM" calendar components.
     /// </summary>
-    public class Summary:IComponentProperty, IValue<String>, ISerialize
+    public class Summary:IComponentProperty, IValue<string>
     {
         public string Name => "SUMMARY";
+
         public IList<IPropertyParameter> PropertyParameters { get; set; }
+
         public string Value { get;  set; }
+
         public void Serialize(TextWriter writer)
         {
-            writer.WriteLine(this.stringRepresentation());
+            writer.WriteLine(this.StringRepresentation());
         }
 
         public IComponentProperty Deserialize(string value)

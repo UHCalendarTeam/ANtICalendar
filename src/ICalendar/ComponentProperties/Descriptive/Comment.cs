@@ -5,7 +5,7 @@ using static ICalendar.Utils.Utils;
 
 namespace ICalendar.ComponentProperties
 {
-    public class Comment:ISerialize, IComponentProperty, IValue<string>
+    public class Comment: IComponentProperty, IValue<string>
     {
         #region Properties
 
@@ -19,7 +19,7 @@ namespace ICalendar.ComponentProperties
 
         public void Serialize(TextWriter writer)
         {
-            writer.WriteLine(this.stringRepresentation());
+            writer.WriteLine(this.StringRepresentation());
         }
 
         public IComponentProperty Deserialize(string value)

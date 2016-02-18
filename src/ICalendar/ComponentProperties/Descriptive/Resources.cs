@@ -15,7 +15,7 @@ namespace ICalendar.ComponentProperties
     /// Conformance: This property can be specified once in "VEVENT" or
     ///"VTODO" calendar component.
     /// </summary>
-    public class Resources: IComponentProperty, IValue<IList<string>>, ISerialize
+    public class Resources: IComponentProperty, IValue<IList<string>>
     {
         #region Properties
 
@@ -25,7 +25,7 @@ namespace ICalendar.ComponentProperties
         #endregion
         public void Serialize(TextWriter writer)
         {
-            writer.WriteLine(this.stringRepresentation());
+            writer.WriteLine(this.StringRepresentation());
         }
 
         public IComponentProperty Deserialize(string value)

@@ -13,7 +13,7 @@ namespace ICalendar.ComponentProperties
     /// Value Type: RECUR;
     /// Properties Parameters: iana, non-standard
     /// </summary>
-    public class RecurrenceRule : IComponentProperty
+    public class RecurrenceRule : IComponentProperty, IValue<int>
     {
 
         public string Name => "RRULE";

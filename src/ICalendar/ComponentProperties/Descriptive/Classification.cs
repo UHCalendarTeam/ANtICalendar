@@ -12,7 +12,7 @@ namespace ICalendar.ComponentProperties
     /// Conformance: The property can be specified once in a "VEVENT",
     ///"VTODO", or "VJOURNAL" calendar components.
     /// </summary>
-    public class Classification:ISerialize, IComponentProperty, IValue<ClassificationValues.Values>
+    public class Classification: IComponentProperty, IValue<ClassificationValues.Values>
     {
       
         #region Properties
@@ -30,7 +30,7 @@ namespace ICalendar.ComponentProperties
         public void Serialize(TextWriter writer)
         {
             
-            writer.WriteLine(this.stringRepresentation());
+            writer.WriteLine(this.StringRepresentation());
         }
 
         public IComponentProperty Deserialize(string value)

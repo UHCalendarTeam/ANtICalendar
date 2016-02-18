@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ICalendar.GeneralInterfaces;
+using ICalendar.Utils;
 
 namespace ICalendar.ComponentProperties
 {
@@ -21,16 +19,20 @@ namespace ICalendar.ComponentProperties
 
         public void Serialize(TextWriter writer)
         {
-            StringBuilder str = new StringBuilder("REPEAT:");
-            str.Append(Value);
-            writer.WriteLine("{0}", str);
+            writer.WriteLine(this.StringRepresentation());
         }
 
         public IComponentProperty Deserialize(string value)
         {
-            var valueStartIndex = value.IndexOf(':') + 1;
-            var strValue = int.Parse(value.Substring(valueStartIndex));
-            Value = strValue;
+            try
+            {
+                Value = int.Parse(value.ValuesSubString().RemoveSpaces());
+            }
+            catch (ArgumentException e)
+            {
+
+                throw e;
+            }
             return this;
         }
 

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using ICalendar.GeneralInterfaces;
 
 namespace ICalendar.ComponentProperties
@@ -13,7 +11,7 @@ namespace ICalendar.ComponentProperties
     /// Value Type: DATETIME;
     /// Properties Parameters: iana, non-standard
     /// </summary>
-    public class DateTimeStamp : IComponentProperty
+    public class DateTimeStamp : IComponentProperty, IValue<DateTime>
     {
 
         public string Name => "DTSTAMP";
@@ -29,11 +27,11 @@ namespace ICalendar.ComponentProperties
         public IComponentProperty Deserialize(string value)
         {
             var valueStartIndex = value.IndexOf(':') + 1;
-            var strValue = System.DateTime.Parse(value.Substring(valueStartIndex));
+            var strValue = DateTime.Parse(value.Substring(valueStartIndex));
             Value = strValue;
             return this;
         }
 
-        public System.DateTime Value { get; set; }
+        public DateTime Value { get; set; }
     }
 }

@@ -34,6 +34,6 @@ namespace ICalendar.ComponentProperties
             return this;
         }
 
-        public override System.DateTime Value { get; set; }
+        public override DateTime Value { get; set; }
     }
 }

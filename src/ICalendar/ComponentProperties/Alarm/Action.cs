@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ICalendar.GeneralInterfaces;
-
+using ICalendar.Utils;
 
 
 namespace ICalendar.ComponentProperties
@@ -23,20 +19,18 @@ namespace ICalendar.ComponentProperties
         }
 
         public string Name => "ACTION";
+
         public IList<IPropertyParameter> PropertyParameters { get; set; }
 
         public void Serialize(TextWriter writer)
         {
-            StringBuilder str = new StringBuilder("ACTION:");
-            str.Append(Value);
-            writer.WriteLine("{0}", str);
+            writer.WriteLine(this.StringRepresentation());
         }
 
         public IComponentProperty Deserialize(string value)
         {
-            var valueStartIndex = value.IndexOf(':') + 1;
-            var strValue = value.Substring(valueStartIndex);
-            switch (strValue)
+            value = value.ValuesSubString();
+            switch (value)
             {
                 case "AUDIO":
                     Value = ActionValue.AUDIO;

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using ICalendar.GeneralInterfaces;
+using ICalendar.Utils;
 
 namespace ICalendar.ComponentProperties
 {
@@ -13,7 +12,7 @@ namespace ICalendar.ComponentProperties
     /// Value Type: DATETIME;
     /// Properties Parameters: iana, non-standard
     /// </summary>
-    public class DateTimeCreated : IComponentProperty, IValue<System.DateTime>
+    public class DateTimeCreated : IComponentProperty, IValue<DateTime>
     {
 
         public string Name => "CREATED";
@@ -22,9 +21,7 @@ namespace ICalendar.ComponentProperties
 
         public void Serialize(TextWriter writer)
         {
-            StringBuilder str = new StringBuilder("CREATED:");
-            str.Append(Value);
-            writer.WriteLine("{0}", str);
+            writer.WriteLine(this.StringRepresentation());
         }
 
         public IComponentProperty Deserialize(string value)
@@ -35,6 +32,6 @@ namespace ICalendar.ComponentProperties
             return this;
         }
 
-        public System.DateTime Value { get; set; }
+        public DateTime Value { get; set; }
     }
 }

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using ICalendar.GeneralInterfaces;
 
 namespace ICalendar.ComponentProperties
@@ -13,7 +10,7 @@ namespace ICalendar.ComponentProperties
     /// Value Type: DURATION;
     /// Properties Parameters: iana, non-standard
     /// </summary>
-    public class Duration : IComponentProperty
+    public class Duration : IComponentProperty, IValue<int>
     {
 
         public string Name => "DURATION";

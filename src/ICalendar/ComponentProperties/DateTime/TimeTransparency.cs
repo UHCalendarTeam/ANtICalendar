@@ -14,7 +14,7 @@ namespace ICalendar.ComponentProperties
     /// Value Type: TEXT;
     /// Properties Parameters: iana, non-standard
     /// </summary>
-    public class TimeTransparency : IComponentProperty
+    public class TimeTransparency : IComponentProperty, IValue<TimeTransparency.TransparencyValue>
     {
 
         public enum TransparencyValue

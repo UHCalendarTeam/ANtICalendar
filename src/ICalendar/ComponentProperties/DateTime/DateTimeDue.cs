@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using ICalendar.GeneralInterfaces;
 
 namespace ICalendar.ComponentProperties
@@ -27,11 +24,11 @@ namespace ICalendar.ComponentProperties
         public override IComponentProperty Deserialize(string value)
         {
             var valueStartIndex = value.IndexOf(':') + 1;
-            var strValue = System.DateTime.Parse(value.Substring(valueStartIndex));
+            var strValue = DateTime.Parse(value.Substring(valueStartIndex));
             Value = strValue;
             return this;
         }
 
-        public override System.DateTime Value { get; set; }
+        public override DateTime Value { get; set; }
     }
 }

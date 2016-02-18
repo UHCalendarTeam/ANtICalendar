@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using ICalendar.GeneralInterfaces;
 
 namespace ICalendar.ComponentProperties
@@ -13,7 +12,7 @@ namespace ICalendar.ComponentProperties
     /// Value Type: DATETIME/DATE/PERIOD;
     /// Properties Parameters: iana, non-standard, value data type, time zone identifier
     /// </summary>
-    public class RecurrenceDateTime : IComponentProperty
+    public class RecurrenceDateTime : IComponentProperty, IValue<IList<DateTime>>
     {
         public string Name => "RDATE";
         public IList<IPropertyParameter> PropertyParameters { get; set; }
@@ -37,15 +36,11 @@ namespace ICalendar.ComponentProperties
             var valuesStartIndex = value.IndexOf(':') + 1;
             var strValues = value.Substring(valuesStartIndex);
             var values = strValues.Split(',', ':');
-            List<System.DateTime> valuesConv = new List<System.DateTime>();
-            foreach (var strval in values)
-            {
-                valuesConv.Add(System.DateTime.Parse(strval));
-            }
+            List<DateTime> valuesConv = values.Select(DateTime.Parse).ToList();
             Value = valuesConv;
             return this;
         }
 
-        public IList<System.DateTime> Value { get; set; }
+        public IList<DateTime> Value { get; set; }
     }
 }
