@@ -14,46 +14,9 @@ namespace ICalendar.ComponentProperties
     /// 
     /// </summary>
     /// ////
-    public class Categories:IComponentProperty, ISerialize, IValue<IList<string>>
+    public class Categories : ComponentProperty<IList<string>>
     {
-        #region Properties
-        public string Name => "CATEGORIES";
-        public IList<IPropertyParameter> PropertyParameters { get; set; }
-
-        public IList<string> Value { get; set; }
-        #endregion
-
-        public void Serialize(System.IO.TextWriter writer)
-        {
-
-            
-            writer.WriteLine(this.stringRepresentation());        
-            
-        }
-
-        public IComponentProperty Deserialize(string value)
-        {
-            Value = value.ValuesList();
-            return this;
-        }
-
-
-       
+        public new string Name => "CATEGORIES";
     }
-
-
- /*   public class ComponentProperty : ISerialize, IComponentProperty
-    {
-        public void Serialize(TextWriter writer)
-        {
-            writer.WriteLine(this.stringRepresentation());
-        }
-
-        public IComponentProperty Deserialize(string value)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string Name { get; }
-    }*/
+ 
 }

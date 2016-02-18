@@ -15,28 +15,8 @@ namespace ICalendar.ComponentProperties
     /// Conformance: This property can be specified in "VEVENT" or "VTODO"
     /// calendar component.
     /// </summary>
-    public class Location:ISerialize, IComponentProperty, IValue<string>
+    public class Location: ComponentProperty<string>
     {
-        #region Properties
-
-        public string Name => "LOCATION";
-        public IList<IPropertyParameter> PropertyParameters { get; set; }
-        public string Value { get;  set; }
-        #endregion
-
-
-
-        public void Serialize(TextWriter writer)
-        {
-            writer.WriteLine(this.stringRepresentation());
-        }
-
-        public IComponentProperty Deserialize(string value)
-        {
-            Value = value.ValuesSubString();
-            return this;
-        }
-
-        
+        public new string Name => "LOCATION";
     }
 }

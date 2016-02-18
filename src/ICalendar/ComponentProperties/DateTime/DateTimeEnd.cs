@@ -13,25 +13,9 @@ namespace ICalendar.ComponentProperties
     /// Value Type: UTC;
     /// Properties Parameters: iana, non-standard, value data type, time zone identifier
     /// </summary>
-    public class DateTimeEnd : DateTimeProperty
+    public class DateTimeEnd : ComponentProperty<System.DateTime>
     {
-        public override string Name => "DTEND";
+        public new string Name => "DTEND";
 
-        public override void Serialize(TextWriter writer)
-        {
-            StringBuilder str = new StringBuilder("DTEND:");
-            str.Append(Value);
-            writer.WriteLine("{0}", str);
-        }
-
-        public override IComponentProperty Deserialize(string value)
-        {
-            var valueStartIndex = value.IndexOf(':') + 1;
-            var strValue = System.DateTime.Parse(value.Substring(valueStartIndex));
-            Value = strValue;
-            return this;
-        }
-
-        public override System.DateTime Value { get; set; }
     }
 }

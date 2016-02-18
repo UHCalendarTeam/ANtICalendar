@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using ICalendar.ComponentProperties;
@@ -72,7 +74,7 @@ namespace ICalendar.Utils
         /// </summary>
         /// <param name="property"></param>
         /// <returns></returns>
-        public static string stringRepresentation(this IComponentProperty property)
+        public static string StringRepresentation<T>(this ComponentProperty<T> property)
         {
             var strBuilder = new StringBuilder(property.Name).Append(':');
             if (property is IValue<string>)
@@ -90,9 +92,9 @@ namespace ICalendar.Utils
                     flag = true;
                 }
             }
-            else if (property is IValue<ClassificationValues.Values>)
+            else if (property is IValue<ClassificationValues.ClassificationValue>)
             {
-                strBuilder.Append(ClassificationValues.ToString(((IValue<ClassificationValues.Values>) property).Value));
+                strBuilder.Append(ClassificationValues.ToString(((IValue<ClassificationValues.ClassificationValue>) property).Value));
             }
             else if (property is IValue<int>)
             {
@@ -100,12 +102,93 @@ namespace ICalendar.Utils
             }
             else if (property is IValue<StatusValues.Values>)
                 strBuilder.Append(StatusValues.ToString(((IValue<StatusValues.Values>) property).Value));
-            else if (property is IValue<string>)
+            else if (property is IValue<TransparencyValues.TransparencyValue>)
             {
-                
+                strBuilder.Append(TransparencyValues.ToString(((IValue<TransparencyValues.TransparencyValue>)property).Value));
+            }
+            else if (property is IValue<System.DateTime>)
+            {
+                //TODO: Nacho aqui escribes como se representa un datetime a string
+                //despus le haces strBuilder.Append(#aqui el string del datetime#);
+            }
+            else if (property is ComponentProperty<ActionValues.ActionValue>)
+            {
+                strBuilder.Append(ActionValues.ToString(((IValue<ActionValues.ActionValue>)property).Value));
             }
            
             return strBuilder.SplitLines();
         }
-    }
+
+
+        public static ComponentProperty<string> Deserialize(this ComponentProperty<string> property, string value)
+        {
+            property.Value = value.ValuesSubString();
+            return property;
+        }
+
+        public static ComponentProperty<StatusValues.Values> Deserialize(this ComponentProperty<StatusValues.Values> property, string value)
+        {
+            property.Value = StatusValues.ConvertValue(value.ValuesSubString().RemoveSpaces()); ;
+            return property;
+        }
+        
+         public static ComponentProperty<IList<string>> Deserialize(this ComponentProperty<IList<string>> property, string value)
+        {
+            property.Value = value.ValuesList();
+            return property;
+        }
+
+        public static ComponentProperty<int> Deserialize(this ComponentProperty<int> property, string value)
+        {
+            try
+            {
+                property.Value = int.Parse(value.ValuesSubString().RemoveSpaces());
+            }
+            catch (ArgumentException e)
+            {
+
+                throw e;
+            }
+            return property;
+        }
+
+        public static ComponentProperty<ClassificationValues.ClassificationValue> Deserialize(this ComponentProperty<ClassificationValues.ClassificationValue> property, string value)
+        {
+            property.Value = ClassificationValues.ConvertValue(value);
+            return property;
+        }
+
+        public static ComponentProperty<System.DateTime> Deserialize(this ComponentProperty<System.DateTime> property, string value)
+        {
+            property.Value = System.DateTime.Parse(value);
+            return property;
+        }
+
+        public static ComponentProperty<TransparencyValues.TransparencyValue> Deserialize(this ComponentProperty<TransparencyValues.TransparencyValue> property, string value)
+        {
+            property.Value = TransparencyValues.ContertValue(value);
+            return property;
+        }
+
+        public static ComponentProperty<ActionValues.ActionValue> Serialize(this ComponentProperty<ActionValues.ActionValue> property, string value)
+        {
+            property.Value = ActionValues.ParseValue(value);
+            return property;
+        }
+
+        //TODO: Nacho mira a ver si esto esta bien!
+        public static ComponentProperty<IList<System.DateTime>> Deserialize(this ComponentProperty<IList<System.DateTime>> property, string value)
+        {
+            var valuesStartIndex = value.IndexOf(':') + 1;
+            var strValues = value.Substring(valuesStartIndex);
+            var values = strValues.Split(',', ':');
+            List<System.DateTime> valuesConv = new List<System.DateTime>();
+            foreach (var strval in values)
+            {
+                valuesConv.Add(System.DateTime.Parse(strval));
+            }
+            property.Value = valuesConv;
+            return property;
+        }
+}
 }

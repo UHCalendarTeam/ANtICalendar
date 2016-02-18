@@ -13,28 +13,10 @@ namespace ICalendar.ComponentProperties
     /// Value Type: DATETIME;
     /// Properties Parameters: iana, non-standard
     /// </summary>
-    public class DateTimeCreated : IComponentProperty, IValue<System.DateTime>
+    public class DateTimeCreated : ComponentProperty<System.DateTime>
     {
 
-        public string Name => "CREATED";
-        public IList<IPropertyParameter> PropertyParameters { get; set; }
+        public new string Name => "CREATED";
 
-
-        public void Serialize(TextWriter writer)
-        {
-            StringBuilder str = new StringBuilder("CREATED:");
-            str.Append(Value);
-            writer.WriteLine("{0}", str);
-        }
-
-        public IComponentProperty Deserialize(string value)
-        {
-            var valueStartIndex = value.IndexOf(':') + 1;
-            var strValue = System.DateTime.Parse(value.Substring(valueStartIndex));
-            Value = strValue;
-            return this;
-        }
-
-        public System.DateTime Value { get; set; }
     }
 }

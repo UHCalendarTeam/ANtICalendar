@@ -15,23 +15,9 @@ namespace ICalendar.ComponentProperties
     /// Conformance: This property can be specified once in "VEVENT",
     ///"VTODO", or "VJOURNAL" calendar components.
     /// </summary>
-    public class Status:IComponentProperty,IValue<StatusValues.Values>, ISerialize
+    public class Status:ComponentProperty<StatusValues.Values>
     {
-        public string Name => "STATUS";
-        public IList<IPropertyParameter> PropertyParameters { get; set; }
-        public StatusValues.Values Value { get;  set; }
-        public void Serialize(TextWriter writer)
-        {
-            writer.WriteLine(this.stringRepresentation());
-        }
-
-        public IComponentProperty Deserialize(string value)
-        {
-            Value = StatusValues.ConvertValue(value.ValuesSubString().RemoveSpaces());
-            return this;
-        }
-
-       
+        public new string Name => "STATUS";
     }
 
 

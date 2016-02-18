@@ -19,22 +19,8 @@ namespace ICalendar.ComponentProperties
     ///specified multiple times only within a "VJOURNAL" calendar
     ///component.
     /// </summary>
-    public class Description:ISerialize, IComponentProperty,  IValue<string>
+    public class Description: ComponentProperty<string>
     {
-       
-        public void Serialize(TextWriter writer)
-        {
-            writer.WriteLine(this.stringRepresentation());
-        }
-
-        public IComponentProperty Deserialize(string value)
-        {
-            Value = value.ValuesSubString();
-            return this;
-        }
-
-        public string Name => "DESCRIPTION";
-        public IList<IPropertyParameter> PropertyParameters { get; set; }
-        public string Value { get; set; }
+        public new string Name => "DESCRIPTION";
     }
 }

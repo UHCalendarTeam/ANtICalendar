@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+
 using System.Text;
 using System.Threading.Tasks;
 using ICalendar.GeneralInterfaces;
@@ -15,49 +17,58 @@ namespace ICalendar.ComponentProperties
     /// Value Type: TEXT;
     /// Properties Parameters: iana, non-standard
     /// </summary>
-    public class Action : IComponentProperty, IValue<Action.ActionValue>
+    public class Action : ComponentProperty<ActionValues.ActionValue>
+    {
+
+        public new string Name => "ACTION";
+       
+        
+    }
+
+    public class ActionValues
     {
         public enum ActionValue
         {
             AUDIO, DISPLAY, EMAIL
         }
-
-        public string Name => "ACTION";
-        public IList<IPropertyParameter> PropertyParameters { get; set; }
-
-        public void Serialize(TextWriter writer)
+        /// <summary>
+        /// Convert an ActionValue to its string representation
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns>ActionValue string representation</returns>
+        public static string ToString(ActionValue value)
         {
-            StringBuilder str = new StringBuilder("ACTION:");
-            str.Append(Value);
-            writer.WriteLine("{0}", str);
+            switch (value)
+            {
+                case ActionValue.AUDIO:
+                    return "AUDIO";
+                case ActionValue.DISPLAY:
+                    return "DISPLAY";
+                    case ActionValue.EMAIL:
+                    return "EMAIL";
+                default:
+                    return "Not valid argument";
+            }
         }
-
-        public IComponentProperty Deserialize(string value)
+        /// <summary>
+        /// Convert the string representation of
+        /// an ActionValue to an ActionValue
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static ActionValue ParseValue(string value)
         {
-            var valueStartIndex = value.IndexOf(':') + 1;
-            var strValue = value.Substring(valueStartIndex);
-            switch (strValue)
+            switch (value)
             {
                 case "AUDIO":
-                    Value = ActionValue.AUDIO;
-                    break;
+                    return ActionValue.AUDIO;
                 case "DISPLAY":
-                    Value = ActionValue.DISPLAY;
-                    break;
+                    return ActionValue.DISPLAY;
                 case "EMAIL":
-                    Value = ActionValue.EMAIL;
-                    break;
+                    return ActionValue.EMAIL;
                 default:
-                    Value = ActionValue.DISPLAY;
-                    break;
-
+                    return ActionValue.AUDIO;
             }
-
-
-            return this;
         }
-
-        public ActionValue Value { get; set; }
-        
     }
 }

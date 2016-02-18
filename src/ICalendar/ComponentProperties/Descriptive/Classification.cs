@@ -12,35 +12,10 @@ namespace ICalendar.ComponentProperties
     /// Conformance: The property can be specified once in a "VEVENT",
     ///"VTODO", or "VJOURNAL" calendar components.
     /// </summary>
-    public class Classification:ISerialize, IComponentProperty, IValue<ClassificationValues.Values>
+    public class Classification: ComponentProperty<ClassificationValues.ClassificationValue>
     {
-      
-        #region Properties
-        public string Name => "CLASS";
-        public IList<IPropertyParameter> PropertyParameters { get; set; }
-        public ClassificationValues.Values Value { get; set; }
-        #endregion
+        public new string Name => "CLASSIFICATION";
 
-        public Classification()
-        {
-            Value = ClassificationValues.Values.PUBLIC;
-        }
-
-       
-        public void Serialize(TextWriter writer)
-        {
-            
-            writer.WriteLine(this.stringRepresentation());
-        }
-
-        public IComponentProperty Deserialize(string value)
-        {
-            value = value.ValuesSubString();
-            Value = ClassificationValues.ConvertValue(value);
-            return this;
-        }
-
-     
     }
 
     /// <summary>
@@ -49,31 +24,24 @@ namespace ICalendar.ComponentProperties
     /// </summary>
     public class ClassificationValues
     {
-
-        public ClassificationValues(string value)
-        {
-            Value = ConvertValue(value);
-        }
-        public enum Values
+        public enum ClassificationValue
         {
             PUBLIC, PRIVATE, CONFIDENTIAL
         }
-
-        public Values Value{ get; set; }
 
         /// <summary>
         /// Convert to string the value
         /// </summary>
         /// <returns></returns>
-        public static string ToString(Values value)
+        public static string ToString(ClassificationValue value)
         {
             switch (value)
             {
-                case Values.CONFIDENTIAL:
+                case ClassificationValue.CONFIDENTIAL:
                     return "CONFIDENTIAL";
-                case Values.PRIVATE:
+                case ClassificationValue.PRIVATE:
                     return "PRIVATE";
-                case Values.PUBLIC:
+                case ClassificationValue.PUBLIC:
                     return "PUBLIC";
                 default:
                     return "PUBLIC";
@@ -86,18 +54,18 @@ namespace ICalendar.ComponentProperties
         /// </summary>
         /// <param name="str">The string representation of the Value</param>
         /// <returns>The equivalent of the string representation</returns>
-        public static Values ConvertValue(string str)
+        public static ClassificationValue ConvertValue(string str)
         {
             switch (str)
             {
                 case "CONFIDENTIAL":
-                    return Values.CONFIDENTIAL;
+                    return ClassificationValue.CONFIDENTIAL;
                 case "PRIVATE":
-                    return Values.PRIVATE;
+                    return ClassificationValue.PRIVATE;
                 case "PUBLC":
-                    return Values.PUBLIC;
+                    return ClassificationValue.PUBLIC;
                 default:
-                    return Values.PUBLIC;    
+                    return ClassificationValue.PUBLIC;    
             }
         }
     }

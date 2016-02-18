@@ -15,22 +15,14 @@ namespace ICalendar.ComponentProperties
     /// Conformance: The property MUST be specified in the "VEVENT",
     ///"VTODO", "VJOURNAL", or "VFREEBUSY" calendar components.
     /// </summary>
-    public class UniqueIdentifier:IComponentProperty, IValue<String>, ISerialize
+    public class UniqueIdentifier:ComponentProperty<string>
     {
-        public string Name => "UID";
-        public IList<IPropertyParameter> PropertyParameters { get; set; }
-        public string Value { get; set; }
-        public void Serialize(TextWriter writer)
-        {
-            writer.WriteLine(this.stringRepresentation());
-        }
+        public new string Name => "UID";
 
-        public IComponentProperty Deserialize(string value)
-        {
-            Value = value.ValuesSubString();
-            return this;
-        }
-
+        /// <summary>
+        /// Generete the UID for a CalendarComponent.
+        /// This identifier is globally unique.
+        /// </summary>
         public void Generate()
         {
             var str = new StringBuilder(DateTime.Now.ToString("yyyyMMddhhmmss")).
