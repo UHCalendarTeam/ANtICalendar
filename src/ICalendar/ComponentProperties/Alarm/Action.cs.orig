@@ -1,7 +1,16 @@
+<<<<<<< HEAD
 ﻿using System.Collections.Generic;
+using System.IO;
+=======
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 
+using System.Text;
+using System.Threading.Tasks;
+>>>>>>> UHCalendar/ICal
 using ICalendar.GeneralInterfaces;
 using ICalendar.Utils;
 
@@ -27,6 +36,16 @@ namespace ICalendar.ComponentProperties
         {
             AUDIO, DISPLAY, EMAIL
         }
+<<<<<<< HEAD
+
+        public string Name => "ACTION";
+
+        public IList<IPropertyParameter> PropertyParameters { get; set; }
+
+        public void Serialize(TextWriter writer)
+        {
+            writer.WriteLine(this.StringRepresentation());
+=======
         /// <summary>
         /// Convert an ActionValue to its string representation
         /// </summary>
@@ -45,6 +64,7 @@ namespace ICalendar.ComponentProperties
                 default:
                     return "Not valid argument";
             }
+>>>>>>> UHCalendar/ICal
         }
         /// <summary>
         /// Convert the string representation of
@@ -54,6 +74,10 @@ namespace ICalendar.ComponentProperties
         /// <returns></returns>
         public static ActionValue ParseValue(string value)
         {
+<<<<<<< HEAD
+            value = value.ValuesSubString();
+=======
+>>>>>>> UHCalendar/ICal
             switch (value)
             {
                 case "AUDIO":

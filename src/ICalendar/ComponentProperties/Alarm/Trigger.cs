@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ICalendar.GeneralInterfaces;
+using ICalendar.Utils;
 
 namespace ICalendar.ComponentProperties
 {
@@ -15,7 +13,6 @@ namespace ICalendar.ComponentProperties
     /// </summary>
     public class Trigger : ComponentProperty<System.DateTime>
     {
-
         public override string Name => "TRIGGER";
     }
 }

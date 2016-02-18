@@ -10,7 +10,11 @@ namespace ICalendar.ComponentProperties
     /// Value Type: DURATION;
     /// Properties Parameters: iana, non-standard
     /// </summary>
+<<<<<<< HEAD
+    public class Duration : IComponentProperty, IValue<int>
+=======
     public class Duration : ComponentProperty<int>
+>>>>>>> UHCalendar/ICal
     {
 
         public override string Name => "DURATION";

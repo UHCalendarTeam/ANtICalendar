@@ -13,7 +13,11 @@ namespace ICalendar.ComponentProperties
     ///the exception of AUDIO alarm that only allows this property to
     ///occur once.
     /// </summary>
+<<<<<<< HEAD
+    public class Attach : IComponentProperty, IValue<string>
+=======
     public class Attach : ComponentProperty<string>
+>>>>>>> UHCalendar/ICal
     {
         #region Properties
         public override string  Name => "ATTACH";

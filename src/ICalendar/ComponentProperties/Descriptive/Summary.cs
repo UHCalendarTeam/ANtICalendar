@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ICalendar.GeneralInterfaces;
 using static ICalendar.Utils.Utils;
 
@@ -18,5 +14,8 @@ namespace ICalendar.ComponentProperties
     public class Summary:ComponentProperty<string>
     {
         public override string Name => "SUMMARY";
+
+
+
     }
 }
