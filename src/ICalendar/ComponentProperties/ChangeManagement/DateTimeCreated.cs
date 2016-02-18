@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using ICalendar.GeneralInterfaces;
-using ICalendar.Utils;
 
 namespace ICalendar.ComponentProperties
 {
@@ -12,7 +7,7 @@ namespace ICalendar.ComponentProperties
     /// Value Type: DATETIME;
     /// Properties Parameters: iana, non-standard
     /// </summary>
-    public class DateTimeCreated : ComponentProperty<System.DateTime>
+    public class DateTimeCreated : ComponentProperty<DateTime>
     {
 
         public override string Name => "CREATED";
