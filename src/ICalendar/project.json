@@ -1,13 +1,20 @@
-﻿{
+{
   "version": "1.0.0-*",
   "description": "ICalendar Class Library",
   "authors": [ "Nacho Vazquez" ],
   "tags": [ "" ],
   "projectUrl": "",
   "licenseUrl": "",
+  "dependencies": {
+    "xunit": "2.1.0"
+  },
 
   "frameworks": {
-    "net451": { },
+    "net451": {
+      "dependencies": {
+        "xunit.runner.visualstudio": "2.1.0"
+      }
+    },
     "dotnet5.4": {
       "dependencies": {
         "Microsoft.CSharp": "4.0.1-beta-23516",
