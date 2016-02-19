@@ -87,7 +87,7 @@ namespace ICalendar.Utils
         {
             var output = new List<PropertyParameter>();
             var paramsList = new List<string>();
-            paramsList.AddRange(strParams.Split(','));
+            paramsList.AddRange(strParams.Split(';'));
             foreach (var parameter in paramsList)
             {
                 var nameValue = parameter.Split('=');

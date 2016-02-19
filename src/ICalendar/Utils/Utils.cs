@@ -83,7 +83,16 @@ namespace ICalendar.Utils
         /// <returns></returns>
         public static string StringRepresentation<T>(this ComponentProperty<T> property)
         {
-            var strBuilder = new StringBuilder(property.Name).Append(':');
+            var strBuilder = new StringBuilder(property.Name);
+
+            foreach (var proParam in property.PropertyParameters)
+            {
+                strBuilder.Append(";");
+                strBuilder.Append(proParam.Name + "=" + proParam.Value);
+            }
+
+            strBuilder.Append(":");
+
             if (property is IValue<string>)
             {
                 strBuilder.Append(((IValue<string>)property).Value);
@@ -239,7 +248,7 @@ namespace ICalendar.Utils
             property.Value = ActionValues.ParseValue(value);
             return property;
         }
-        
+
         public static ComponentProperty<IList<DateTime>> Deserialize(this ComponentProperty<IList<DateTime>> property, string value)
         {
             var valList = ValuesList(value);
@@ -254,6 +263,6 @@ namespace ICalendar.Utils
 
 
 
-       
+
     }
 }
