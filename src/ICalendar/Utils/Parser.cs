@@ -24,7 +24,7 @@ namespace ICalendar.Utils
         /// <param name="parameters">the paramenters of the element to be parsed</param>
         /// <param name="value">the value of the element to be parsed</param>
         /// <returns>Return true if the line is not empty, false otherwise.</returns>
-        public static bool CalendarParser(TextReader reader, 
+        public static bool CalendarParser(TextReader reader,
             out string name, out List<PropertyParameters> parameters, out string value)
         {
             var line = TakeLine(reader);
@@ -39,10 +39,10 @@ namespace ICalendar.Utils
                 //so return 
                 return false;
             }
-            
+
             //from the begining of the line till the index of these chars
             //has to be the name
-            indexName = line.IndexOfAny(new char[] { ',', ';' });
+            indexName = line.IndexOfAny(new char[] { ':', ';' });
             name = line.Substring(0, indexName);
 
             //if the first separator is ';' then it means the line contains params values
@@ -50,8 +50,13 @@ namespace ICalendar.Utils
             {
                 indexParams = line.LastIndexOf(':');
                 parameters = line.Substring(indexName + 1, indexParams).ParamsParser();
+                value = line.Substring(indexParams + 1);
             }
-            value = line.Substring(indexParams + 1);
+            else
+            {
+                value = line.Substring(indexName + 1);
+            }
+
 
             //check if the name and value object are setted
             return true;
@@ -101,21 +106,51 @@ namespace ICalendar.Utils
         }
 
 
-
+        /// <summary>
+        /// Call the parser and makes the instace of the 
+        /// CalendarComponents and ComponentProperties dinamically
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <returns></returns>
         public static ICalendarComponent ComponentMaker(TextReader reader)
         {
             //used to create the instances of the objects dinamically
-            var assemblyName = "ICalendar.ComponentProperties";
+            var assemblyNameCalCmponents = "ICalendar.CalendarComponents.";
+            var assemblyNamePropCompoments = "ICalendar.ComponentProperties.";
+            //to know when to create the properties of a calendar component 
+            var createPropertiesFlag = false;
             string name = "";
             string value = "";
             List<PropertyParameters> parameters = new List<PropertyParameters>();
+            object calComponent = null;
+            object compProperty = null;
+            Type type;
             while (CalendarParser(reader, out name, out parameters, out value))
             {
+
+
+
                 //TODO: Do the necessary with the objects that dont belong to CompProperties
                 if (name == "BEGIN")
                 {
-                   // var obj = Activator.CreateInstanceFrom(assemblyName, value);
+                    var className = value.Substring(1);
+                    className = className.Substring(0, 1) + className.Substring(1).ToLower();
+                    type = Type.GetType(assemblyNameCalCmponents + className);
+                    calComponent = Activator.CreateInstance(type);
+                    //this means that from now on have to create a class with the name
+                    createPropertiesFlag = true;
+                    continue;
+
                 }
+                if (name == "END")
+                {
+                    createPropertiesFlag = false;
+                    continue;
+                }
+                var propName = name.Substring(0, 1) + name.Substring(1).ToLower();
+                type = Type.GetType(assemblyNamePropCompoments + propName);
+                compProperty = Activator.CreateInstance(type);
+                ((ICalendarComponent)calComponent).Properties.Add((IComponentProperty)compProperty);
 
             }
             return null;
