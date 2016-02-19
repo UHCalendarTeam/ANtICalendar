@@ -9,22 +9,11 @@ using ICalendar.GeneralInterfaces;
 
 namespace ICalendar.CalendarComponents
 {
-    public class VEvent: ICalendarComponent
+    public class VEvent: CalendarComponent
     {
-        public string Name => "VEVENT";
-        public IList<IComponentProperty> Properties { get; set; }
-        
-        public void Serialize(TextWriter writer)
-        {
-            StringBuilder str = new StringBuilder("BEGIN : VEVENT");
-            //str.Append(Value);
-            str.Append("END : VEVENT");
-            writer.WriteLine("{0}", str);
-        }
+        public override string Name => "VEVENT";
 
-        public IComponentProperty Deserialize(string value)
-        {
-            throw new NotImplementedException();
-        }
+        public List<VAlarm> Alarms { get; set; }
+     
     }
 }

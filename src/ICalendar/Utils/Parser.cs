@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using ICalendar.GeneralInterfaces;
@@ -117,7 +118,7 @@ namespace ICalendar.Utils
             var createPropertiesFlag = false;
             string name = "";
             string value = "";
-            List<PropertyParameters> parameters = new List<PropertyParameters>();
+            List<PropertyParameter> parameters = new List<PropertyParameter>();
             object calComponent = null;
             object compProperty = null;
             Type type;
@@ -128,9 +129,9 @@ namespace ICalendar.Utils
 
                 //TODO: Do the necessary with the objects that dont belong to CompProperties
                 if (name == "BEGIN")
-                {
-                    var className = value.Substring(1);
-                    className = className.Substring(0, 1) + className.Substring(1).ToLower();
+                {//BEGIN:VEVENT
+                    var className = value;
+                    className = className.Substring(0, 2) + className.Substring(2).ToLower();
                     type = Type.GetType(assemblyNameCalCmponents + className);
                     calComponent = Activator.CreateInstance(type);
                     //this means that from now on have to create a class with the name
@@ -143,6 +144,8 @@ namespace ICalendar.Utils
                     createPropertiesFlag = false;
                     continue;
                 }
+
+
                 var propName = name.Substring(0, 1) + name.Substring(1).ToLower();
                 type = Type.GetType(assemblyNamePropCompoments + propName);
                 compProperty = Activator.CreateInstance(type);

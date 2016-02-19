@@ -44,4 +44,20 @@ ICAl:
 
 
 
+ NACHO:
+   ☐ pensar una estructura para hacer el Calender Writer.
+   ☐ Hacer una clase que sea VCalendar y que contenga:
+         ☐ Una lista de tipo CalendarComponent.
+         ☐ Constantes para definir las diferentes cosas del calendarios.
+   ☐ Hacer el StringRepresentation(this CalendarComponent compo) if(compo is VEvent)
+   ☐ Hacer el StringRepresentation del VCalendar.
+   ☐ Probar q escribe todo bien.
+
+
+ Adriano:
+   ☐ Terminar el parser.
+   ☐ Construir los objetos.
+
+
+
 
