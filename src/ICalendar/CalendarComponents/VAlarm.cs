@@ -8,10 +8,12 @@ using ICalendar.GeneralInterfaces;
 
 namespace ICalendar.CalendarComponents
 {
-    public class Todo: ICalendarComponent
+    public class VAlarm: ICalendarComponent
     {
-        public string Name => "VTODO";
+        public string Name => "VALARM";
         public IList<IComponentProperty> Properties { get; set; }
+
+       
 
         public void Serialize(TextWriter writer)
         {

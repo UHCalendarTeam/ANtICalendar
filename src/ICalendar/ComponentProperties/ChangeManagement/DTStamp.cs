@@ -11,7 +11,7 @@ namespace ICalendar.ComponentProperties
     /// Value Type: DATETIME;
     /// Properties Parameters: iana, non-standard
     /// </summary>
-    public class DateTimeStamp : ComponentProperty<System.DateTime>
+    public class DtStamp : ComponentProperty<DateTime>
     {
 
         public override string Name => "DTSTAMP";

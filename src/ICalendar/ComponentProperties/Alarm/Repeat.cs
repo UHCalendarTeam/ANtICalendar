@@ -11,7 +11,7 @@ namespace ICalendar.ComponentProperties
     /// Value Type: INTEGER;
     /// Properties Parameters: iana, non-standard
     /// </summary>
-    public class RepeatCount : ComponentProperty<int>
+    public class Repeat : ComponentProperty<int>
     {
 
         public override string Name => "REPEAT";

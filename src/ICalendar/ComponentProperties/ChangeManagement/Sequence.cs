@@ -10,7 +10,7 @@ namespace ICalendar.ComponentProperties
     /// Value Type: INTEGER;
     /// Properties Parameters: iana, non-standard
     /// </summary>
-    public class SequenceNumber : ComponentProperty<int>
+    public class Sequence : ComponentProperty<int>
     {
 
         public override string Name => "SEQUENCE";

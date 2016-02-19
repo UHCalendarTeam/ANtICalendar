@@ -7,7 +7,7 @@ namespace ICalendar.ComponentProperties
     /// Value Type: DATETIME;
     /// Properties Parameters: iana, non-standard
     /// </summary>
-    public class DateTimeCreated : ComponentProperty<DateTime>
+    public class Created : ComponentProperty<DateTime>
     {
 
         public override string Name => "CREATED";

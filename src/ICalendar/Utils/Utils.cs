@@ -2,12 +2,10 @@
 /*using System.CodeDom;*/
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Text;
 using ICalendar.ComponentProperties;
 using ICalendar.GeneralInterfaces;
-using Action = ICalendar.ComponentProperties.Action;
 
 namespace ICalendar.Utils
 {
@@ -236,21 +234,20 @@ namespace ICalendar.Utils
             return property;
         }
 
-        public static ComponentProperty<ActionValues.ActionValue> Serialize(this ComponentProperty<ActionValues.ActionValue> property, string value)
+        public static ComponentProperty<ActionValues.ActionValue> Deserialize(this ComponentProperty<ActionValues.ActionValue> property, string value)
         {
             property.Value = ActionValues.ParseValue(value);
             return property;
         }
-
-        //TODO: Nacho mira a ver si esto esta bien!
-        public static ComponentProperty<IList<System.DateTime>> Deserialize(this ComponentProperty<IList<System.DateTime>> property, string value)
+        
+        public static ComponentProperty<IList<DateTime>> Deserialize(this ComponentProperty<IList<DateTime>> property, string value)
         {
-            var valuesStartIndex = value.IndexOf(':') + 1;
-            var strValues = value.Substring(valuesStartIndex);
-            var values = strValues.Split(',', ':');
-            var valuesConv = values.Select(System.DateTime.Parse).ToList();
+            var valList = ValuesList(value);
+            foreach (var val in valList)
+            {
+                property.Value.Add(val.ToDateTime());
+            }
 
-            property.Value = valuesConv;
             return property;
         }
         #endregion

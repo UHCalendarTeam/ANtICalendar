@@ -14,7 +14,7 @@ namespace ICalendar.ComponentProperties
     /// Value Type: TEXT;
     /// Properties Parameters: iana, non-standard
     /// </summary>
-    public class TimeTransparency : ComponentProperty<TransparencyValues.TransparencyValue>
+    public class Transp : ComponentProperty<TransparencyValues.TransparencyValue>
     {
         public override string Name => "TRANSP";
     }

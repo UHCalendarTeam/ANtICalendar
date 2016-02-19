@@ -6,12 +6,13 @@ using ICalendar.GeneralInterfaces;
 namespace ICalendar.ComponentProperties
 {
     /// <summary>
-    /// Calendar Components: VTODO;
-    /// Value Type: DATETIME/DATE;
+    /// Calendar Components: VEVENT, VFREEBUSY;
+    /// Value Type: UTC;
     /// Properties Parameters: iana, non-standard, value data type, time zone identifier
     /// </summary>
-    public class DateTimeDue : ComponentProperty<System.DateTime>
+    public class DtEnd : ComponentProperty<DateTime>
     {
-        public override string Name => "DUE";
+        public override string Name => "DTEND";
+
     }
 }
