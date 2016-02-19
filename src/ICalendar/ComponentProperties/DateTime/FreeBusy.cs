@@ -6,16 +6,15 @@ using System.Text;
 using System.Threading.Tasks;
 using ICalendar.GeneralInterfaces;
 
-
 namespace ICalendar.ComponentProperties
 {
     /// <summary>
-    /// Calendar Components: VTODO;
-    /// Value Type: UTC;
-    /// Properties Parameters: iana, non-standard
+    /// Calendar Components: VFREEBUSY;
+    /// Value Type: PERIOD;
+    /// Properties Parameters: iana, non-standard, free/busy time type
     /// </summary>
-    public class DateTimeCompleted : ComponentProperty<System.DateTime>
+    public class FreeBusy : ComponentProperty<int>
     {
-        public override string Name => "COMPLETED";
+        public override string Name => "FREEBUSY";
     }
 }

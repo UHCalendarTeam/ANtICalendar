@@ -13,7 +13,7 @@ namespace ICalendar.ComponentProperties
     /// Value Type: DATETIME/DATE;
     /// Properties Parameters: iana, non-standard, value data type, time zone identifier
     /// </summary>
-    public class DateTimeStart : ComponentProperty<System.DateTime>
+    public class DtStart : ComponentProperty<DateTime>
     {
         public override string Name => "DTSTART";
     }

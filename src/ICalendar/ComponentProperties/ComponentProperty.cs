@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using ICalendar.GeneralInterfaces;
-using ICalendar.Utils;
 
 namespace ICalendar.ComponentProperties
 {
@@ -20,16 +15,5 @@ namespace ICalendar.ComponentProperties
 
         public T Value { get; set; }
     }
-
-
-    public class PropertyParameters : IPropertyParameter
-    {
-        public PropertyParameters(string name, string value)
-        {
-            Name = name;
-            Value = value;
-        }
-        public string Name { get; }
-        public string Value { get; set; }
-    }
+    
 }

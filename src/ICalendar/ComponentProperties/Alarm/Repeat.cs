@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using ICalendar.GeneralInterfaces;
 using ICalendar.Utils;
 
 namespace ICalendar.ComponentProperties
 {
     /// <summary>
-    /// Calendar Components: VEVENT, VTODO, VJOURNAL;
-    /// Value Type: DATETIME;
+    /// Calendar Components: VALARM;
+    /// Value Type: INTEGER;
     /// Properties Parameters: iana, non-standard
     /// </summary>
-    public class DateTimeCreated : ComponentProperty<System.DateTime>
+    public class Repeat : ComponentProperty<int>
     {
 
-        public override string Name => "CREATED";
+        public override string Name => "REPEAT";
+           
+       
 
     }
 }

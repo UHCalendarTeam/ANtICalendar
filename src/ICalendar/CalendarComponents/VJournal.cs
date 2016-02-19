@@ -8,7 +8,7 @@ using ICalendar.GeneralInterfaces;
 
 namespace ICalendar.CalendarComponents
 {
-    public class Journal:ICalendarComponent
+    public class VJournal:ICalendarComponent
     {
         public string Name => "VJOURNAL";
         public IList<IComponentProperty> Properties { get; set; }

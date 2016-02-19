@@ -20,8 +20,13 @@ namespace ICalendar.Utils
         /// <param name="parameters">the paramenters of the element to be parsed</param>
         /// <param name="value">the value of the element to be parsed</param>
         /// <returns>Return true if the line is not empty, false otherwise.</returns>
+<<<<<<< HEAD
         public static bool CalendarParser(TextReader reader,
+            out string name, out List<PropertyParameters> parameters, out string value)
+=======
+        public static bool CalendarParser(TextReader reader, 
             out string name, out List<PropertyParameter> parameters, out string value)
+>>>>>>> UHCalendar/ICal
         {
             var line = TakeLine(reader);
             int indexParams = 0;
@@ -111,6 +116,7 @@ namespace ICalendar.Utils
         public static ICalendarComponent ComponentMaker(TextReader reader)
         {
             //used to create the instances of the objects dinamically
+<<<<<<< HEAD
             var assemblyNameCalCmponents = "ICalendar.CalendarComponents.";
             var assemblyNamePropCompoments = "ICalendar.ComponentProperties.";
             //to know when to create the properties of a calendar component 
@@ -121,6 +127,12 @@ namespace ICalendar.Utils
             object calComponent = null;
             object compProperty = null;
             Type type;
+=======
+            var assemblyName = "ICalendar.ComponentProperties";
+            var name = "";
+            var value = "";
+            var parameters = new List<PropertyParameter>();
+>>>>>>> UHCalendar/ICal
             while (CalendarParser(reader, out name, out parameters, out value))
             {
 

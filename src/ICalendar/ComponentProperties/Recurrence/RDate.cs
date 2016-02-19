@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using ICalendar.GeneralInterfaces;
 
 namespace ICalendar.ComponentProperties
 {
     /// <summary>
     /// Calendar Components: VFREEBUSY;
-    /// Value Type: PERIOD;
-    /// Properties Parameters: iana, non-standard, free/busy time type
+    /// Value Type: DATETIME/DATE/PERIOD;
+    /// Properties Parameters: iana, non-standard, value data type, time zone identifier
     /// </summary>
-    public class FreeBusyTime : ComponentProperty<int>
+    public class RDate : ComponentProperty<IList<DateTime>>
     {
-        public override string Name => "FREEBUSY";
+        public override string Name => "RDATE";
     }
 }

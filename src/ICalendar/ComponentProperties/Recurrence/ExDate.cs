@@ -8,12 +8,12 @@ using ICalendar.GeneralInterfaces;
 namespace ICalendar.ComponentProperties
 {
     /// <summary>
-    /// Calendar Components: VFREEBUSY;
-    /// Value Type: DATETIME/DATE/PERIOD;
+    /// Calendar Components: VEVENT, VTODO, VJOURNAL -- STANDARD, DAYLIGHT subcomponents;
+    /// Value Type: DATETIME/DATE;
     /// Properties Parameters: iana, non-standard, value data type, time zone identifier
     /// </summary>
-    public class RecurrenceDateTime : ComponentProperty<IList<System.DateTime>>
+    public class ExDate : ComponentProperty<IList<DateTime>>
     {
-        public override string Name => "RDATE";
+        public override string Name => "EXDATE";
     }
 }
