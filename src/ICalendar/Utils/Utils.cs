@@ -116,7 +116,7 @@ namespace ICalendar.Utils
                 else
                 {
                     if (DateTime.TryParseExact(stringDate, "yyyyMMdd", CultureInfo.CurrentCulture,
-                        kind == DateTimeKind.Utc ? DateTimeStyles.AssumeUniversal : DateTimeStyles.None, out resDateTime))
+                        kind == DateTimeKind.Utc ? DateTimeStyles.AdjustToUniversal : DateTimeStyles.None, out resDateTime))
                     {
                         return resDateTime;
                     }
