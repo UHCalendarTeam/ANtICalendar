@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using ICalendar.Calendar;
+using ICalendar.CalendarComponents;
 using ICalendar.GeneralInterfaces;
 using ICalendar.PropertyParameters;
 
@@ -109,11 +111,12 @@ namespace ICalendar.Utils
         /// </summary>
         /// <param name="reader"></param>
         /// <returns></returns>
-        public static ICalendarComponent ComponentMaker(TextReader reader)
+        public static VCalendar ComponentMaker(TextReader reader)
         {
             //used to create the instances of the objects dinamically
             var assemblyNameCalCmponents = "ICalendar.CalendarComponents.";
             var assemblyNamePropCompoments = "ICalendar.ComponentProperties.";
+            var assemblyNameCalendar = "ICalendar.Calendar.";
             //to know when to create the properties of a calendar component 
             var createPropertiesFlag = false;
             string name = "";
@@ -121,7 +124,8 @@ namespace ICalendar.Utils
             List<PropertyParameter> parameters = new List<PropertyParameter>();
             object calComponent = null;
             object compProperty = null;
-            Type type;
+            Stack<object> objStack = new Stack<object>();
+            Type type=null;
             while (CalendarParser(reader, out name, out parameters, out value))
             {
 
@@ -132,8 +136,13 @@ namespace ICalendar.Utils
                 {//BEGIN:VEVENT
                     var className = value;
                     className = className.Substring(0, 2) + className.Substring(2).ToLower();
-                    type = Type.GetType(assemblyNameCalCmponents + className);
+                    if (value=="VCALENDAR")
+                        type = Type.GetType(assemblyNameCalendar + className);
+                    else
+                        type = Type.GetType(assemblyNameCalCmponents + className);
+
                     calComponent = Activator.CreateInstance(type);
+                    objStack.Push(calComponent);
                     //this means that from now on have to create a class with the name
                     createPropertiesFlag = true;
                     continue;
@@ -141,6 +150,19 @@ namespace ICalendar.Utils
                 }
                 if (name == "END")
                 {
+                    var endedObject = objStack.Pop();
+                    if (endedObject is VAlarm)
+                    {
+                        ((IAlarmContainer)objStack.Peek()).Alarms.Add((VAlarm)endedObject);
+                    }
+                    else if (endedObject is ICalendarComponent)
+                    {
+                        ((VCalendar)objStack.Peek()).AddItem(endedObject);
+                    }
+                    else if (endedObject is VCalendar)
+                    {
+                        return (VCalendar) endedObject;
+                    }
                     createPropertiesFlag = false;
                     continue;
                 }
@@ -148,8 +170,29 @@ namespace ICalendar.Utils
 
                 var propName = name.Substring(0, 1) + name.Substring(1).ToLower();
                 type = Type.GetType(assemblyNamePropCompoments + propName);
-                compProperty = Activator.CreateInstance(type);
-                ((ICalendarComponent)calComponent).Properties.Add((IComponentProperty)compProperty);
+                //if come an iana property that we dont recognize
+                //so dont do anything with it
+                try
+                {
+                    compProperty = Activator.CreateInstance(type);
+                }
+                catch (System.Exception)
+                {
+                    
+                    continue;
+                }
+                
+                var topObj = objStack.Peek();
+                if (topObj is CalendarComponent)
+                {
+                    ((CalendarComponent)topObj).AddItem(compProperty);
+                }
+                else if (topObj is VCalendar)
+                {
+                    ((VCalendar)topObj).AddItem(compProperty);
+                }
+                else
+                     ((ICalendarComponent)calComponent).Properties.Add((IComponentProperty)compProperty);
 
             }
             return null;

@@ -1,38 +1,58 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using ICalendar.CalendarProperties;
+using ICalendar.ComponentProperties;
 using ICalendar.GeneralInterfaces;
-using Version = ICalendar.CalendarProperties.Version;
+
+
 
 namespace ICalendar.Calendar
 {
     public class VCalendar
     {
+        public VCalendar()
+        {
+            ComponentProperties = new List<IComponentProperty>();
+            CalendarComponents = new List<ICalendarComponent>();
+        }
         public VCalendar(string methodVal, string calscaleVal)
         {
             ComponentProperties = new List<IComponentProperty>();
+            CalendarComponents = new List<ICalendarComponent>();
 
-            CalScale = new CalScale() {Value = calscaleVal};
+            CalScale = new Calscale() {Value = calscaleVal};
             Method = new Method() {Value = methodVal};
         }
 
         //At Least One
         public IList<IComponentProperty> ComponentProperties { get; set; }
+
+        public IList<ICalendarComponent> CalendarComponents { get; set; } 
        
         //REQUIRED PROPERTIES
-        private static readonly ProdId ProId = new ProdId { Value = "//UHCalendarTeam//UHCalendar//EN" };
+        private static readonly Prodid ProId = new Prodid { Value = "//UHCalendarTeam//UHCalendar//EN" };
 
         private static readonly Version Version = new Version { Value = "2.0" };
 
         //OPTIONAL PROPERTIES
-        public CalScale CalScale { get; set; }
+        public Calscale CalScale { get; set; }
 
         public Method Method { get; set; }
 
         //OPTIONAL MAY OCCUR MORE THAN ONCE
         //  X-PROP,  IANA-PROP
 
+
+
+        public void AddItem(object calComponent)
+        {
+            if (calComponent is IComponentProperty)
+            {
+                ComponentProperties.Add((IComponentProperty)calComponent);
+                return;
+            }
+            CalendarComponents.Add((ICalendarComponent)calComponent);
+        }
     }
 }

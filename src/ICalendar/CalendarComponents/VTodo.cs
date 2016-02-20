@@ -8,8 +8,13 @@ using ICalendar.GeneralInterfaces;
 
 namespace ICalendar.CalendarComponents
 {
-    public class VTodo: ICalendarComponent
+    public class VTodo: CalendarComponent, IAlarmContainer
     {
+        public VTodo()
+        {
+            Alarms = new List<VAlarm>();
+        }
+
         public string Name => "VTODO";
         public IList<IComponentProperty> Properties { get; set; }
 
@@ -22,5 +27,7 @@ namespace ICalendar.CalendarComponents
         {
             throw new NotImplementedException();
         }
+
+        public IList<VAlarm> Alarms { get; set; }
     }
 }

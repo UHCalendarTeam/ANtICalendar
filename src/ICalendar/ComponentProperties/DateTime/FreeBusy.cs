@@ -13,7 +13,7 @@ namespace ICalendar.ComponentProperties
     /// Value Type: PERIOD;
     /// Properties Parameters: iana, non-standard, free/busy time type
     /// </summary>
-    public class FreeBusy : ComponentProperty<int>
+    public class Freebusy : ComponentProperty<int>
     {
         public override string Name => "FREEBUSY";
     }

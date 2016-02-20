@@ -26,5 +26,12 @@ namespace ICalendar.CalendarComponents
 
         public IList<IComponentProperty> Properties { get; set; }
         public virtual string Name { get; }
+
+
+        public void AddItem(object component)
+        {
+            
+            Properties.Add((IComponentProperty)component);
+        }
     }
 }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using ICalendar.ComponentProperties;
 
-namespace ICalendar.CalendarProperties
+namespace ICalendar.ComponentProperties
 {
-    public class CalScale: ComponentProperty<string>
+    public class Calscale: ComponentProperty<string>
     {
         public override string Name => "CALSCALE";
     }
