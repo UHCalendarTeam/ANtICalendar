@@ -185,6 +185,7 @@ namespace ICalendar.Utils
                 var topObj = objStack.Peek();
                 if (topObj is CalendarComponent)
                 {
+
                     ((CalendarComponent)topObj).AddItem(compProperty);
                 }
                 else if (topObj is VCalendar)

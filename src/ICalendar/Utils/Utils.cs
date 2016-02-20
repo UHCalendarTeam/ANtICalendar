@@ -204,26 +204,30 @@ namespace ICalendar.Utils
         }
 
         #region Deserialize extension methods.
-        public static ComponentProperty<string> Deserialize(this ComponentProperty<string> property, string value)
+        public static ComponentProperty<string> Deserialize(this ComponentProperty<string> property, string value, IList<IPropertyParameter> parameters)
         {
+            property.PropertyParameters = parameters;
             property.Value = value.ValuesSubString();
             return property;
         }
 
-        public static ComponentProperty<StatusValues.Values> Deserialize(this ComponentProperty<StatusValues.Values> property, string value)
+        public static ComponentProperty<StatusValues.Values> Deserialize(this ComponentProperty<StatusValues.Values> property, string value, IList<IPropertyParameter> parameters)
         {
+            property.PropertyParameters = parameters;
             property.Value = StatusValues.ConvertValue(value.ValuesSubString().RemoveSpaces()); ;
             return property;
         }
 
-        public static ComponentProperty<IList<string>> Deserialize(this ComponentProperty<IList<string>> property, string value)
+        public static ComponentProperty<IList<string>> Deserialize(this ComponentProperty<IList<string>> property, string value, IList<IPropertyParameter> parameters)
         {
+            property.PropertyParameters = parameters;
             property.Value = value.ValuesList();
             return property;
         }
 
-        public static ComponentProperty<int> Deserialize(this ComponentProperty<int> property, string value)
+        public static ComponentProperty<int> Deserialize(this ComponentProperty<int> property, string value, IList<IPropertyParameter> parameters)
         {
+            property.PropertyParameters = parameters;
             try
             {
                 property.Value = int.Parse(value.ValuesSubString().RemoveSpaces());
@@ -236,32 +240,37 @@ namespace ICalendar.Utils
             return property;
         }
 
-        public static ComponentProperty<ClassificationValues.ClassificationValue> Deserialize(this ComponentProperty<ClassificationValues.ClassificationValue> property, string value)
+        public static ComponentProperty<ClassificationValues.ClassificationValue> Deserialize(this ComponentProperty<ClassificationValues.ClassificationValue> property, string value, IList<IPropertyParameter> parameters)
         {
+            property.PropertyParameters = parameters;
             property.Value = ClassificationValues.ConvertValue(value);
             return property;
         }
 
-        public static ComponentProperty<System.DateTime> Deserialize(this ComponentProperty<DateTime> property, string value)
+        public static ComponentProperty<System.DateTime> Deserialize(this ComponentProperty<DateTime> property, string value, IList<IPropertyParameter> parameters)
         {
+            property.PropertyParameters = parameters;
             property.Value = value.ToDateTime();
             return property;
         }
 
-        public static ComponentProperty<TransparencyValues.TransparencyValue> Deserialize(this ComponentProperty<TransparencyValues.TransparencyValue> property, string value)
+        public static ComponentProperty<TransparencyValues.TransparencyValue> Deserialize(this ComponentProperty<TransparencyValues.TransparencyValue> property, string value, IList<IPropertyParameter> parameters)
         {
+            property.PropertyParameters = parameters;
             property.Value = TransparencyValues.ContertValue(value);
             return property;
         }
 
-        public static ComponentProperty<ActionValues.ActionValue> Deserialize(this ComponentProperty<ActionValues.ActionValue> property, string value)
+        public static ComponentProperty<ActionValues.ActionValue> Deserialize(this ComponentProperty<ActionValues.ActionValue> property, string value, IList<IPropertyParameter> parameters)
         {
+            property.PropertyParameters = parameters;
             property.Value = ActionValues.ParseValue(value);
             return property;
         }
 
-        public static ComponentProperty<IList<DateTime>> Deserialize(this ComponentProperty<IList<DateTime>> property, string value)
+        public static ComponentProperty<IList<DateTime>> Deserialize(this ComponentProperty<IList<DateTime>> property, string value, IList<IPropertyParameter> parameters)
         {
+            property.PropertyParameters = parameters;
             var valList = ValuesList(value);
             foreach (var val in valList)
             {
