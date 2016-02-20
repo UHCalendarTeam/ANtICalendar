@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using ICalendar.Calendar;
 using ICalendar.ComponentProperties;
 using ICalendar.GeneralInterfaces;
 
@@ -136,6 +137,16 @@ namespace ICalendar.Utils
 
 
             return strBuilder.SplitLines();
+        }
+
+        public static string StringRepresentation(this VCalendar calendar)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static string StringRepresentation(this ICalendarComponent component)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
