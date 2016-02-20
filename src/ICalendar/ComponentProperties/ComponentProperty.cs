@@ -45,6 +45,14 @@ namespace ICalendar.ComponentProperties
             {
                 return (this as IValue<TransparencyValues.TransparencyValue>).Deserialize(value, parameters);
             }
+            if (this is IValue<ActionValues.ActionValue>)
+            {
+                return (this as IValue<ActionValues.ActionValue>).Deserialize(value, parameters);
+            }
+            if (this is IValue<IList<string>>)
+            {
+                return (this as IValue<IList<string>>).Deserialize(value, parameters);
+            }
             throw new ArgumentException("Don't implemented argument.");
         }
 

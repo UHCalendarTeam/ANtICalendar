@@ -3,24 +3,24 @@ ICAl:
   ✔ Implementar una clase por cada propiedad. @done (16-02-11 12:15)
    Properties to implement:
     Descriptive Component Properties --Adriano: 
-      ☐ Attachment
-      ☐ Categories
-      ☐ Comment
-      ☐ Classificaction
-      ☐ Description
-      ☐ Location
-      ☐ Status
-      ☐ Summary
-      ☐ Resources
-      ☐ Priority
+      ✔ Attachment @done (16-02-20 17:16)
+      ✔ Categories @done (16-02-20 17:16)
+      ✔ Comment @done (16-02-20 17:16)
+      ✔ Classificaction @done (16-02-20 17:16)
+      ✔ Description @done (16-02-20 17:16)
+      ✔ Location @done (16-02-20 17:16)
+      ✔ Status @done (16-02-20 17:16)
+      ✔ Summary @done (16-02-20 17:16)
+      ✔ Resources @done (16-02-20 17:16)
+      ✔ Priority @done (16-02-20 17:16)
     Date and Time COmponent Properties --Nacho: 
-      ☐ DT Completed
-      ☐ DT End
-      ☐ DT Due
-      ☐ DT Start
-      ☐ Duration
-      ☐ Free/Busy Time
-      ☐ Time Transparency
+      ✔ DT Completed @done (16-02-20 17:17)
+      ✔ DT End @done (16-02-20 17:17)
+      ✔ DT Due @done (16-02-20 17:17)
+      ✔ DT Start @done (16-02-20 17:17)
+      ✔ Duration @done (16-02-20 17:17)
+      ✔ Free/Busy Time @done (16-02-20 17:17)
+      ✔ Time Transparency @done (16-02-20 17:17)
    Relatoinship Component Properties --Adriano:
       ☐ Attendee
       ☐ Contact
@@ -30,39 +30,47 @@ ICAl:
       ☐ Uniform Resource Locator
       ☐ Unique Identifier
    Recurrence Component Properties --Nacho:
-       ☐ Exception DT
-       ☐ Recurrence DT
-       ☐ Recurrence Rule
+       ✔ Exception DT @done (16-02-20 17:20)
+       ✔ Recurrence DT @done (16-02-20 17:20)
+       ✔ Recurrence Rule @done (16-02-20 17:20)
    Alarm Component Properties --Nacho:
-       ☐ Action
-       ☐ Repeat Count
+       ✔ Action @done (16-02-20 17:20)
+       ✔ Repeat Count @done (16-02-20 17:20)
        ☐ Trigger
    Change Managment Component Properties --nacho: 
-       ☐ DT Created
-       ☐ DT Stamp
-       ☐ Last Modified
+       ✔ DT Created @done (16-02-20 17:20)
+       ✔ DT Stamp @done (16-02-20 17:20)
+       ✔ Last Modified @done (16-02-20 17:20)
 
 
 
  NACHO:
-   ☐ pensar una estructura para hacer el Calender Writer.
+   ✔ pensar una estructura para hacer el Calender Writer. @done (16-02-20 16:37)
    ✔ Hacer una clase que sea VCalendar y que contenga: @done (16-02-19 18:42)
          ✔ Una lista de tipo CalendarComponent. @done (16-02-19 18:42)
          ✔ Constantes para definir las diferentes cosas del calendarios. @done (16-02-19 18:42)
-   ☐ Hacer el StringRepresentation(this CalendarComponent compo) if(compo is VEvent)
-   ☐ Hacer el StringRepresentation del VCalendar.
+   ✔ Hacer el StringRepresentation(this CalendarComponent compo) if(compo is VEvent) @done (16-02-20 16:37)
+   ✔ Hacer el StringRepresentation del VCalendar. @done (16-02-20 16:37)
    ☐ Probar q escribe todo bien.
-   ☐ Arreglar el parser de DATETIMEs properties pues no lo esta haciendo bien.
+   ☐ Arreglar el writer de DATETIMEs properties pues no lo esta haciendo bien.
+   ☐ Implementar los value types q tengan confictos(COmportamiento diferent).
+   ☐ Arreglar el RRULE.
 
 
  Adriano:
-   ☐ Terminar el parser.
-   ☐ Construir los objetos.
-   ☐ Todos los objetos de tipo CAlendarObject heredan de CalendarComponent
+   ✔ Terminar el parser. @done (16-02-20 16:38)
+   ✔ Construir los objetos. @done (16-02-20 16:38)
+   ✔ Todos los objetos de tipo CAlendarObject heredan de CalendarComponent @done (16-02-20 16:38)
+   ☐  Parsear bien las clases q tienen -
+   ☐ Crear las clases para las propiedades de VTIMEZONE.(TZID)
+   ☐ Implementar los metodos extrannos de VTIMEZONE
+   ☐ Ver bien los finlaes de lineas.
+   ☐ x q no se escribe el primer SUMMARY.
+   ☐ Verificar q pinche el RRULE.
 
 
  General:
-   ☐ Crear las clases para las propiedades de VTIMEZONE
+ ☐ Revisar que estan bien TODOS las propiedades implementadas.
 
 
 

@@ -211,11 +211,11 @@ namespace ICalendar.Utils
             return ((ComponentProperty<StatusValues.Values>)property);
         }
 
-        public new static ComponentProperty<IList<string>> Deserialize(this ComponentProperty<IList<string>> property, string value, List<PropertyParameter> parameters)
+        public  static ComponentProperty<IList<string>> Deserialize(this IValue<IList<string>> property, string value, List<PropertyParameter> parameters)
         {
-            property.PropertyParameters = parameters;
+            ((ComponentProperty<IList<string>>)property).PropertyParameters = parameters;
             property.Value = value.ValuesList();
-            return property;
+            return (ComponentProperty<IList<string>>)property;
         }
 
         public static ComponentProperty<int> Deserialize(this IValue<int> property, string value, List<PropertyParameter> parameters)

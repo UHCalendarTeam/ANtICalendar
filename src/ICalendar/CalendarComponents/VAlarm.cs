@@ -10,6 +10,6 @@ namespace ICalendar.CalendarComponents
 {
     public class VAlarm: CalendarComponent
     {
-        public string Name => "VALARM";
+        public override string Name => "VALARM";
     }
 }
