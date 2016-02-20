@@ -9,13 +9,17 @@ using ICalendar.GeneralInterfaces;
 
 namespace ICalendar.CalendarComponents
 {
-    public class VEvent: CalendarComponent
+    public class VEvent: CalendarComponent, IAlarmContainer
     {
+        public VEvent()
+        {
+            Alarms = new List<VAlarm>();
+        }
         public override string Name => "VEVENT";
 
         public VAlarm EventAlarm { get; set; }
 
-        public List<VAlarm> Alarms { get; set; }
-     
-    }
+        public IList<VAlarm> Alarms { get; set; }
+
+      }
 }

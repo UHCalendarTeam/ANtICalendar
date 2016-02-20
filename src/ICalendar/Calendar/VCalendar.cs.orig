@@ -2,7 +2,12 @@
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+<<<<<<< HEAD
+using ICalendar.CalendarComponents;
+using ICalendar.CalendarProperties;
+=======
 using ICalendar.ComponentProperties;
+>>>>>>> UHCALAdrinaoLaptop/ICal
 using ICalendar.GeneralInterfaces;
 
 
@@ -21,17 +26,25 @@ namespace ICalendar.Calendar
         }
         public VCalendar(string methodVal, string calscaleVal)
         {
+<<<<<<< HEAD
             CalendarComponents = new List<CalendarComponent>();
+=======
+            ComponentProperties = new List<IComponentProperty>();
             CalendarComponents = new List<ICalendarComponent>();
+>>>>>>> UHCALAdrinaoLaptop/ICal
 
             CalScale = new Calscale() {Value = calscaleVal};
             Method = new Method() {Value = methodVal};
         }
 
         //At Least One
+<<<<<<< HEAD
         public IList<CalendarComponent> CalendarComponents { get; set;}
+=======
+        public IList<IComponentProperty> ComponentProperties { get; set; }
 
         public IList<ICalendarComponent> CalendarComponents { get; set; } 
+>>>>>>> UHCALAdrinaoLaptop/ICal
        
         //REQUIRED PROPERTIES
         private static readonly string ProId =  "//UHCalendarTeam//UHCalendar//EN" ;

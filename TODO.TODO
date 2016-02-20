@@ -52,11 +52,17 @@ ICAl:
    ☐ Hacer el StringRepresentation(this CalendarComponent compo) if(compo is VEvent)
    ☐ Hacer el StringRepresentation del VCalendar.
    ☐ Probar q escribe todo bien.
+   ☐ Arreglar el parser de DATETIMEs properties pues no lo esta haciendo bien.
 
 
  Adriano:
    ☐ Terminar el parser.
    ☐ Construir los objetos.
+   ☐ Todos los objetos de tipo CAlendarObject heredan de CalendarComponent
+
+
+ General:
+   ☐ Crear las clases para las propiedades de VTIMEZONE
 
 
 

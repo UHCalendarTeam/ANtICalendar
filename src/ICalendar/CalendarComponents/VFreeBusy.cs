@@ -8,10 +8,10 @@ using ICalendar.GeneralInterfaces;
 
 namespace ICalendar.CalendarComponents
 {
-    public class VFreeBusy:ICalendarComponent
+    public class VFreeBusy:CalendarComponent
     {
         public string Name => "VFREEBUSY";
-        public IList<IComponentProperty> Properties { get; set; }
+       
 
         public void Serialize(TextWriter writer)
         {

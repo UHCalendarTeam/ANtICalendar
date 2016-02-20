@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using ICalendar.ComponentProperties;
 
-namespace ICalendar.CalendarProperties
+namespace ICalendar.ComponentProperties
 {
-    public class ProdId : ComponentProperty<string>
+    public class Prodid : ComponentProperty<string>
     {
         public override string Name => "PRODID";
     }

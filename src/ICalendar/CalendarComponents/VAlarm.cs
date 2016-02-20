@@ -11,9 +11,6 @@ namespace ICalendar.CalendarComponents
     public class VAlarm: CalendarComponent
     {
         public string Name => "VALARM";
-        public IList<IComponentProperty> Properties { get; set; }
-
-       
 
         public void Serialize(TextWriter writer)
         {

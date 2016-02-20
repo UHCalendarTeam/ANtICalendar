@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ICalendar.ComponentProperties;
 
-namespace ICalendar.CalendarProperties
+namespace ICalendar.ComponentProperties
 {
     public class Version : ComponentProperty<string>
     {
