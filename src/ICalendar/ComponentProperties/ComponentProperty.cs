@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using ICalendar.GeneralInterfaces;
+using ICalendar.Utils;
 
 namespace ICalendar.ComponentProperties
 {
@@ -14,6 +16,11 @@ namespace ICalendar.ComponentProperties
         public IList<IPropertyParameter> PropertyParameters { get; set; }
 
         public T Value { get; set; }
+
+        public virtual void Serialize(TextWriter writer)
+        {
+           writer.Write(this.StringRepresentation());
+        }
     }
     
 }

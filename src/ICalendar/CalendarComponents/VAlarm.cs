@@ -11,15 +11,5 @@ namespace ICalendar.CalendarComponents
     public class VAlarm: CalendarComponent
     {
         public string Name => "VALARM";
-
-        public void Serialize(TextWriter writer)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IComponentProperty Deserialize(string value)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

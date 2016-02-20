@@ -14,14 +14,23 @@ namespace ICalendar.CalendarComponents
             Properties = new List<IComponentProperty>();
         }
 
-        public void Serialize(TextWriter writer)
+        public virtual void Serialize(TextWriter writer)
         {
-            throw new NotImplementedException();
-        }
+            writer.WriteLine("BEGIN:" + Name);
+            foreach (var property in Properties)
+            {
+                property.Serialize(writer);
+            }
+            var alarmContainer = this as IAlarmContainer;
+            if (alarmContainer != null)
+            {
+                foreach (var alarm in alarmContainer.Alarms)
+                {
+                    alarm.Serialize(writer);
+                }
+            }
 
-        public IComponentProperty Deserialize(string value)
-        {
-            throw new NotImplementedException();
+            writer.WriteLine("END:" + Name);
         }
 
         public IList<IComponentProperty> Properties { get; set; }
