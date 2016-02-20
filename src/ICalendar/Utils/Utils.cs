@@ -2,6 +2,7 @@
 /*using System.CodeDom;*/
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using ICalendar.Calendar;
@@ -64,89 +65,14 @@ namespace ICalendar.Utils
         /// </summary>
         /// <param name="str"></param>
         /// <returns>Return the same string with with the lines brokens after 75 chars</returns>
-        public static string SplitLines(this StringBuilder str)
+        public static StringBuilder SplitLines(this StringBuilder str)
         {
 
             for (int i = 1; i <= str.Length / 75; i++)
             {
                 str.Insert(75 * i, "\r\n");
             }
-            return str.Append("\r\n").ToString();
-        }
-
-        #endregion
-
-        /// <summary>
-        /// Call this the method when u want the representation in string of the 
-        /// COmponents properties classes
-        /// </summary>
-        /// <param name="property"></param>
-        /// <returns></returns>
-        public static string StringRepresentation<T>(this ComponentProperty<T> property)
-        {
-            var strBuilder = new StringBuilder(property.Name);
-
-            foreach (var proParam in property.PropertyParameters)
-            {
-                strBuilder.Append(";");
-                strBuilder.Append(proParam.Name + "=" + proParam.Value);
-            }
-
-            strBuilder.Append(":");
-
-            if (property is IValue<string>)
-            {
-                strBuilder.Append(((IValue<string>)property).Value);
-            }
-            else if (property is IValue<IList<string>>)
-            {
-                var flag = false;
-                foreach (var cat in ((IValue<IList<string>>)property).Value)
-                {
-                    if (flag)
-                        strBuilder.Append(',');
-                    strBuilder.Append(cat);
-                    flag = true;
-                }
-            }
-            else if (property is IValue<ClassificationValues.ClassificationValue>)
-            {
-                strBuilder.Append(ClassificationValues.ToString(((IValue<ClassificationValues.ClassificationValue>)property).Value));
-            }
-            else if (property is IValue<int>)
-            {
-                strBuilder.Append(((IValue<int>)property).Value.ToString());
-            }
-            else if (property is IValue<StatusValues.Values>)
-                strBuilder.Append(StatusValues.ToString(((IValue<StatusValues.Values>)property).Value));
-            else if (property is IValue<TransparencyValues.TransparencyValue>)
-            {
-                strBuilder.Append(TransparencyValues.ToString(((IValue<TransparencyValues.TransparencyValue>)property).Value));
-            }
-            else if (property is IValue<DateTime>)
-            {
-                DateTime propValue = ((IValue<DateTime>)property).Value;
-                strBuilder.Append(propValue.ToString("yyyyMMddTHHmmss") +
-                                  (propValue.Kind == DateTimeKind.Utc ? "Z" : ""));
-            }
-            else if (property is ComponentProperty<ActionValues.ActionValue>)
-            {
-                strBuilder.Append(ActionValues.ToString(((IValue<ActionValues.ActionValue>)property).Value));
-            }
-
-
-
-            return strBuilder.SplitLines();
-        }
-
-        public static string StringRepresentation(this VCalendar calendar)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static string StringRepresentation(this ICalendarComponent component)
-        {
-            throw new NotImplementedException();
+            return str.Append("\r\n");
         }
 
         /// <summary>
@@ -202,6 +128,83 @@ namespace ICalendar.Utils
 
             }
         }
+
+        #endregion
+
+        /// <summary>
+        /// Call this the method when u want the representation in string of the 
+        /// Components properties classes
+        /// </summary>
+        /// <param name="property"></param>
+        /// <returns></returns>
+        public static StringBuilder StringRepresentation<T>(this ComponentProperty<T> property, StringBuilder strBuilder)
+        {
+            strBuilder.Append(property.Name);
+
+            foreach (var proParam in property.PropertyParameters)
+            {
+                strBuilder.Append(";");
+                strBuilder.Append(proParam.Name + "=" + proParam.Value);
+            }
+
+            strBuilder.Append(":");
+
+            if (property is IValue<string>)
+            {
+                strBuilder.Append(((IValue<string>)property).Value);
+            }
+            else if (property is IValue<IList<string>>)
+            {
+                var flag = false;
+                foreach (var cat in ((IValue<IList<string>>)property).Value)
+                {
+                    if (flag)
+                        strBuilder.Append(',');
+                    strBuilder.Append(cat);
+                    flag = true;
+                }
+            }
+            else if (property is IValue<ClassificationValues.ClassificationValue>)
+            {
+                strBuilder.Append(ClassificationValues.ToString(((IValue<ClassificationValues.ClassificationValue>)property).Value));
+            }
+            else if (property is IValue<int>)
+            {
+                strBuilder.Append(((IValue<int>)property).Value.ToString());
+            }
+            else if (property is IValue<StatusValues.Values>)
+                strBuilder.Append(StatusValues.ToString(((IValue<StatusValues.Values>)property).Value));
+            else if (property is IValue<TransparencyValues.TransparencyValue>)
+            {
+                strBuilder.Append(TransparencyValues.ToString(((IValue<TransparencyValues.TransparencyValue>)property).Value));
+            }
+            else if (property is IValue<DateTime>)
+            {
+                DateTime propValue = ((IValue<DateTime>)property).Value;
+                strBuilder.Append(propValue.ToString("yyyyMMddTHHmmss") +
+                                  (propValue.Kind == DateTimeKind.Utc ? "Z" : ""));
+            }
+            else if (property is ComponentProperty<ActionValues.ActionValue>)
+            {
+                strBuilder.Append(ActionValues.ToString(((IValue<ActionValues.ActionValue>)property).Value));
+            }
+
+            return strBuilder.SplitLines();
+        }
+
+        public static string StringRepresentation(this VCalendar calendar, StringBuilder strBuilder)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static StringBuilder  StringRepresentation(this ICalendarComponent component, StringBuilder strBuilder)
+        {
+            strBuilder.AppendLine("BEGIN:" + component.Name);
+
+            return strBuilder;
+
+        }
+
 
         #region Deserialize extension methods.
         public static ComponentProperty<string> Deserialize(this ComponentProperty<string> property, string value)
