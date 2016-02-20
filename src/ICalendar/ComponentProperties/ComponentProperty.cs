@@ -49,8 +49,10 @@ namespace ICalendar.ComponentProperties
 
         public T Value { get; set; }
 
-        
-       
+        public virtual void Serialize(TextWriter writer)
+        {
+           writer.Write(this.StringRepresentation());
+        }
     }
     
 }

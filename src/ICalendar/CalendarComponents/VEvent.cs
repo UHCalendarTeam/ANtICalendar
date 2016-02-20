@@ -17,8 +17,6 @@ namespace ICalendar.CalendarComponents
         }
         public override string Name => "VEVENT";
 
-        public VAlarm EventAlarm { get; set; }
-
         public IList<VAlarm> Alarms { get; set; }
 
       }

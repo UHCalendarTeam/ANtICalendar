@@ -138,9 +138,9 @@ namespace ICalendar.Utils
         /// </summary>
         /// <param name="property"></param>
         /// <returns></returns>
-        public static StringBuilder StringRepresentation<T>(this ComponentProperty<T> property, StringBuilder strBuilder)
+        public static string StringRepresentation<T>(this ComponentProperty<T> property)
         {
-            strBuilder.Append(property.Name);
+            var strBuilder = new StringBuilder(property.Name);
 
             foreach (var proParam in property.PropertyParameters)
             {
@@ -189,22 +189,11 @@ namespace ICalendar.Utils
             {
                 strBuilder.Append(ActionValues.ToString(((IValue<ActionValues.ActionValue>)property).Value));
             }
-
-            return strBuilder.SplitLines();
+            
+            return strBuilder.SplitLines().ToString();
         }
 
-        public static string StringRepresentation(this VCalendar calendar, StringBuilder strBuilder)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static StringBuilder  StringRepresentation(this ICalendarComponent component, StringBuilder strBuilder)
-        {
-            strBuilder.AppendLine("BEGIN:" + component.Name);
-
-            return strBuilder;
-
-        }
+        
 
 
         #region Deserialize extension methods.

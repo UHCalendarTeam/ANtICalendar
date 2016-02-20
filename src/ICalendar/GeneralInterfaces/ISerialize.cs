@@ -10,7 +10,5 @@ namespace ICalendar.GeneralInterfaces
     {
         void Serialize(System.IO.TextWriter writer);
 
-        IComponentProperty Deserialize(string value);
-
     }
 }
