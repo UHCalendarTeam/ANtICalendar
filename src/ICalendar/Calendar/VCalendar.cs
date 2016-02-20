@@ -11,6 +11,9 @@ namespace ICalendar.Calendar
 {
     public class VCalendar
     {
+
+
+
         public VCalendar()
         {
             ComponentProperties = new List<IComponentProperty>();
@@ -31,9 +34,9 @@ namespace ICalendar.Calendar
         public IList<ICalendarComponent> CalendarComponents { get; set; } 
        
         //REQUIRED PROPERTIES
-        private static readonly Prodid ProId = new Prodid { Value = "//UHCalendarTeam//UHCalendar//EN" };
+        private static readonly string ProId =  "//UHCalendarTeam//UHCalendar//EN" ;
 
-        private static readonly Version Version = new Version { Value = "2.0" };
+        private static readonly string Version =  "2.0" ;
 
         //OPTIONAL PROPERTIES
         public Calscale CalScale { get; set; }
