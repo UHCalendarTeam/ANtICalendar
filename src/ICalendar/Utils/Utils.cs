@@ -2,10 +2,8 @@
 /*using System.CodeDom;*/
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Text;
-using ICalendar.Calendar;
 using ICalendar.ComponentProperties;
 using ICalendar.GeneralInterfaces;
 using ICalendar.PropertyParameters;
@@ -207,7 +205,7 @@ namespace ICalendar.Utils
         public static ComponentProperty<StatusValues.Values> Deserialize(this IValue<StatusValues.Values> property, string value, List<PropertyParameter> parameters)
         {
             ((ComponentProperty<StatusValues.Values>)property).PropertyParameters = parameters;
-            property.Value = StatusValues.ConvertValue(value.RemoveSpaces()); ;
+            property.Value = StatusValues.ConvertValue(value.RemoveSpaces());
             return ((ComponentProperty<StatusValues.Values>)property);
         }
 
@@ -221,15 +219,7 @@ namespace ICalendar.Utils
         public static ComponentProperty<int> Deserialize(this IValue<int> property, string value, List<PropertyParameter> parameters)
         {
             ((ComponentProperty<int>)property).PropertyParameters = parameters;
-            try
-            {
-                property.Value = int.Parse(value.RemoveSpaces());
-            }
-            catch (ArgumentException e)
-            {
-
-                throw e;
-            }
+            property.Value = int.Parse(value.RemoveSpaces());
             return (ComponentProperty<int>)property;
         }
 
@@ -240,7 +230,7 @@ namespace ICalendar.Utils
             return (ComponentProperty<ClassificationValues.ClassificationValue>)property;
         }
 
-        public static ComponentProperty<System.DateTime> Deserialize(this IValue<DateTime> property, string value, List<PropertyParameter> parameters)
+        public static ComponentProperty<DateTime> Deserialize(this IValue<DateTime> property, string value, List<PropertyParameter> parameters)
         {
             ((ComponentProperty<DateTime>)property).PropertyParameters = parameters;
             property.Value = value.ToDateTime();
