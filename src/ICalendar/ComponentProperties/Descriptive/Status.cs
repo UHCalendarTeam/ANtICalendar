@@ -11,7 +11,7 @@ namespace ICalendar.ComponentProperties
     /// Conformance: This property can be specified once in "VEVENT",
     ///"VTODO", or "VJOURNAL" calendar components.
     /// </summary>
-    public class Status:ComponentProperty<StatusValues.Values>
+    public class Status: ComponentProperty<StatusValues.Values>
     {
         public override string Name => "STATUS";
     }

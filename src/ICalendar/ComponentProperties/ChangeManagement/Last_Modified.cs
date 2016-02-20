@@ -11,7 +11,7 @@ namespace ICalendar.ComponentProperties
     /// Value Type: DATETIME;
     /// Properties Parameters: iana, non-standard
     /// </summary>
-    public class Last_Modified : ComponentProperty<DateTime>
+    public class Last_modified : ComponentProperty<DateTime>
     {
         public override string Name => "LAST-MODIFIED";
     }

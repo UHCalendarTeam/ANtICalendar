@@ -13,7 +13,7 @@ namespace ICalendar.ComponentProperties
     /// Value Type: RECUR;
     /// Properties Parameters: iana, non-standard
     /// </summary>
-    public class RRule : ComponentProperty<int>
+    public class Rrule : ComponentProperty<int>
     {
 
         public override string Name => "RRULE";

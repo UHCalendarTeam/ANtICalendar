@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using ICalendar.CalendarComponents;
 using ICalendar.ComponentProperties;
 using ICalendar.GeneralInterfaces;
 
@@ -18,20 +19,19 @@ namespace ICalendar.Calendar
         {
             ComponentProperties = new List<IComponentProperty>();
             CalendarComponents = new List<ICalendarComponent>();
+
+            
         }
         public VCalendar(string methodVal, string calscaleVal)
         {
-            CalendarComponents = new List<CalendarComponent>();
-            CalendarComponents = new List<ICalendarComponent>();
-
             CalScale = new Calscale() {Value = calscaleVal};
             Method = new Method() {Value = methodVal};
         }
 
         //At Least One
-        public IList<CalendarComponent> CalendarComponents { get; set;}
-
-        public IList<ICalendarComponent> CalendarComponents { get; set; } 
+        public IList<ICalendarComponent> CalendarComponents { get; set;}
+        public IList<IComponentProperty> ComponentProperties { get; set; } 
+       
        
         //REQUIRED PROPERTIES
         private static readonly string ProId =  "//UHCalendarTeam//UHCalendar//EN" ;

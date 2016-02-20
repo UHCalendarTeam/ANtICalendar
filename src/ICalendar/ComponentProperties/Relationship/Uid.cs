@@ -15,7 +15,7 @@ namespace ICalendar.ComponentProperties
     /// Conformance: The property MUST be specified in the "VEVENT",
     ///"VTODO", "VJOURNAL", or "VFREEBUSY" calendar components.
     /// </summary>
-    public class Uid:ComponentProperty<string>
+    public class Uid: ComponentProperty<string>
     {
         public override string Name => "UID";
 

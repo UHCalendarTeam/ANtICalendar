@@ -12,7 +12,7 @@ namespace ICalendar.ComponentProperties
     /// Value Type: DATETIME/DATE/PERIOD;
     /// Properties Parameters: iana, non-standard, value data type, time zone identifier
     /// </summary>
-    public class RDate : ComponentProperty<IList<DateTime>>
+    public class Rdate : ComponentProperty<IList<DateTime>>
     {
         public override string Name => "RDATE";
     }

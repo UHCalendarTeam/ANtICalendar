@@ -186,14 +186,14 @@ namespace ICalendar.Utils
                 if (topObj is CalendarComponent)
                 {
 
-                    ((CalendarComponent)topObj).AddItem(compProperty);
+                    ((CalendarComponent)topObj).AddItem(((IDeserialize)compProperty).Deserialize(value, parameters));
                 }
                 else if (topObj is VCalendar)
                 {
-                    ((VCalendar)topObj).AddItem(compProperty);
+                    ((VCalendar)topObj).AddItem(((IDeserialize)compProperty).Deserialize(value, parameters));
                 }
                 else
-                     ((ICalendarComponent)calComponent).Properties.Add((IComponentProperty)compProperty);
+                     ((ICalendarComponent)calComponent).Properties.Add(((IDeserialize)compProperty).Deserialize(value, parameters));
 
             }
             return null;

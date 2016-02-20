@@ -2,18 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ICalendar.GeneralInterfaces;
 using ICalendar.PropertyParameters;
 
 namespace ICalendar.GeneralInterfaces
 {
-    public interface IComponentProperty
+    public interface IDeserialize
     {
-        string Name { get; }
-       
-
-        List<PropertyParameter> PropertyParameters { get; set; }
-
-        
+        IComponentProperty Deserialize(string value, List<PropertyParameter> parameters);
     }
 }
