@@ -27,8 +27,6 @@ namespace ICalendar.Utils
             out string name, out List<PropertyParameter> parameters, out string value)
         {
             var line = TakeLine(reader);
-            int indexParams = 0;
-            int indexName = 0;
             name = "";
             parameters = new List<PropertyParameter>();
             value = "";
@@ -41,23 +39,26 @@ namespace ICalendar.Utils
 
             //from the begining of the line till the index of these chars
             //has to be the name
-            indexName = line.IndexOfAny(new char[] { ':', ';' });
+            var indexName = line.IndexOfAny(new char[] { ':', ';' });
             name = line.Substring(0, indexName);
 
-            //if the first separator is ';' then it means the line contains params values
+            //if the first separator is ';' then the line contains params values
             if (line[indexName] == ';')
             {
-                indexParams = line.LastIndexOf(':');
+                var indexParams = line.LastIndexOf(':');
                 parameters = line.Substring(indexName + 1, indexParams).ParamsParser();
                 value = line.Substring(indexParams + 1);
             }
             else
-            {
                 value = line.Substring(indexName + 1);
-            }
 
 
             //check if the name and value object are setted
+            if (name==""||value=="")
+            {
+                throw new ArgumentException("Component Properties MUST define the name and the value.");
+                
+            }
             return true;
 
         }

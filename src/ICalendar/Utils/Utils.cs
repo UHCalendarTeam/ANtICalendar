@@ -47,7 +47,7 @@ namespace ICalendar.Utils
         /// <returns></returns>
         public static IList<string> ValuesList(this string str)
         {
-            return ValuesSubString(str).Split(',').ToList();
+            return str.ValuesSubString().Split(',').ToList();
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace ICalendar.Utils
 
             for (int i = 1; i <= str.Length / 75; i++)
             {
-                str.Insert(75 * i, "\r\n");
+                str.Insert(75 * i, "\r\n ");
             }
             return str.Append("\r\n");
         }
@@ -235,7 +235,7 @@ namespace ICalendar.Utils
 
         public static ComponentProperty<ClassificationValues.ClassificationValue> Deserialize(this IValue<ClassificationValues.ClassificationValue> property, string value, List<PropertyParameter> parameters)
         {
-            ((ComponentProperty<DateTime>)property).PropertyParameters = parameters;
+            ((ComponentProperty<ClassificationValues.ClassificationValue>)property).PropertyParameters = parameters;
             property.Value = ClassificationValues.ConvertValue(value);
             return (ComponentProperty<ClassificationValues.ClassificationValue>)property;
         }
