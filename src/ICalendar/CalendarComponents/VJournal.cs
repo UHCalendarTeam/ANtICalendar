@@ -10,17 +10,8 @@ namespace ICalendar.CalendarComponents
 {
     public class VJournal:CalendarComponent
     {
-        public string Name => "VJOURNAL";
-      
+        public override string Name => "VJOURNAL";
 
-        public void Serialize(TextWriter writer)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IComponentProperty Deserialize(string value)
-        {
-            throw new NotImplementedException();
-        }
+     
     }
 }

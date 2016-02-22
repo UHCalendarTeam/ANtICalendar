@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using ICalendar.ComponentProperties;
 using ICalendar.GeneralInterfaces;
 using ICalendar.PropertyParameters;
+using ICalendar.ValueTypes;
 
 namespace ICalendar.Utils
 {
@@ -79,53 +81,127 @@ namespace ICalendar.Utils
         /// </summary>
         /// <param name="stringDate">String with date format to convert</param>
         /// <returns></returns>
-        public static DateTime ToDateTime(this string stringDate)
+        public static bool ToDateTime(this string stringDate, out DateTime resDateTime)
         {
+            resDateTime = DateTime.MinValue;
             if (string.IsNullOrEmpty(stringDate))
-                return DateTime.MinValue;
-            else
+                return false;
+
+            DateTimeKind kind;
+
+            if (stringDate.Contains("Z"))
             {
-                DateTimeKind kind;
-                if (stringDate.Contains("Z"))
+                kind = DateTimeKind.Utc;
+                stringDate = stringDate.Remove(stringDate.Length - 1);
+            }
+            else
+                kind = DateTimeKind.Unspecified;
+
+            var hasTime = stringDate.Contains("T");
+
+           
+            if (hasTime)
+            {
+                return DateTime.TryParseExact(stringDate, "yyyyMMddTHHmmss", CultureInfo.CurrentCulture,
+                    kind == DateTimeKind.Utc ? DateTimeStyles.AdjustToUniversal : DateTimeStyles.AssumeLocal, out resDateTime);
+            }
+            return DateTime.TryParseExact(stringDate, "yyyyMMdd", CultureInfo.CurrentCulture,
+                kind == DateTimeKind.Utc ? DateTimeStyles.AdjustToUniversal : DateTimeStyles.AssumeLocal, out resDateTime) ;
+        }
+
+
+
+        private static readonly Regex rxWeek = new Regex(@"([+ -]?)P(\d{1,2})W");
+        private static readonly Regex rxDate = new Regex(@"(([+ -]?)P(\d{1,2})D)\:?(T(\d{1,2})H\:?((\d{1,2})M\:?((\d{1,2})S)))?");
+        private static readonly Regex rxTime = new Regex(@"([+ -]?)P(T(\d{1,2})H\:?((\d{1,2})M\:?((\d{1,2})S)))?");
+        /// <summary>
+        /// Parse an string into a Duration type.
+        /// </summary>
+        /// <param name="stringDuration"></param>
+        /// <returns></returns>
+        public static bool ToDuration(this string stringDuration, out DurationType resDuration)
+        {
+            var weekmatch = rxWeek.Match(stringDuration);
+            if (weekmatch.Success)
+            {
+                resDuration = new DurationType(weekmatch.Groups[1].ToString() != "-",
+                    int.Parse(weekmatch.Groups[2].ToString()));
+                return true;
+            }
+
+            var datematch = rxDate.Match(stringDuration);
+            if (datematch.Success)
+            {
+                var hasTime = datematch.Groups[4].ToString() != "" && datematch.Groups[4].ToString().StartsWith("T");
+
+                if (!hasTime)
                 {
-                    kind = DateTimeKind.Utc;
-                    stringDate = stringDate.Remove(stringDate.Length - 1);
+                    resDuration = new DurationType(datematch.Groups[2].ToString() != "-",
+                        int.Parse(datematch.Groups[3].ToString()), false);
+                    return true;
                 }
 
-                else
-                    //way may have to put this kind in the DateTimeProperty class i dont know if it holds
-                    kind = DateTimeKind.Unspecified;
 
-                bool hasTime = stringDate.Contains("T");
+                resDuration = new DurationType(datematch.Groups[2].ToString() != "-",
+                    int.Parse(datematch.Groups[3].ToString()), true,
+                    int.Parse(datematch.Groups[5].ToString()),
+                    int.Parse(datematch.Groups[7].ToString()),
+                    int.Parse(datematch.Groups[9].ToString()));
 
-                DateTime resDateTime;
-                if (hasTime)
+                return true;
+            }
+
+            var timematch = rxTime.Match(stringDuration);
+            if (timematch.Success)
+            {
+                resDuration = new DurationType(timematch.Groups[1].ToString() != "-",
+                        int.Parse(timematch.Groups[3].ToString()),
+                        int.Parse(timematch.Groups[5].ToString()),
+                        int.Parse(timematch.Groups[7].ToString()));
+                return true;
+            }
+
+
+            resDuration = null;
+            return false;
+        }
+
+
+        public static bool ToPeriod(this string stringPeriod, out Period resPeriod)
+        {
+            resPeriod = null;
+            List<string> values = new List<string>();
+
+            if (stringPeriod.Contains("/"))
+                values = stringPeriod.Split('/').ToList();
+
+
+            DateTime start;
+            if (values.Count == 2 && values[0].ToDateTime(out start))
+            {
+                DateTime end;
+                DurationType duration;
+
+                if (!values[1].ToDateTime(out end))
                 {
-                    if (DateTime.TryParseExact(stringDate, "yyyyMMddTHHmmss", CultureInfo.CurrentCulture,
-                        kind == DateTimeKind.Utc ? DateTimeStyles.AssumeUniversal : DateTimeStyles.None, out resDateTime))
+                    if (values[1].ToDuration(out duration))
                     {
-                        return resDateTime;
-                    }
-                    else
-                    {
-                        return DateTime.MinValue;
+                        resPeriod = new Period(start, duration);
+                        return true;
                     }
                 }
                 else
                 {
-                    if (DateTime.TryParseExact(stringDate, "yyyyMMdd", CultureInfo.CurrentCulture,
-                        kind == DateTimeKind.Utc ? DateTimeStyles.AdjustToUniversal : DateTimeStyles.None, out resDateTime))
-                    {
-                        return resDateTime;
-                    }
-                    else
-                    {
-                        return DateTime.MinValue;
-                    }
-
+                    resPeriod = new Period(start, end);
+                    return true;
                 }
 
             }
+
+
+
+            return false;
+
         }
 
         #endregion
@@ -169,7 +245,7 @@ namespace ICalendar.Utils
             }
             else if (property is IValue<int>)
             {
-                strBuilder.Append(((IValue<int>)property).Value.ToString());
+                strBuilder.Append(((IValue<int>)property).Value);
             }
             else if (property is IValue<StatusValues.Values>)
                 strBuilder.Append(StatusValues.ToString(((IValue<StatusValues.Values>)property).Value));
@@ -183,15 +259,23 @@ namespace ICalendar.Utils
                 strBuilder.Append(propValue.ToString("yyyyMMddTHHmmss") +
                                   (propValue.Kind == DateTimeKind.Utc ? "Z" : ""));
             }
-            else if (property is ComponentProperty<ActionValues.ActionValue>)
+            else if (property is IValue<ActionValues.ActionValue>)
             {
                 strBuilder.Append(ActionValues.ToString(((IValue<ActionValues.ActionValue>)property).Value));
             }
-            
+            else if (property is IValue<DurationType>)
+            {
+                strBuilder.Append(((IValue<DurationType>)property).Value);
+            }
+            else if (property is IValue<Period>)
+            {
+                strBuilder.Append(((IValue<Period>)property).Value);
+            }
+
             return strBuilder.SplitLines().ToString();
         }
 
-        
+
 
 
         #region Deserialize extension methods.
@@ -209,7 +293,7 @@ namespace ICalendar.Utils
             return ((ComponentProperty<StatusValues.Values>)property);
         }
 
-        public  static ComponentProperty<IList<string>> Deserialize(this IValue<IList<string>> property, string value, List<PropertyParameter> parameters)
+        public static ComponentProperty<IList<string>> Deserialize(this IValue<IList<string>> property, string value, List<PropertyParameter> parameters)
         {
             ((ComponentProperty<IList<string>>)property).PropertyParameters = parameters;
             property.Value = value.ValuesList();
@@ -225,7 +309,7 @@ namespace ICalendar.Utils
 
         public static ComponentProperty<ClassificationValues.ClassificationValue> Deserialize(this IValue<ClassificationValues.ClassificationValue> property, string value, List<PropertyParameter> parameters)
         {
-            ((ComponentProperty<DateTime>)property).PropertyParameters = parameters;
+            ((ComponentProperty<ClassificationValues.ClassificationValue>)property).PropertyParameters = parameters;
             property.Value = ClassificationValues.ConvertValue(value);
             return (ComponentProperty<ClassificationValues.ClassificationValue>)property;
         }
@@ -233,7 +317,10 @@ namespace ICalendar.Utils
         public static ComponentProperty<DateTime> Deserialize(this IValue<DateTime> property, string value, List<PropertyParameter> parameters)
         {
             ((ComponentProperty<DateTime>)property).PropertyParameters = parameters;
-            property.Value = value.ToDateTime();
+            DateTime valueDatetime;
+            value.ToDateTime(out valueDatetime);
+
+            property.Value = valueDatetime;
             return (ComponentProperty<DateTime>)property;
         }
 
@@ -251,21 +338,41 @@ namespace ICalendar.Utils
             return (ComponentProperty<ActionValues.ActionValue>)property;
         }
 
-        public static ComponentProperty<IList<DateTime>> Deserialize(this IValue<IList<DateTime>> property, string value, List<PropertyParameter> parameters)
+        public static ComponentProperty<IList<DateTime>> Deserialize(this IValue<IList<DateTime>> property, string value,
+            List<PropertyParameter> parameters)
         {
             ((ComponentProperty<IList<DateTime>>)property).PropertyParameters = parameters;
             var valList = ValuesList(value);
             foreach (var val in valList)
             {
-                property.Value.Add(val.ToDateTime());
+                DateTime valueDatetime;
+                val.ToDateTime(out valueDatetime);
+                property.Value.Add(valueDatetime);
             }
 
             return (ComponentProperty<IList<DateTime>>)property;
         }
+
+        public static ComponentProperty<DurationType> Deserialize(this IValue<DurationType> property, string value,
+            List<PropertyParameter> parameters)
+        {
+            ((ComponentProperty<DurationType>)property).PropertyParameters = parameters;
+            DurationType duration;
+            value.ToDuration(out duration);
+            property.Value = duration;
+            return (ComponentProperty<DurationType>)property;
+        }
+
+        public static ComponentProperty<Period> Deserialize(this IValue<Period> property, string value,
+            List<PropertyParameter> parameters)
+        {
+            ((ComponentProperty<Period>)property).PropertyParameters = parameters;
+            Period period;
+            value.ToPeriod(out period);
+            property.Value = period;
+            return (ComponentProperty<Period>)property;
+        }
         #endregion
-
-
-
 
     }
 }
