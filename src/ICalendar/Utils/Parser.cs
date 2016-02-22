@@ -152,19 +152,22 @@ namespace ICalendar.Utils
                 if (name == "END")
                 {
                     var endedObject = objStack.Pop();
-                    if (endedObject is VAlarm)
-                    {
-                        ((IAlarmContainer)objStack.Peek()).Alarms.Add((VAlarm)endedObject);
-                    }
-                    else if (endedObject is ICalendarComponent)
-                    {
-                        ((IAgregator)objStack.Peek()).AddItem(endedObject);
-                    }
-                    else if (endedObject is VCalendar)
-                    {
-                        return (VCalendar) endedObject;
-                    }
-                    createPropertiesFlag = false;
+                     if (endedObject is VCalendar)                    
+                        return (VCalendar)endedObject;
+                    ((IAgregator)objStack.Peek()).AddItem(endedObject);
+                    //if (endedObject is VAlarm)
+                    //{
+                    //    ((IAlarmContainer)objStack.Peek()).Alarms.Add((VAlarm)endedObject);
+                    //}
+                    //else if (endedObject is ICalendarComponent)
+                    //{
+                    //    ((IAgregator)objStack.Peek()).AddItem(endedObject);
+                    //}
+                    //else if (endedObject is VCalendar)
+                    //{
+                    //    return (VCalendar) endedObject;
+                    //}
+                    //createPropertiesFlag = false;
                     continue;
                 }
 
