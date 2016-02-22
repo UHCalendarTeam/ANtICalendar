@@ -20,17 +20,20 @@ namespace ICalendar.CalendarComponents
         public virtual void Serialize(TextWriter writer)
         {
             writer.WriteLine("BEGIN:" + Name);
-            if(this is ICalendarComponentsContainer)
+            
+            foreach (var property in Properties)
+            {
+                property.Serialize(writer);
+            }
+            if (this is ICalendarComponentsContainer)
             {
                 var components = (this as ICalendarComponentsContainer).CalendarComponents;
                 foreach (var comp in components)
                 {
-                    comp.Serialize(writer);
+                    //TODO: check this out
+                    if (comp != null)
+                        comp.Serialize(writer);
                 }
-            }
-            foreach (var property in Properties)
-            {
-                property.Serialize(writer);
             }
             var alarmContainer = this as IAlarmContainer;
             if (alarmContainer != null)

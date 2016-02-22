@@ -26,7 +26,7 @@ namespace ICalendar.CalendarComponents
         public override void AddItem(object component)
         {
             var comp = component as ICalendarComponent;
-            if (component != null)
+            if (comp != null)
                 CalendarComponents.Add(comp);
             else
                  base.AddItem(component);

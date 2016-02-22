@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ICalendar.GeneralInterfaces
 {
-    public interface IAgregator
+    public interface IAggregator
     {
         void AddItem(object obj);
     }

@@ -117,9 +117,7 @@ namespace ICalendar.Utils
             //used to create the instances of the objects dinamically
             var assemblyNameCalCmponents = "ICalendar.CalendarComponents.";
             var assemblyNamePropCompoments = "ICalendar.ComponentProperties.";
-            var assemblyNameCalendar = "ICalendar.Calendar.";
-            //to know when to create the properties of a calendar component 
-            var createPropertiesFlag = false;
+            var assemblyNameCalendar = "ICalendar.Calendar.";            
             string name = "";
             string value = "";
             List<PropertyParameter> parameters = new List<PropertyParameter>();
@@ -129,12 +127,9 @@ namespace ICalendar.Utils
             Type type=null;
             while (CalendarParser(reader, out name, out parameters, out value))
             {
-
-
-
                 //TODO: Do the necessary with the objects that dont belong to CompProperties
                 if (name == "BEGIN")
-                {//BEGIN:VEVENT
+                {
                     var className = value;
                     className = className.Substring(0, 2) + className.Substring(2).ToLower();
                     if (value=="VCALENDAR")
@@ -143,9 +138,7 @@ namespace ICalendar.Utils
                         type = Type.GetType(assemblyNameCalCmponents + className);
 
                     calComponent = Activator.CreateInstance(type);
-                    objStack.Push(calComponent);
-                    //this means that from now on have to create a class with the name
-                    createPropertiesFlag = true;
+                    objStack.Push(calComponent);                                       
                     continue;
 
                 }
@@ -154,20 +147,7 @@ namespace ICalendar.Utils
                     var endedObject = objStack.Pop();
                      if (endedObject is VCalendar)                    
                         return (VCalendar)endedObject;
-                    ((IAgregator)objStack.Peek()).AddItem(endedObject);
-                    //if (endedObject is VAlarm)
-                    //{
-                    //    ((IAlarmContainer)objStack.Peek()).Alarms.Add((VAlarm)endedObject);
-                    //}
-                    //else if (endedObject is ICalendarComponent)
-                    //{
-                    //    ((IAgregator)objStack.Peek()).AddItem(endedObject);
-                    //}
-                    //else if (endedObject is VCalendar)
-                    //{
-                    //    return (VCalendar) endedObject;
-                    //}
-                    //createPropertiesFlag = false;
+                    ((IAggregator)objStack.Peek()).AddItem(endedObject);                  
                     continue;
                 }
 
@@ -182,26 +162,16 @@ namespace ICalendar.Utils
                     compProperty = Activator.CreateInstance(type);
                 }
                 catch (System.Exception)
-                {
-                    
+                {                    
                     continue;
                 }
                 
                 var topObj = objStack.Peek();
-                if (topObj is CalendarComponent)
-                {
-
-                    ((CalendarComponent)topObj).AddItem(((IDeserialize)compProperty).Deserialize(value, parameters));
-                }
-                else if (topObj is VCalendar)
-                {
-                    ((VCalendar)topObj).AddItem(((IDeserialize)compProperty).Deserialize(value, parameters));
-                }
-                else
-                     ((ICalendarComponent)calComponent).Properties.Add(((IDeserialize)compProperty).Deserialize(value, parameters));
+                ((IAggregator)topObj).AddItem(((IDeserialize)compProperty).Deserialize(value, parameters));
+               
 
             }
-            return null;
+            throw new ArgumentException("The calendar file MUST contain at least an element.");
         }
     }
 }
