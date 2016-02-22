@@ -112,7 +112,7 @@ namespace ICalendar.Utils
         /// </summary>
         /// <param name="reader"></param>
         /// <returns></returns>
-        public static VCalendar ComponentMaker(TextReader reader)
+        public static VCalendar CalendarBuilder(TextReader reader)
         {
             //used to create the instances of the objects dinamically
             var assemblyNameCalCmponents = "ICalendar.CalendarComponents.";
