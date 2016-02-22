@@ -20,6 +20,14 @@ namespace ICalendar.CalendarComponents
         public virtual void Serialize(TextWriter writer)
         {
             writer.WriteLine("BEGIN:" + Name);
+            if(this is ICalendarComponentsContainer)
+            {
+                var components = (this as ICalendarComponentsContainer).CalendarComponents;
+                foreach (var comp in components)
+                {
+                    comp.Serialize(writer);
+                }
+            }
             foreach (var property in Properties)
             {
                 property.Serialize(writer);

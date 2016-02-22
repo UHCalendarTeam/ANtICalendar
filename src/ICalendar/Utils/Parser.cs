@@ -158,7 +158,7 @@ namespace ICalendar.Utils
                     }
                     else if (endedObject is ICalendarComponent)
                     {
-                        ((VCalendar)objStack.Peek()).AddItem(endedObject);
+                        ((IAgregator)objStack.Peek()).AddItem(endedObject);
                     }
                     else if (endedObject is VCalendar)
                     {

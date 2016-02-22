@@ -10,6 +10,10 @@ namespace ICalendar.CalendarComponents
 {
     public class VTimezone:CalendarComponent, ICalendarComponentsContainer
     {
+        public VTimezone()
+        {
+            CalendarComponents = new List<ICalendarComponent>();
+        }
         public IList<ICalendarComponent> CalendarComponents { get; set; }
 
         public override string Name => "VTIMEZONE";       
@@ -27,6 +31,9 @@ namespace ICalendar.CalendarComponents
             else
                  base.AddItem(component);
         }
+
+
+       
 
     }
 }

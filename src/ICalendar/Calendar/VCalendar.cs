@@ -16,7 +16,7 @@ namespace ICalendar.Calendar
     /// Represent the main class of a calendar.
     /// COntains the component properties and calendar components of the calendar.
     /// </summary>
-    public class VCalendar : ISerialize, ICalendarComponentsContainer, IComponentPropertiesContainer
+    public class VCalendar : ISerialize, ICalendarComponentsContainer, IComponentPropertiesContainer, IAgregator
     {
         #region Constructors
         public VCalendar()

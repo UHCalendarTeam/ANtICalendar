@@ -33,6 +33,10 @@ namespace ICalendar.ComponentProperties
             {
                 return (this as IValue<DateTime>).Deserialize(value, parameters);
             }
+            else if (this is IValue<IList<DateTime>>)
+            {
+                return (this as IValue<IList<DateTime>>).Deserialize(value, parameters);
+            }
             else if (this is IValue<StatusValues.Values>)
             {
                 return (this as IValue<StatusValues.Values>).Deserialize(value, parameters);

@@ -185,6 +185,20 @@ namespace ICalendar.Utils
                 strBuilder.Append(propValue.ToString("yyyyMMddTHHmmss") +
                                   (propValue.Kind == DateTimeKind.Utc ? "Z" : ""));
             }
+            else if (property is IValue<IList<DateTime>>)
+            {
+                var values = ((IValue<IList<DateTime>>)property).Value;
+                var flag = false;
+                foreach (var value in values)
+                {
+                    if (flag)
+                        strBuilder.Append(',');            
+                    strBuilder.Append(value.ToString("yyyyMMddTHHmmss") +
+                                      (value.Kind == DateTimeKind.Utc ? "Z" : ""));
+                    flag = true;
+                }
+              
+            }
             else if (property is ComponentProperty<ActionValues.ActionValue>)
             {
                 strBuilder.Append(ActionValues.ToString(((IValue<ActionValues.ActionValue>)property).Value));
@@ -263,8 +277,10 @@ namespace ICalendar.Utils
 
         public static ComponentProperty<IList<DateTime>> Deserialize(this IValue<IList<DateTime>> property, string value, List<PropertyParameter> parameters)
         {
+           
             ((ComponentProperty<IList<DateTime>>)property).PropertyParameters = parameters;
             var valList = ValuesList(value);
+            property.Value = new List<DateTime>();
             foreach (var val in valList)
             {
                 property.Value.Add(val.ToDateTime());
