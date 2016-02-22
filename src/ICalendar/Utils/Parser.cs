@@ -168,7 +168,8 @@ namespace ICalendar.Utils
                     continue;
                 }
 
-
+                if (name.Contains("-"))
+                    name=name.Replace("-", "_");
                 var propName = name.Substring(0, 1) + name.Substring(1).ToLower();
                 type = Type.GetType(assemblyNamePropCompoments + propName);
                 //if come an iana property that we dont recognize

@@ -7,9 +7,11 @@ using ICalendar.GeneralInterfaces;
 
 namespace ICalendar.GeneralInterfaces
 {
-    public interface ICalendarComponent:ISerialize
-    {
-        IList<IComponentProperty> Properties { get; set; }
+    /// <summary>
+    /// The abstraction of the CalendarComponents implementations.
+    /// </summary>
+    public interface ICalendarComponent:ISerialize, IComponentPropertiesContainer
+    {       
 
         string Name { get; }
     }

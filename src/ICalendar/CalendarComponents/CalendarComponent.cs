@@ -7,6 +7,9 @@ using ICalendar.GeneralInterfaces;
 
 namespace ICalendar.CalendarComponents
 {
+    /// <summary>
+    /// The abstraction class for the different Calendar components implementations.
+    /// </summary>
     public class CalendarComponent:ICalendarComponent
     {
         public CalendarComponent()
@@ -37,7 +40,7 @@ namespace ICalendar.CalendarComponents
         public virtual string Name { get; }
 
 
-        public void AddItem(object component)
+        public virtual void AddItem(object component)
         {
             
             Properties.Add((IComponentProperty)component);
