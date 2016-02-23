@@ -7,6 +7,9 @@ using ICalendar.GeneralInterfaces;
 
 namespace ICalendar.CalendarComponents
 {
+    /// <summary>
+    /// The abstraction class for the different Calendar components implementations.
+    /// </summary>
     public class CalendarComponent:ICalendarComponent
     {
         public CalendarComponent()
@@ -17,9 +20,20 @@ namespace ICalendar.CalendarComponents
         public virtual void Serialize(TextWriter writer)
         {
             writer.WriteLine("BEGIN:" + Name);
+            
             foreach (var property in Properties)
             {
                 property.Serialize(writer);
+            }
+            if (this is ICalendarComponentsContainer)
+            {
+                var components = (this as ICalendarComponentsContainer).CalendarComponents;
+                foreach (var comp in components)
+                {
+                    //TODO: check this out
+                    if (comp != null)
+                        comp.Serialize(writer);
+                }
             }
             var alarmContainer = this as IAlarmContainer;
             if (alarmContainer != null)
@@ -37,7 +51,7 @@ namespace ICalendar.CalendarComponents
         public virtual string Name { get; }
 
 
-        public void AddItem(object component)
+        public virtual void AddItem(object component)
         {
             
             Properties.Add((IComponentProperty)component);

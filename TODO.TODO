@@ -61,12 +61,13 @@ ICAl:
    ✔ Terminar el parser. @done (16-02-20 16:38)
    ✔ Construir los objetos. @done (16-02-20 16:38)
    ✔ Todos los objetos de tipo CAlendarObject heredan de CalendarComponent @done (16-02-20 16:38)
-   ☐  Parsear bien las clases q tienen -
-   ☐ Crear las clases para las propiedades de VTIMEZONE.(TZID)
-   ☐ Implementar los metodos extrannos de VTIMEZONE
+   ✔  Parsear bien las clases q tienen - @done (16-02-22 14:14)
+   ✔ Crear las clases para las propiedades de VTIMEZONE.(TZID) @done (16-02-22 17:43)
+   ✔ Implementar los metodos extrannos de VTIMEZONE @done (16-02-22 16:50)
    ☐ Ver bien los finlaes de lineas.
-   ☐ x q no se escribe el primer SUMMARY.
+   ✔ x q no se escribe el primer SUMMARY. pues contenia un whitespace at the end @done (16-02-22 17:43)
    ☐ Verificar q pinche el RRULE.
+   ✔ Implementar el StringRepresentation and Deserialize para IValues<IList<DateTime>>. @done (16-02-22 16:51)
 
 
  General:

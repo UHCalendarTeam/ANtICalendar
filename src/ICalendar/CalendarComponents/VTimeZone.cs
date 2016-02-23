@@ -8,9 +8,32 @@ using ICalendar.GeneralInterfaces;
 
 namespace ICalendar.CalendarComponents
 {
-    public class VTimezone:CalendarComponent
+    public class VTimezone:CalendarComponent, ICalendarComponentsContainer
     {
-        public override string Name => "VTIMEZONE";
-        
+        public VTimezone()
+        {
+            CalendarComponents = new List<ICalendarComponent>();
+        }
+        public IList<ICalendarComponent> CalendarComponents { get; set; }
+
+        public override string Name => "VTIMEZONE";       
+
+        /// <summary>
+        /// Add a subcomponent of the VTimeZone object or
+        /// a property if component is IComponentProperty
+        /// </summary>
+        /// <param name="component"></param>
+        public override void AddItem(object component)
+        {
+            var comp = component as ICalendarComponent;
+            if (comp != null)
+                CalendarComponents.Add(comp);
+            else
+                 base.AddItem(component);
+        }
+
+
+       
+
     }
 }

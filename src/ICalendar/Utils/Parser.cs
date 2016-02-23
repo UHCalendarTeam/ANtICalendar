@@ -27,8 +27,6 @@ namespace ICalendar.Utils
             out string name, out List<PropertyParameter> parameters, out string value)
         {
             var line = TakeLine(reader);
-            int indexParams = 0;
-            int indexName = 0;
             name = "";
             parameters = new List<PropertyParameter>();
             value = "";
@@ -41,23 +39,26 @@ namespace ICalendar.Utils
 
             //from the begining of the line till the index of these chars
             //has to be the name
-            indexName = line.IndexOfAny(new char[] { ':', ';' });
+            var indexName = line.IndexOfAny(new char[] { ':', ';' });
             name = line.Substring(0, indexName);
 
-            //if the first separator is ';' then it means the line contains params values
+            //if the first separator is ';' then the line contains params values
             if (line[indexName] == ';')
             {
-                indexParams = line.LastIndexOf(':');
+                var indexParams = line.LastIndexOf(':');
                 parameters = line.Substring(indexName + 1, indexParams).ParamsParser();
                 value = line.Substring(indexParams + 1);
             }
             else
-            {
                 value = line.Substring(indexName + 1);
-            }
 
 
             //check if the name and value object are setted
+            if (name==""||value=="")
+            {
+                throw new ArgumentException("Component Properties MUST define the name and the value.");
+                
+            }
             return true;
 
         }
@@ -111,14 +112,12 @@ namespace ICalendar.Utils
         /// </summary>
         /// <param name="reader"></param>
         /// <returns></returns>
-        public static VCalendar ComponentMaker(TextReader reader)
+        public static VCalendar CalendarBuilder(TextReader reader)
         {
             //used to create the instances of the objects dinamically
             var assemblyNameCalCmponents = "ICalendar.CalendarComponents.";
             var assemblyNamePropCompoments = "ICalendar.ComponentProperties.";
-            var assemblyNameCalendar = "ICalendar.Calendar.";
-            //to know when to create the properties of a calendar component 
-            var createPropertiesFlag = false;
+            var assemblyNameCalendar = "ICalendar.Calendar.";            
             string name = "";
             string value = "";
             List<PropertyParameter> parameters = new List<PropertyParameter>();
@@ -128,12 +127,9 @@ namespace ICalendar.Utils
             Type type=null;
             while (CalendarParser(reader, out name, out parameters, out value))
             {
-
-
-
                 //TODO: Do the necessary with the objects that dont belong to CompProperties
                 if (name == "BEGIN")
-                {//BEGIN:VEVENT
+                {
                     var className = value;
                     className = className.Substring(0, 2) + className.Substring(2).ToLower();
                     if (value=="VCALENDAR")
@@ -142,32 +138,21 @@ namespace ICalendar.Utils
                         type = Type.GetType(assemblyNameCalCmponents + className);
 
                     calComponent = Activator.CreateInstance(type);
-                    objStack.Push(calComponent);
-                    //this means that from now on have to create a class with the name
-                    createPropertiesFlag = true;
+                    objStack.Push(calComponent);                                       
                     continue;
 
                 }
                 if (name == "END")
                 {
                     var endedObject = objStack.Pop();
-                    if (endedObject is VAlarm)
-                    {
-                        ((IAlarmContainer)objStack.Peek()).Alarms.Add((VAlarm)endedObject);
-                    }
-                    else if (endedObject is ICalendarComponent)
-                    {
-                        ((VCalendar)objStack.Peek()).AddItem(endedObject);
-                    }
-                    else if (endedObject is VCalendar)
-                    {
-                        return (VCalendar) endedObject;
-                    }
-                    createPropertiesFlag = false;
+                     if (endedObject is VCalendar)                    
+                        return (VCalendar)endedObject;
+                    ((IAggregator)objStack.Peek()).AddItem(endedObject);                  
                     continue;
                 }
 
-
+                if (name.Contains("-"))
+                    name=name.Replace("-", "_");
                 var propName = name.Substring(0, 1) + name.Substring(1).ToLower();
                 type = Type.GetType(assemblyNamePropCompoments + propName);
                 //if come an iana property that we dont recognize
@@ -177,26 +162,16 @@ namespace ICalendar.Utils
                     compProperty = Activator.CreateInstance(type);
                 }
                 catch (System.Exception)
-                {
-                    
+                {                    
                     continue;
                 }
                 
                 var topObj = objStack.Peek();
-                if (topObj is CalendarComponent)
-                {
-
-                    ((CalendarComponent)topObj).AddItem(((IDeserialize)compProperty).Deserialize(value, parameters));
-                }
-                else if (topObj is VCalendar)
-                {
-                    ((VCalendar)topObj).AddItem(((IDeserialize)compProperty).Deserialize(value, parameters));
-                }
-                else
-                     ((ICalendarComponent)calComponent).Properties.Add(((IDeserialize)compProperty).Deserialize(value, parameters));
+                ((IAggregator)topObj).AddItem(((IDeserialize)compProperty).Deserialize(value, parameters));
+               
 
             }
-            return null;
+            throw new ArgumentException("The calendar file MUST contain at least an element.");
         }
     }
 }

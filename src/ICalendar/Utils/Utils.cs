@@ -47,7 +47,7 @@ namespace ICalendar.Utils
         /// <returns></returns>
         public static IList<string> ValuesList(this string str)
         {
-            return ValuesSubString(str).Split(',').ToList();
+            return str.ValuesSubString().Split(',').ToList();
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace ICalendar.Utils
 
             for (int i = 1; i <= str.Length / 75; i++)
             {
-                str.Insert(75 * i, "\r\n");
+                str.Insert(75 * i, "\r\n ");
             }
             return str.Append("\r\n");
         }
@@ -261,6 +261,19 @@ namespace ICalendar.Utils
             }
             else if (property is IValue<ActionValues.ActionValue>)
             {
+                var values = ((IValue<IList<DateTime>>)property).Value;
+                var flag = false;
+                foreach (var value in values)
+                {
+                    if (flag)
+                        strBuilder.Append(',');            
+                    strBuilder.Append(value.ToString("yyyyMMddTHHmmss") +
+                                      (value.Kind == DateTimeKind.Utc ? "Z" : ""));
+                    flag = true;
+                }
+              
+            }
+            {
                 strBuilder.Append(ActionValues.ToString(((IValue<ActionValues.ActionValue>)property).Value));
             }
             else if (property is IValue<DurationType>)
@@ -341,8 +354,10 @@ namespace ICalendar.Utils
         public static ComponentProperty<IList<DateTime>> Deserialize(this IValue<IList<DateTime>> property, string value,
             List<PropertyParameter> parameters)
         {
+           
             ((ComponentProperty<IList<DateTime>>)property).PropertyParameters = parameters;
             var valList = ValuesList(value);
+            property.Value = new List<DateTime>();
             foreach (var val in valList)
             {
                 DateTime valueDatetime;

@@ -12,21 +12,25 @@ using ICalendar.GeneralInterfaces;
 
 namespace ICalendar.Calendar
 {
-    public class VCalendar : ISerialize
+    /// <summary>
+    /// Represent the main class of a calendar.
+    /// COntains the component properties and calendar components of the calendar.
+    /// </summary>
+    public class VCalendar : ISerialize, ICalendarComponentsContainer, IComponentPropertiesContainer, IAggregator
     {
         #region Constructors
         public VCalendar()
         {
-            ComponentProperties = new List<IComponentProperty>();
+            Properties = new List<IComponentProperty>();
             CalendarComponents = new List<ICalendarComponent>();
         }
 
         //temporal changes with parameters
         public VCalendar(/*string uriWriter*/ StreamWriter writer)
         {
-            ComponentProperties = new List<IComponentProperty>();
-            ComponentProperties.Add(new Prodid() { Value = ProId });
-            ComponentProperties.Add(new Version() { Value = Version });
+            Properties = new List<IComponentProperty>();
+            Properties.Add(new Prodid() { Value = ProId });
+            Properties.Add(new Version() { Value = Version });
             //Aignar uri a un filestream
 
             //Asigna directamente el writer
@@ -47,7 +51,7 @@ namespace ICalendar.Calendar
         public TextWriter writer { get; set; }
 
         //At Least One
-        public IList<IComponentProperty> ComponentProperties { get; set; }
+        public IList<IComponentProperty> Properties { get; set; }
 
         public IList<ICalendarComponent> CalendarComponents { get; set; }
 
@@ -69,7 +73,7 @@ namespace ICalendar.Calendar
         {
             if (calComponent is IComponentProperty)
             {
-                ComponentProperties.Add((IComponentProperty)calComponent);
+                Properties.Add((IComponentProperty)calComponent);
                 return;
             }
             CalendarComponents.Add((ICalendarComponent)calComponent);
@@ -78,7 +82,7 @@ namespace ICalendar.Calendar
         public void Serialize(TextWriter writer)
         {
             writer.WriteLine("BEGIN:VCALENDAR");
-            foreach (var property in ComponentProperties)
+            foreach (var property in Properties)
             {
                 property.Serialize(writer);
             }
