@@ -19,6 +19,11 @@ namespace ICalendar.Calendar
     public class VCalendar : ISerialize, ICalendarComponentsContainer, IComponentPropertiesContainer, IAggregator, ICalendarObject
     {
         #region Constructors
+        public VCalendar()
+        {
+            Properties = new List<IComponentProperty>();
+            CalendarComponents = new List<ICalendarComponent>();
+        }
         public VCalendar(List<IComponentProperty> properties, List<ICalendarComponent> calComponents)
         {
             Properties = properties;

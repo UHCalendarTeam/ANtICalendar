@@ -10,13 +10,16 @@ namespace ICalendar.Factory
     public class CalendarComponentFactory : IFactory
     {
         public Dictionary<string, Type> _types { get; set; }
+        private string _assemblyName = "ICalendar.CalendarComponents.";
 
         public ICalendarObject CreateIntance(string objectName)
         {
-            var t = GetTypeToCreate(objectName);
-            if (t != null)
-                return Activator.CreateInstance(t) as ICalendarObject;
-            return null;
+            var type = Type.GetType(_assemblyName + objectName);
+            return Activator.CreateInstance(type) as ICalendarComponent;
+            //var t = GetTypeToCreate(objectName);
+            //if (t != null)
+            //    return Activator.CreateInstance(t) as ICalendarObject;
+            //return null;
 
         }
 
@@ -29,13 +32,13 @@ namespace ICalendar.Factory
 
         public void LoadAvailableTypes()
         {
-            _types = new Dictionary<string, Type>();            
-            var typesInAssembly = Assembly.Load("ICalendar.CalendarComponents").GetTypes();
-            foreach (var type in typesInAssembly)
-            {
-                if (type.GetInterface(typeof(ICalendarComponent).ToString()) != null)
-                    _types.Add(type.Name.ToLower(), type);
-            }
+            //_types = new Dictionary<string, Type>();            
+            //var typesInAssembly = Assembly.Load("ICalendar.CalendarComponents").GetTypes();
+            //foreach (var type in typesInAssembly)
+            //{
+            //    if (type.GetInterface(typeof(ICalendarComponent).ToString()) != null)
+            //        _types.Add(type.Name.ToLower(), type);
+            //}
         }
     }    
 }
