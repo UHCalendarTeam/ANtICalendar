@@ -261,19 +261,6 @@ namespace ICalendar.Utils
             }
             else if (property is IValue<ActionValues.ActionValue>)
             {
-                var values = ((IValue<IList<DateTime>>)property).Value;
-                var flag = false;
-                foreach (var value in values)
-                {
-                    if (flag)
-                        strBuilder.Append(',');            
-                    strBuilder.Append(value.ToString("yyyyMMddTHHmmss") +
-                                      (value.Kind == DateTimeKind.Utc ? "Z" : ""));
-                    flag = true;
-                }
-              
-            }
-            {
                 strBuilder.Append(ActionValues.ToString(((IValue<ActionValues.ActionValue>)property).Value));
             }
             else if (property is IValue<DurationType>)
