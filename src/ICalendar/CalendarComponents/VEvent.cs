@@ -24,7 +24,7 @@ namespace ICalendar.CalendarComponents
         /// if not is a property and call the base
         /// </summary>
         /// <param name="component"></param>
-        public override void AddItem(object component)
+        public override void AddItem(ICalendarObject component)
         {
             var comp = component as VAlarm;
             if (comp != null)

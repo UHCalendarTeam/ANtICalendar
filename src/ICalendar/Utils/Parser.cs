@@ -190,9 +190,9 @@ namespace ICalendar.Utils
             string name = "";
             string value = "";
             List<PropertyParameter> parameters = new List<PropertyParameter>();
-            object calComponent = null;
-            object compProperty = null;
-            Stack<object> objStack = new Stack<object>();
+            ICalendarObject calComponent = null;
+            ICalendarObject compProperty = null;
+            Stack<ICalendarObject> objStack = new Stack<ICalendarObject>();
             Type type = null;
             while (CalendarParser(reader, out name, out parameters, out value))
             {
@@ -204,7 +204,7 @@ namespace ICalendar.Utils
                     if (value == "VCALENDAR")
                     {
                         type = Type.GetType(assemblyNameCalendar + className);
-                        calComponent = Activator.CreateInstance(type);
+                        calComponent = Activator.CreateInstance(type) as ICalendarObject;
                     }
                     else
                         calComponent = calCompFactory.CreateIntance(className);

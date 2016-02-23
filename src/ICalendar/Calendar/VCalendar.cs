@@ -74,11 +74,12 @@ namespace ICalendar.Calendar
         //  X-PROP,  IANA-PROP
 
 
-        public void AddItem(object calComponent)
+        public void AddItem(ICalendarObject calComponent)
         {
-            if (calComponent is IComponentProperty)
+            var comp = calComponent as IComponentProperty; 
+            if (comp != null)
             {
-                Properties.Add((IComponentProperty)calComponent);
+                Properties.Add(comp);
                 return;
             }
             CalendarComponents.Add((ICalendarComponent)calComponent);

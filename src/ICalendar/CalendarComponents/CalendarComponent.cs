@@ -51,10 +51,11 @@ namespace ICalendar.CalendarComponents
         public virtual string Name { get; }
 
 
-        public virtual void AddItem(object component)
+        public virtual void AddItem(ICalendarObject component)
         {
-            
             Properties.Add((IComponentProperty)component);
         }
+
+       
     }
 }

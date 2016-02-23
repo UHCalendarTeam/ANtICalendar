@@ -7,6 +7,6 @@ namespace ICalendar.GeneralInterfaces
 {
     public interface IAggregator
     {
-        void AddItem(object obj);
+        void AddItem(ICalendarObject obj);
     }
 }

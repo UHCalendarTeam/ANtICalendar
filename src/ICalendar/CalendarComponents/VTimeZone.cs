@@ -23,7 +23,7 @@ namespace ICalendar.CalendarComponents
         /// a property if component is IComponentProperty
         /// </summary>
         /// <param name="component"></param>
-        public override void AddItem(object component)
+        public override void AddItem(ICalendarObject component)
         {
             var comp = component as ICalendarComponent;
             if (comp != null)
