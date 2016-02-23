@@ -10,7 +10,7 @@ namespace ICalendar.GeneralInterfaces
     /// <summary>
     /// The abstraction of the CalendarComponents implementations.
     /// </summary>
-    public interface ICalendarComponent:ISerialize, IComponentPropertiesContainer, IAggregator
+    public interface ICalendarComponent:ISerialize, IComponentPropertiesContainer, IAggregator, ICalendarObject
     {       
 
         string Name { get; }

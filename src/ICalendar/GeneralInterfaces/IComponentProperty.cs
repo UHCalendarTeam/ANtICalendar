@@ -7,7 +7,7 @@ using ICalendar.PropertyParameters;
 
 namespace ICalendar.GeneralInterfaces
 {
-    public interface IComponentProperty:ISerialize
+    public interface IComponentProperty:ISerialize, ICalendarObject
     {
         string Name { get; }
        
