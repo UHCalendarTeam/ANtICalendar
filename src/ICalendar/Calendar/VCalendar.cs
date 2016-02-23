@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -97,6 +98,27 @@ namespace ICalendar.Calendar
                 component.Serialize(writer);
             }
             writer.WriteLine("END:VCALENDAR");
+        }
+
+
+        public override string ToString()
+        {
+            var a = new Stopwatch();
+            var strBuilder = new StringBuilder();
+            strBuilder.AppendLine("BEGIN:VCALENDAR");
+            foreach (var property in Properties)
+            {
+                strBuilder.Append(property.ToString());
+                
+            }
+            foreach (var component in CalendarComponents)
+            {
+
+                strBuilder.Append(component.ToString());
+            }
+            strBuilder.AppendLine("END:VCALENDAR");
+            return strBuilder.ToString();
+
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using ICalendar.GeneralInterfaces;
 
@@ -56,6 +57,37 @@ namespace ICalendar.CalendarComponents
             Properties.Add((IComponentProperty)component);
         }
 
-       
+
+        public override string ToString()
+        {
+            var strBuilder = new StringBuilder();
+            strBuilder.AppendLine("BEGIN:" + Name);
+
+            foreach (var property in Properties)
+            {
+                strBuilder.Append(property);
+            }
+            if (this is ICalendarComponentsContainer)
+            {
+                var components = (this as ICalendarComponentsContainer).CalendarComponents;
+                foreach (var comp in components)
+                {
+                    //TODO: check this out
+                    if (comp != null)
+                        strBuilder.Append(comp);
+                }
+            }
+            var alarmContainer = this as IAlarmContainer;
+            if (alarmContainer != null)
+            {
+                foreach (var alarm in alarmContainer.Alarms)
+                {
+                    strBuilder.Append(alarm);
+                }
+            }
+
+            strBuilder.AppendLine("END:" + Name);
+            return strBuilder.ToString();
+        }
     }
 }

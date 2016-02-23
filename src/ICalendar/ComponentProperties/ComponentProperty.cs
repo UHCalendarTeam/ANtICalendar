@@ -66,6 +66,12 @@ namespace ICalendar.ComponentProperties
         {
            writer.Write(this.StringRepresentation());
         }
+
+
+        public override string ToString()
+        {
+            return this.StringRepresentation();
+        }
     }
     
 }

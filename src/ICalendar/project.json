@@ -1,8 +1,8 @@
 {
   "version": "1.0.0-*",
-  "description": "ICalendar Class Library",
+  "description": "ICalendar is a library for parsing and writing icalendar files.\nIt Implement the expecification given in RCF 5545.\n",
   "authors": [ "UHCalendarTeam" ],
-  "tags": [ "" ],
+  "tags": [ "ICalendar", "RCF 5545", ".ics" ],
   "projectUrl": "",
   "licenseUrl": "",
   "dependencies": {

@@ -66,7 +66,7 @@ ICAl:
    ✔ Implementar los metodos extrannos de VTIMEZONE @done (16-02-22 16:50)
    ☐ Ver bien los finlaes de lineas.
    ✔ x q no se escribe el primer SUMMARY. pues contenia un whitespace at the end @done (16-02-22 17:43)
-   ☐ Verificar q pinche el RRULE.
+   ☐ Verificar q pinche el RRULE. 
    ✔ Implementar el StringRepresentation and Deserialize para IValues<IList<DateTime>>. @done (16-02-22 16:51)
 
 
