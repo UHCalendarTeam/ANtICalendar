@@ -76,7 +76,7 @@ namespace ICalendar.Utils
             var output = new StringBuilder();
             var line = "";
             line = reader.ReadLine();
-            if (line != null && line.Length < 1)
+            if (string.IsNullOrEmpty(line))
                 return "";
 
 

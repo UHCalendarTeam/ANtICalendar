@@ -14,8 +14,9 @@ namespace ICalendar.Factory
         public ICalendarObject CreateIntance(string objectName)
         {
             var type = Type.GetType(_assemblyName + objectName);
-            return Activator.CreateInstance(type) as IComponentProperty;
-            throw new NotImplementedException();
+            if(type!= null)
+                return Activator.CreateInstance(type) as IComponentProperty;
+            return null;
         }
 
         public Type GetTypeToCreate(string objName)
