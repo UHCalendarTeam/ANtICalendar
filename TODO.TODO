@@ -52,8 +52,8 @@ ICAl:
    ✔ Hacer el StringRepresentation(this CalendarComponent compo) if(compo is VEvent) @done (16-02-20 16:37)
    ✔ Hacer el StringRepresentation del VCalendar. @done (16-02-20 16:37)
    ☐ Probar q escribe todo bien.
-   ☐ Arreglar el writer de DATETIMEs properties pues no lo esta haciendo bien.
-   ☐ Implementar los value types q tengan confictos(COmportamiento diferent).
+   ✔ Arreglar el writer de DATETIMEs properties pues no lo esta haciendo bien. @done (16-02-23 10:59)
+   ☐ Implementar los value types q tengan confictos(Comportamiento diferent).
    ☐ Arreglar el RRULE.
 
 

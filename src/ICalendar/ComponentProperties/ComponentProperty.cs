@@ -4,6 +4,7 @@ using System.IO;
 using ICalendar.GeneralInterfaces;
 using ICalendar.PropertyParameters;
 using ICalendar.Utils;
+using ICalendar.ValueTypes;
 
 namespace ICalendar.ComponentProperties
 {
@@ -25,19 +26,19 @@ namespace ICalendar.ComponentProperties
             {
                 return (this as IValue<string>).Deserialize(value, parameters);
             }
-            else if (this is IValue<int>)
+            if (this is IValue<int>)
             {
                 return (this as IValue<int>).Deserialize(value, parameters);
             }
-            else if (this is IValue<DateTime>)
+            if (this is IValue<DateTime>)
             {
                 return (this as IValue<DateTime>).Deserialize(value, parameters);
             }
-            else if (this is IValue<IList<DateTime>>)
+            if (this is IValue<IList<DateTime>>)
             {
                 return (this as IValue<IList<DateTime>>).Deserialize(value, parameters);
             }
-            else if (this is IValue<StatusValues.Values>)
+            if (this is IValue<StatusValues.Values>)
             {
                 return (this as IValue<StatusValues.Values>).Deserialize(value, parameters);
             }
@@ -56,6 +57,18 @@ namespace ICalendar.ComponentProperties
             if (this is IValue<IList<string>>)
             {
                 return (this as IValue<IList<string>>).Deserialize(value, parameters);
+            }
+            if (this is IValue<DurationType>)
+            {
+                return (this as IValue<DurationType>).Deserialize(value, parameters);
+            }
+            if (this is IValue<Period>)
+            {
+                return (this as IValue<Period>).Deserialize(value, parameters);
+            }
+            if (this is IValue<TimeSpan>)
+            {
+                return (this as IValue<TimeSpan>).Deserialize(value, parameters);
             }
             throw new ArgumentException("Don't implemented argument.");
         }

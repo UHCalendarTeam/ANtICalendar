@@ -1,21 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Xunit.Sdk;
 
 namespace ICalendar.ValueTypes
 {
     public class DurationType
     {
-        public DurationType(bool isPos, int weeks)
+        public DurationType(bool isPos, int? weeks)
         {
             IsPositive = isPos;
             Weeks = weeks;
         }
 
-        public DurationType(bool isPos, int days, bool hasTime, int hours = 0, int minutes = 0, int seconds = 0)
+        public DurationType(bool isPos, int? days, bool hasTime, int? hours = 0, int? minutes = 0, int? seconds = 0)
         {
             IsPositive = isPos;
             Days = days;
@@ -28,7 +24,7 @@ namespace ICalendar.ValueTypes
             }
         }
 
-        public DurationType(bool isPos, int hours, int minutes, int seconds)
+        public DurationType(bool isPos, int? hours, int? minutes, int? seconds)
         {
             IsPositive = isPos;
             Hours = hours;
@@ -55,48 +51,57 @@ namespace ICalendar.ValueTypes
             strbuilder.Append("P");
             if (Weeks != null)
             {
-                strbuilder.AppendLine(Weeks.ToString() + "W");
+                strbuilder.AppendLine(Weeks + "W");
             }
             else if (Days != null)
             {
-                strbuilder.Append(Days.ToString() + "D");
+                strbuilder.Append(Days + "D");
                 if (Hours != null)
                 {
-                    strbuilder.Append(Hours.ToString() + "H");
+                    strbuilder.Append("T");
+                    strbuilder.Append(Hours + "H");
                 }
                 if (Minutes != null)
                 {
-                    strbuilder.Append(Minutes.ToString() + "M");
+                    if (Hours == null)
+                        strbuilder.Append("T");
+
+                    strbuilder.Append(Minutes + "M");
                 }
                 if (Seconds != null)
                 {
-                    strbuilder.Append(Seconds.ToString() + "S");
+                    if (Hours == null && Minutes==null)
+                        strbuilder.Append("T");
+                    strbuilder.Append(Seconds + "S");
                 }
             }
             else if (Hours != null)
             {
-                strbuilder.Append(Hours.ToString() + "H");
+                strbuilder.Append("T");
+                strbuilder.Append(Hours + "H");
 
                 if (Minutes != null)
                 {
-                    strbuilder.Append(Minutes.ToString() + "M");
+                    strbuilder.Append(Minutes + "M");
                 }
                 if (Seconds != null)
                 {
-                    strbuilder.Append(Seconds.ToString() + "S");
+                    strbuilder.Append(Seconds + "S");
                 }
             }
             else if (Minutes != null)
             {
-                strbuilder.Append(Minutes.ToString() + "M");
+                strbuilder.Append("T");
+                strbuilder.Append(Minutes + "M");
                 if (Seconds != null)
                 {
-                    strbuilder.Append(Seconds.ToString() + "S");
+                    strbuilder.Append(Seconds + "S");
                 }
             }
             else if (Seconds != null)
             {
-                strbuilder.Append(Seconds.ToString() + "S");
+                strbuilder.Append("T");
+                strbuilder.Append(Seconds + "S");
             }
             else
             {

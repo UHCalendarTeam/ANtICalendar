@@ -76,88 +76,177 @@ namespace ICalendar.Utils
             return str.Append("\r\n");
         }
 
+
+
+        private static Regex DatetimeRegex = new Regex(@"(\d{4})(\d{2})(\d{2})T?(\d{2}?)(\d{2}?)(\d{2}?)(Z?)", RegexOptions.IgnoreCase);
+
         /// <summary>
         /// Converts an string in a DateTime if possible, null otherwise.
         /// </summary>
         /// <param name="stringDate">String with date format to convert</param>
+        /// <param name="resDateTime"></param>
         /// <returns></returns>
-        public static bool ToDateTime(this string stringDate, out DateTime resDateTime)
+        //public static bool ToDateTime(this string stringDate, out DateTime resDateTime)
+        //{
+        //    resDateTime = DateTime.MinValue;
+        //    if (string.IsNullOrEmpty(stringDate))
+        //        return false;
+
+        //    DateTimeKind kind;
+
+        //    if (stringDate.Contains("Z"))
+        //    {
+        //        kind = DateTimeKind.Utc;
+        //        stringDate = stringDate.Remove(stringDate.Length - 1);
+        //    }
+        //    else
+        //        kind = DateTimeKind.Unspecified;
+
+        //    var hasTime = stringDate.Contains("T");
+
+
+        //    if (hasTime)
+        //    {
+        //        DateTime p =new DateTime();
+        //        return DateTime.TryParseExact(stringDate, "yyyyMMddTHHmmss", CultureInfo.CurrentCulture,
+        //            kind == DateTimeKind.Utc ? DateTimeStyles.AdjustToUniversal : DateTimeStyles.AssumeLocal, out resDateTime);
+        //    }
+        //    return DateTime.TryParseExact(stringDate, "yyyyMMdd", CultureInfo.CurrentCulture,
+        //        kind == DateTimeKind.Utc ? DateTimeStyles.AdjustToUniversal : DateTimeStyles.AssumeLocal, out resDateTime) ;
+        //}
+
+
+        public static int? ToInt(this string input)
         {
-            resDateTime = DateTime.MinValue;
+            int ret;
+            if (int.TryParse(input, out ret))
+                return ret;
+            else return (int?)null;
+        }
+
+
+        public static bool ToDateTime(this string stringDate, out DateTime? resDateTime)
+        {
+            resDateTime = null;
             if (string.IsNullOrEmpty(stringDate))
                 return false;
-
-            DateTimeKind kind;
-
-            if (stringDate.Contains("Z"))
+            DateTime ret;
+            var match = DatetimeRegex.Match(stringDate);
+            if (match.Success)
             {
-                kind = DateTimeKind.Utc;
-                stringDate = stringDate.Remove(stringDate.Length - 1);
+                resDateTime = new DateTime(
+                    match.Groups[1].Value.ToInt() ?? 0,
+                    match.Groups[2].Value.ToInt() ?? 0,
+                    match.Groups[3].Value.ToInt() ?? 0,
+                    match.Groups[4].Value.ToInt() ?? 0,
+                    match.Groups[5].Value.ToInt() ?? 0,
+                    match.Groups[6].Value.ToInt() ?? 0,
+                 match.Groups[match.Groups.Count - 1].Value.Equals("Z", StringComparison.OrdinalIgnoreCase) ? DateTimeKind.Utc : DateTimeKind.Unspecified);
+                return true;
             }
-            else
-                kind = DateTimeKind.Unspecified;
-
-            var hasTime = stringDate.Contains("T");
-
-           
-            if (hasTime)
+            else if (DateTime.TryParse(stringDate, out ret))
             {
-                return DateTime.TryParseExact(stringDate, "yyyyMMddTHHmmss", CultureInfo.CurrentCulture,
-                    kind == DateTimeKind.Utc ? DateTimeStyles.AdjustToUniversal : DateTimeStyles.AssumeLocal, out resDateTime);
+                resDateTime = ret;
+                return true;
             }
-            return DateTime.TryParseExact(stringDate, "yyyyMMdd", CultureInfo.CurrentCulture,
-                kind == DateTimeKind.Utc ? DateTimeStyles.AdjustToUniversal : DateTimeStyles.AssumeLocal, out resDateTime) ;
+
+
+            return false;
+        }
+
+        public static string ToStringOffset(this TimeSpan offset)
+        {
+            var neg = offset < TimeSpan.Zero;
+            var minutes = (int)offset.TotalMinutes;
+            var hours = (int)Math.Floor((double)minutes / 60);
+            minutes -= hours * 60;
+
+            return (neg ? "-" : null) + hours.ToString("00") + minutes.ToString("00");
+        }
+
+        public static int? NullConvertion(this int toConv)
+        {
+            int? res = toConv;
+            return res;
+        }
+
+        private static readonly Regex RxOffset = new Regex(@"((\+|\-)?)(\d{1,2})\:?(\d{2})?");
+        public static bool ToOffset(this string input, out TimeSpan resTimeSpan)
+        {
+            resTimeSpan = TimeSpan.Zero;
+
+            if (string.IsNullOrEmpty(input)) return false;
+            var match = RxOffset.Match(input);
+            if (!match.Success) return false;
+            var neg = match.Groups[1].Value == "-";
+            var hours = match.Groups[2].Value.ToInt() ?? 0;
+            var minutes = match.Groups[3].Value.ToInt() ?? 0;
+            resTimeSpan = TimeSpan.FromHours(hours + ((double)minutes / 60));
+            resTimeSpan = neg ? -resTimeSpan : resTimeSpan;
+            return true;
         }
 
 
 
-        private static readonly Regex rxWeek = new Regex(@"([+ -]?)P(\d{1,2})W");
-        private static readonly Regex rxDate = new Regex(@"(([+ -]?)P(\d{1,2})D)\:?(T(\d{1,2})H\:?((\d{1,2})M\:?((\d{1,2})S)))?");
-        private static readonly Regex rxTime = new Regex(@"([+ -]?)P(T(\d{1,2})H\:?((\d{1,2})M\:?((\d{1,2})S)))?");
+        private static readonly Regex RxWeek = new Regex(@"([+ -]?)P(\d{1,2})W");
+        private static readonly Regex RxDate = new Regex(@"(([+ -]?)P(\d{1,2})D)\:?(T((\d{1,2})H)?((\d{1,2})M)?((\d{1,2})S))?");
+        private static readonly Regex RxTime = new Regex(@"([+ -]?)PT((\d{1,2})H)?((\d{1,2})M)?((\d{1,2})S)?");
+
         /// <summary>
         /// Parse an string into a Duration type.
         /// </summary>
         /// <param name="stringDuration"></param>
+        /// <param name="resDuration"></param>
         /// <returns></returns>
         public static bool ToDuration(this string stringDuration, out DurationType resDuration)
         {
-            var weekmatch = rxWeek.Match(stringDuration);
+            var weekmatch = RxWeek.Match(stringDuration);
             if (weekmatch.Success)
             {
+                int week;
                 resDuration = new DurationType(weekmatch.Groups[1].ToString() != "-",
-                    int.Parse(weekmatch.Groups[2].ToString()));
+                    int.TryParse(weekmatch.Groups[2].ToString(), out week)?week.NullConvertion():null);
                 return true;
             }
 
-            var datematch = rxDate.Match(stringDuration);
+            var datematch = RxDate.Match(stringDuration);
             if (datematch.Success)
             {
                 var hasTime = datematch.Groups[4].ToString() != "" && datematch.Groups[4].ToString().StartsWith("T");
 
+                int days;
+
                 if (!hasTime)
                 {
                     resDuration = new DurationType(datematch.Groups[2].ToString() != "-",
-                        int.Parse(datematch.Groups[3].ToString()), false);
+                        int.TryParse(datematch.Groups[3].ToString(), out days)?days.NullConvertion():null, false);
                     return true;
                 }
 
+                int hours;
+                int minutes;
+                int seconds;
 
                 resDuration = new DurationType(datematch.Groups[2].ToString() != "-",
-                    int.Parse(datematch.Groups[3].ToString()), true,
-                    int.Parse(datematch.Groups[5].ToString()),
-                    int.Parse(datematch.Groups[7].ToString()),
-                    int.Parse(datematch.Groups[9].ToString()));
+                    int.TryParse(datematch.Groups[3].ToString(), out days)?days.NullConvertion():null, true,
+                    int.TryParse(datematch.Groups[5].ToString(), out hours)?hours.NullConvertion():null,
+                    int.TryParse(datematch.Groups[7].ToString(), out minutes)?minutes.NullConvertion():null,
+                    int.TryParse(datematch.Groups[9].ToString(), out seconds)?seconds.NullConvertion():null);
 
                 return true;
             }
 
-            var timematch = rxTime.Match(stringDuration);
+            var timematch = RxTime.Match(stringDuration);
             if (timematch.Success)
             {
-                resDuration = new DurationType(timematch.Groups[1].ToString() != "-",
-                        int.Parse(timematch.Groups[3].ToString()),
-                        int.Parse(timematch.Groups[5].ToString()),
-                        int.Parse(timematch.Groups[7].ToString()));
+                int hour;
+                int minute;
+                int second;
+
+                resDuration = new DurationType(timematch.Groups[1].ToString() != "-", 
+                    int.TryParse(timematch.Groups[3].ToString(), out hour) ? hour.NullConvertion() : null,
+                        int.TryParse(timematch.Groups[5].ToString(), out minute)? minute.NullConvertion(): null,
+                        int.TryParse(timematch.Groups[7].ToString(), out second)? second.NullConvertion():null);
                 return true;
             }
 
@@ -166,7 +255,12 @@ namespace ICalendar.Utils
             return false;
         }
 
-
+        /// <summary>
+        /// Parse an string into a Period type.
+        /// </summary>
+        /// <param name="stringPeriod"></param>
+        /// <param name="resPeriod"></param>
+        /// <returns></returns>
         public static bool ToPeriod(this string stringPeriod, out Period resPeriod)
         {
             resPeriod = null;
@@ -176,14 +270,14 @@ namespace ICalendar.Utils
                 values = stringPeriod.Split('/').ToList();
 
 
-            DateTime start;
+            DateTime? start;
             if (values.Count == 2 && values[0].ToDateTime(out start))
             {
-                DateTime end;
-                DurationType duration;
+                DateTime? end;
 
                 if (!values[1].ToDateTime(out end))
                 {
+                    DurationType duration;
                     if (values[1].ToDuration(out duration))
                     {
                         resPeriod = new Period(start, duration);
@@ -271,6 +365,10 @@ namespace ICalendar.Utils
             {
                 strBuilder.Append(((IValue<Period>)property).Value);
             }
+            else if (property is IValue<TimeSpan>)
+            {
+                strBuilder.Append(((IValue<TimeSpan>)property).Value.ToStringOffset());
+            }
 
             return strBuilder.SplitLines().ToString();
         }
@@ -317,10 +415,10 @@ namespace ICalendar.Utils
         public static ComponentProperty<DateTime> Deserialize(this IValue<DateTime> property, string value, List<PropertyParameter> parameters)
         {
             ((ComponentProperty<DateTime>)property).PropertyParameters = parameters;
-            DateTime valueDatetime;
+            DateTime? valueDatetime;
             value.ToDateTime(out valueDatetime);
 
-            property.Value = valueDatetime;
+            if (valueDatetime != null) property.Value = valueDatetime.Value;
             return (ComponentProperty<DateTime>)property;
         }
 
@@ -341,15 +439,15 @@ namespace ICalendar.Utils
         public static ComponentProperty<IList<DateTime>> Deserialize(this IValue<IList<DateTime>> property, string value,
             List<PropertyParameter> parameters)
         {
-           
-            ((ComponentProperty<IList<DateTime>>)property).PropertyParameters = parameters;
+
+            ((ComponentProperty<IList<DateTime?>>)property).PropertyParameters = parameters;
             var valList = ValuesList(value);
             property.Value = new List<DateTime>();
             foreach (var val in valList)
             {
-                DateTime valueDatetime;
+                DateTime? valueDatetime;
                 val.ToDateTime(out valueDatetime);
-                property.Value.Add(valueDatetime);
+                if (valueDatetime != null) property.Value.Add(valueDatetime.Value);
             }
 
             return (ComponentProperty<IList<DateTime>>)property;
@@ -373,6 +471,16 @@ namespace ICalendar.Utils
             value.ToPeriod(out period);
             property.Value = period;
             return (ComponentProperty<Period>)property;
+        }
+
+        public static ComponentProperty<TimeSpan> Deserialize(this IValue<TimeSpan> property, string value,
+            List<PropertyParameter> parameters)
+        {
+            ((ComponentProperty<TimeSpan>)property).PropertyParameters = parameters;
+            TimeSpan offset;
+            value.ToOffset(out offset);
+            property.Value = offset;
+            return (ComponentProperty<TimeSpan>)property;
         }
         #endregion
 
