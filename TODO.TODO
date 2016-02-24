@@ -72,8 +72,7 @@ ICAl:
    ✔ Implementar el StringRepresentation and Deserialize para IValues<IList<DateTime>>. @done (16-02-22 16:51)
    ☐ Implementar Atendee
    ☐ Implementar Organizer
-   ☐ Implementar Recurrence ID
-   ☐ Implementar Uniform Resource Locator URL   
+   ☐ Implementar Recurrence ID    
 
 
  General:
@@ -83,6 +82,7 @@ ICAl:
  Future Implementations:
    ☐ Cambiar las propiedades que deben ser string y deben ser URI.
    ☐ Implementar funcionalidades de Binary values en Attach
+   ☐ Identificar diferencias e/ Date y DateTime
 
 
 

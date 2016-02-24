@@ -15,7 +15,6 @@ namespace ICalendar.ComponentProperties
     public class Rdate : ComponentProperty<IList<DateTime>>
     {
         public override string Name => "RDATE";
-
         
     }
 }

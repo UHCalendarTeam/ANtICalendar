@@ -131,6 +131,11 @@ namespace ICalendar.ValueTypes
         }
     }
 
+    public class WeekDayType
+    {
+        
+    }
+
     public class RecurValues
     {
         public enum Frequencies
