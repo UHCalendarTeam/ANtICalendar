@@ -164,5 +164,8 @@ namespace ICalendar.Calendar
         {
             return Properties.ContainsKey(propName) ? Properties[propName] : null;
         } 
+
+
+
     }
 }
