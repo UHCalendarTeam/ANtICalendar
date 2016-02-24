@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0-*",
+  "version": "1.0.0-beta1-00000",
   "description": "ICalendar is a library for parsing and writing icalendar files.\nIt Implement the expecification given in RCF 5545.\n",
   "authors": [ "UHCalendarTeam" ],
   "tags": [ "ICalendar", "RCF 5545", ".ics" ],
