@@ -59,7 +59,8 @@ namespace ICalendar.CalendarComponents
         public IDictionary<string, IList<IComponentProperty>> Properties { get;  }
         public virtual string Name { get; }
 
-      
+        public IList<IComponentProperty> this[string name] => Properties.ContainsKey(name) ? Properties[name] : null;
+
 
         public virtual void AddItem(ICalendarObject component)
         {
