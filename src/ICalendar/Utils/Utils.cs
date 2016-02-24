@@ -1,7 +1,6 @@
 ﻿using System;
 /*using System.CodeDom;*/
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -14,6 +13,20 @@ namespace ICalendar.Utils
 {
     public static class Utils
     {
+        #region Regular Expressions
+        //DateTime Regular Expressions
+        private static Regex DatetimeRegex = new Regex(@"(\d{4})(\d{2})(\d{2})T?(\d{2}?)(\d{2}?)(\d{2}?)(Z?)", RegexOptions.IgnoreCase);
+
+        //Duration Regular Expressions
+        private static readonly Regex RxWeek = new Regex(@"([+ -]?)P(\d{1,2})W");
+        private static readonly Regex RxDate = new Regex(@"(([+ -]?)P(\d{1,2})D)\:?(T((\d{1,2})H)?((\d{1,2})M)?((\d{1,2})S))?");
+        private static readonly Regex RxTime = new Regex(@"([+ -]?)PT((\d{1,2})H)?((\d{1,2})M)?((\d{1,2})S)?");
+
+        //Offset Regular Expressions
+        private static readonly Regex RxOffset = new Regex(@"((\+|\-)?)(\d{1,2})\:?(\d{2})?");
+        #endregion
+
+
         #region string extension methods.
         /// <summary>
         /// Get the index first ':'
@@ -76,55 +89,12 @@ namespace ICalendar.Utils
             return str.Append("\r\n");
         }
 
-
-
-        private static Regex DatetimeRegex = new Regex(@"(\d{4})(\d{2})(\d{2})T?(\d{2}?)(\d{2}?)(\d{2}?)(Z?)", RegexOptions.IgnoreCase);
-
         /// <summary>
-        /// Converts an string in a DateTime if possible, null otherwise.
+        ///Try to Parse a String into a Datetime
         /// </summary>
-        /// <param name="stringDate">String with date format to convert</param>
+        /// <param name="stringDate"></param>
         /// <param name="resDateTime"></param>
         /// <returns></returns>
-        //public static bool ToDateTime(this string stringDate, out DateTime resDateTime)
-        //{
-        //    resDateTime = DateTime.MinValue;
-        //    if (string.IsNullOrEmpty(stringDate))
-        //        return false;
-
-        //    DateTimeKind kind;
-
-        //    if (stringDate.Contains("Z"))
-        //    {
-        //        kind = DateTimeKind.Utc;
-        //        stringDate = stringDate.Remove(stringDate.Length - 1);
-        //    }
-        //    else
-        //        kind = DateTimeKind.Unspecified;
-
-        //    var hasTime = stringDate.Contains("T");
-
-
-        //    if (hasTime)
-        //    {
-        //        DateTime p =new DateTime();
-        //        return DateTime.TryParseExact(stringDate, "yyyyMMddTHHmmss", CultureInfo.CurrentCulture,
-        //            kind == DateTimeKind.Utc ? DateTimeStyles.AdjustToUniversal : DateTimeStyles.AssumeLocal, out resDateTime);
-        //    }
-        //    return DateTime.TryParseExact(stringDate, "yyyyMMdd", CultureInfo.CurrentCulture,
-        //        kind == DateTimeKind.Utc ? DateTimeStyles.AdjustToUniversal : DateTimeStyles.AssumeLocal, out resDateTime) ;
-        //}
-
-
-        public static int? ToInt(this string input)
-        {
-            int ret;
-            if (int.TryParse(input, out ret))
-                return ret;
-            else return (int?)null;
-        }
-
-
         public static bool ToDateTime(this string stringDate, out DateTime? resDateTime)
         {
             resDateTime = null;
@@ -154,6 +124,25 @@ namespace ICalendar.Utils
             return false;
         }
 
+
+        /// <summary>
+        /// Parse a string into a nulleable Int
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public static int? ToInt(this string input)
+        {
+            int ret;
+            if (int.TryParse(input, out ret))
+                return ret;
+            else return (int?)null;
+        }
+
+        /// <summary>
+        /// Try to Parse an offset into a string
+        /// </summary>
+        /// <param name="offset"></param>
+        /// <returns></returns>
         public static string ToStringOffset(this TimeSpan offset)
         {
             var neg = offset < TimeSpan.Zero;
@@ -164,13 +153,24 @@ namespace ICalendar.Utils
             return (neg ? "-" : null) + hours.ToString("00") + minutes.ToString("00");
         }
 
+        /// <summary>
+        /// Try to Parse an int into a nulleable int
+        /// </summary>
+        /// <param name="toConv"></param>
+        /// <returns></returns>
         public static int? NullConvertion(this int toConv)
         {
             int? res = toConv;
             return res;
         }
 
-        private static readonly Regex RxOffset = new Regex(@"((\+|\-)?)(\d{1,2})\:?(\d{2})?");
+
+        /// <summary>
+        /// Try to parse a string into a offset
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="resTimeSpan"></param>
+        /// <returns></returns>
         public static bool ToOffset(this string input, out TimeSpan resTimeSpan)
         {
             resTimeSpan = TimeSpan.Zero;
@@ -186,12 +186,6 @@ namespace ICalendar.Utils
             return true;
         }
 
-
-
-        private static readonly Regex RxWeek = new Regex(@"([+ -]?)P(\d{1,2})W");
-        private static readonly Regex RxDate = new Regex(@"(([+ -]?)P(\d{1,2})D)\:?(T((\d{1,2})H)?((\d{1,2})M)?((\d{1,2})S))?");
-        private static readonly Regex RxTime = new Regex(@"([+ -]?)PT((\d{1,2})H)?((\d{1,2})M)?((\d{1,2})S)?");
-
         /// <summary>
         /// Parse an string into a Duration type.
         /// </summary>
@@ -205,7 +199,7 @@ namespace ICalendar.Utils
             {
                 int week;
                 resDuration = new DurationType(weekmatch.Groups[1].ToString() != "-",
-                    int.TryParse(weekmatch.Groups[2].ToString(), out week)?week.NullConvertion():null);
+                    int.TryParse(weekmatch.Groups[2].ToString(), out week) ? week.NullConvertion() : null);
                 return true;
             }
 
@@ -219,7 +213,7 @@ namespace ICalendar.Utils
                 if (!hasTime)
                 {
                     resDuration = new DurationType(datematch.Groups[2].ToString() != "-",
-                        int.TryParse(datematch.Groups[3].ToString(), out days)?days.NullConvertion():null, false);
+                        int.TryParse(datematch.Groups[3].ToString(), out days) ? days.NullConvertion() : null, false);
                     return true;
                 }
 
@@ -228,10 +222,10 @@ namespace ICalendar.Utils
                 int seconds;
 
                 resDuration = new DurationType(datematch.Groups[2].ToString() != "-",
-                    int.TryParse(datematch.Groups[3].ToString(), out days)?days.NullConvertion():null, true,
-                    int.TryParse(datematch.Groups[5].ToString(), out hours)?hours.NullConvertion():null,
-                    int.TryParse(datematch.Groups[7].ToString(), out minutes)?minutes.NullConvertion():null,
-                    int.TryParse(datematch.Groups[9].ToString(), out seconds)?seconds.NullConvertion():null);
+                    int.TryParse(datematch.Groups[3].ToString(), out days) ? days.NullConvertion() : null, true,
+                    int.TryParse(datematch.Groups[5].ToString(), out hours) ? hours.NullConvertion() : null,
+                    int.TryParse(datematch.Groups[7].ToString(), out minutes) ? minutes.NullConvertion() : null,
+                    int.TryParse(datematch.Groups[9].ToString(), out seconds) ? seconds.NullConvertion() : null);
 
                 return true;
             }
@@ -243,10 +237,10 @@ namespace ICalendar.Utils
                 int minute;
                 int second;
 
-                resDuration = new DurationType(timematch.Groups[1].ToString() != "-", 
+                resDuration = new DurationType(timematch.Groups[1].ToString() != "-",
                     int.TryParse(timematch.Groups[3].ToString(), out hour) ? hour.NullConvertion() : null,
-                        int.TryParse(timematch.Groups[5].ToString(), out minute)? minute.NullConvertion(): null,
-                        int.TryParse(timematch.Groups[7].ToString(), out second)? second.NullConvertion():null);
+                        int.TryParse(timematch.Groups[5].ToString(), out minute) ? minute.NullConvertion() : null,
+                        int.TryParse(timematch.Groups[7].ToString(), out second) ? second.NullConvertion() : null);
                 return true;
             }
 
@@ -264,7 +258,7 @@ namespace ICalendar.Utils
         public static bool ToPeriod(this string stringPeriod, out Period resPeriod)
         {
             resPeriod = null;
-            List<string> values = new List<string>();
+            var values = new List<string>();
 
             if (stringPeriod.Contains("/"))
                 values = stringPeriod.Split('/').ToList();
@@ -295,6 +289,118 @@ namespace ICalendar.Utils
 
 
             return false;
+
+        }
+
+
+        /// <summary>
+        /// Aux Method Iterates over and string array and parses it in an int array
+        /// </summary>
+        /// <param name="splitedValues"></param>
+        /// <returns></returns>
+        public static int[] ToIntArray(string[] splitedValues)
+        {
+            var resList = new List<int>();
+
+            foreach (var val in splitedValues)
+            {
+                int intVal;
+                if (int.TryParse(val, out intVal))
+                {
+                    resList.Add(intVal);
+                }
+            }
+
+            return resList.ToArray();
+        }
+
+        /// <summary>
+        /// Try to parse an string into a Recur valueType.
+        /// In case of return false it mitgh be that it does not contain Frequency
+        /// but the rest of proerties would be asignated to the out value;
+        /// </summary>
+        /// <param name="stringRecut"></param>
+        /// <param name="resRecur"></param>
+        /// <returns></returns>
+        public static bool ToRecur(this string stringRecut, out Recur resRecur)
+        {
+            resRecur = new Recur();
+
+            var value = stringRecut.Split(';').ToList();
+
+            #region ForeachRegion
+            foreach (var nameValue in value.Select(recurValue => recurValue.Split('=')))
+            {
+                switch (nameValue[0])
+                {
+                    case "FREQ":
+                        resRecur.Frequency = RecurValues.ParseValue(nameValue[1]);
+                        break;
+                    case "UNTIL":
+                        DateTime? untilDate;
+                        resRecur.Until = nameValue[1].ToDateTime(out untilDate) && resRecur.Count == null ? untilDate : null;
+                        break;
+                    case "COUNT":
+                        resRecur.Count = resRecur.Until == null ? nameValue[1].ToInt() : null;
+                        break;
+                    case "INTERVAL":
+                        resRecur.Interval = nameValue[1].ToInt();
+                        break;
+                    case "BYSECOND":
+                        var seconds = ToIntArray(nameValue[1].Split(','));
+                        if (seconds.Length > 0)
+                            resRecur.BySeconds = seconds;
+                        break;
+                    case "BYMINUTE":
+                        var minutes = ToIntArray(nameValue[1].Split(','));
+                        if (minutes.Length > 0)
+                            resRecur.ByMinutes = minutes;
+                        break;
+                    case "BYHOUR":
+                        var hours = ToIntArray(nameValue[1].Split(','));
+                        if (hours.Length > 0)
+                            resRecur.ByHours = hours;
+                        break;
+                    case "BYDAY":
+                        //when the valuetype changes this must changes too
+                        resRecur.ByDays = nameValue[1].Split(',');
+                        break;
+                    case "BYMONTHDAY":
+                        var monthDay = ToIntArray(nameValue[1].Split(','));
+                        if (monthDay.Length > 0)
+                            resRecur.ByMonthDay = monthDay;
+                        break;
+                    case "BYYEARDAY":
+                        var yearDay = ToIntArray(nameValue[1].Split(','));
+                        if (yearDay.Length > 0)
+                            resRecur.ByYearDay = yearDay;
+                        break;
+                    case "BYWEEKNO":
+                        var weekNo = ToIntArray(nameValue[1].Split(','));
+                        if (weekNo.Length > 0)
+                            resRecur.ByWeekNo = weekNo;
+                        break;
+                    case "BYMONTH":
+                        var month = ToIntArray(nameValue[1].Split(','));
+                        if (month.Length > 0)
+                            resRecur.ByMonth = month;
+                        break;
+                    case "BYSETPOS":
+                        var setpos = ToIntArray(nameValue[1].Split(','));
+                        if (setpos.Length > 0)
+                            resRecur.BySetPos = setpos;
+                        break;
+                    case "WKST":
+                        resRecur.Wkst = RecurValues.ParseValues(nameValue[1]);
+                        break;
+                    default:
+                        continue;
+
+                }
+            }
+            #endregion
+
+            return resRecur.Frequency == null;
 
         }
 
@@ -349,7 +455,7 @@ namespace ICalendar.Utils
             }
             else if (property is IValue<DateTime>)
             {
-                DateTime propValue = ((IValue<DateTime>)property).Value;
+                var propValue = ((IValue<DateTime>)property).Value;
                 strBuilder.Append(propValue.ToString("yyyyMMddTHHmmss") +
                                   (propValue.Kind == DateTimeKind.Utc ? "Z" : ""));
             }
@@ -369,6 +475,11 @@ namespace ICalendar.Utils
             {
                 strBuilder.Append(((IValue<TimeSpan>)property).Value.ToStringOffset());
             }
+            else if (property is IValue<Recur>)
+            {
+                strBuilder.Append(((IValue<Recur>)property).Value);
+            }
+
 
             return strBuilder.SplitLines().ToString();
         }
@@ -458,8 +569,7 @@ namespace ICalendar.Utils
         {
             ((ComponentProperty<DurationType>)property).PropertyParameters = parameters;
             DurationType duration;
-            value.ToDuration(out duration);
-            property.Value = duration;
+            property.Value = value.ToDuration(out duration) ? duration : null;
             return (ComponentProperty<DurationType>)property;
         }
 
@@ -468,8 +578,7 @@ namespace ICalendar.Utils
         {
             ((ComponentProperty<Period>)property).PropertyParameters = parameters;
             Period period;
-            value.ToPeriod(out period);
-            property.Value = period;
+            property.Value = value.ToPeriod(out period) ? period : null;
             return (ComponentProperty<Period>)property;
         }
 
@@ -478,9 +587,17 @@ namespace ICalendar.Utils
         {
             ((ComponentProperty<TimeSpan>)property).PropertyParameters = parameters;
             TimeSpan offset;
-            value.ToOffset(out offset);
-            property.Value = offset;
+            property.Value = value.ToOffset(out offset) ? offset : TimeSpan.MinValue;
             return (ComponentProperty<TimeSpan>)property;
+        }
+
+        public static ComponentProperty<Recur> Deserialize(this IValue<Recur> property, string value,
+            List<PropertyParameter> parameters)
+        {
+            ((ComponentProperty<Recur>)property).PropertyParameters = parameters;
+            Recur recur;
+            property.Value = value.ToRecur(out recur) ? recur : null;
+            return (ComponentProperty<Recur>)property;
         }
         #endregion
 

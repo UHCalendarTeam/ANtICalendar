@@ -15,10 +15,7 @@ namespace ICalendar.ComponentProperties
     /// </summary>
     public class Action : ComponentProperty<ActionValues.ActionValue>
     {
-
         public override string Name => "ACTION";
-       
-        
     }
 
     public class ActionValues

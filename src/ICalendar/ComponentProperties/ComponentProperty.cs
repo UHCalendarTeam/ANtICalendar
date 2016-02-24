@@ -70,6 +70,10 @@ namespace ICalendar.ComponentProperties
             {
                 return (this as IValue<TimeSpan>).Deserialize(value, parameters);
             }
+            if (this is IValue<Recur>)
+            {
+                return (this as IValue<Recur>).Deserialize(value, parameters);
+            }
             throw new ArgumentException("Don't implemented argument.");
         }
 
