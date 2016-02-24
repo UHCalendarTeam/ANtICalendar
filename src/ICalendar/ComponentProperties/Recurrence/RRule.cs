@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ICalendar.GeneralInterfaces;
+using ICalendar.ValueTypes;
 
 namespace ICalendar.ComponentProperties
 {
@@ -13,9 +14,8 @@ namespace ICalendar.ComponentProperties
     /// Value Type: RECUR;
     /// Properties Parameters: iana, non-standard
     /// </summary>
-    public class Rrule : ComponentProperty<int>
+    public class Rrule : ComponentProperty<Recur>
     {
-
         public override string Name => "RRULE";
     }
 }

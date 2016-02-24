@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text;
 using ICalendar.GeneralInterfaces;
+using ICalendar.ValueTypes;
 
 namespace ICalendar.ComponentProperties
 {
@@ -10,7 +11,7 @@ namespace ICalendar.ComponentProperties
     /// Value Type: DURATION;
     /// Properties Parameters: iana, non-standard
     /// </summary>
-    public class Duration : ComponentProperty<int>
+    public class Duration : ComponentProperty<DurationType>
     {
 
         public override string Name => "DURATION";

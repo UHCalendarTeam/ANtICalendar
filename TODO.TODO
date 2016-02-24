@@ -53,8 +53,10 @@ ICAl:
    ✔ Hacer el StringRepresentation del VCalendar. @done (16-02-20 16:37)
    ☐ Probar q escribe todo bien.
    ✔ Arreglar el writer de DATETIMEs properties pues no lo esta haciendo bien. @done (16-02-23 10:59)
-   ☐ Implementar los value types q tengan confictos(Comportamiento diferent).
-   ☐ Arreglar el RRULE.
+   ✔ Implementar los value types q tengan confictos(Comportamiento diferent). @done (16-02-23 21:34)
+   ✔ Arreglar el RRULE. @done (16-02-23 21:35)
+   ☐ RDATE puede ser Period.
+   ☐ Trigger puede ser Datetime
 
 
  Adriano:
@@ -68,10 +70,19 @@ ICAl:
    ✔ x q no se escribe el primer SUMMARY. pues contenia un whitespace at the end @done (16-02-22 17:43)
    ☐ Verificar q pinche el RRULE. 
    ✔ Implementar el StringRepresentation and Deserialize para IValues<IList<DateTime>>. @done (16-02-22 16:51)
+   ☐ Implementar Atendee
+   ☐ Implementar Organizer
+   ☐ Implementar Recurrence ID
+   ☐ Implementar Uniform Resource Locator URL   
 
 
  General:
  ☐ Revisar que estan bien TODOS las propiedades implementadas.
+
+
+ Future Implementations:
+   ☐ Cambiar las propiedades que deben ser string y deben ser URI.
+   ☐ Implementar funcionalidades de Binary values en Attach
 
 
 
