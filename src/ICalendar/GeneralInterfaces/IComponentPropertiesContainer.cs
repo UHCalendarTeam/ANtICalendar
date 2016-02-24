@@ -7,6 +7,6 @@ namespace ICalendar.GeneralInterfaces
 {
     public interface IComponentPropertiesContainer
     {
-        IList<IComponentProperty> Properties { get; set; }
+        IDictionary<string, IList<IComponentProperty>> Properties { get;  }
     }
 }

@@ -7,5 +7,6 @@ namespace ICalendar.GeneralInterfaces
 {
     public interface ICalendarObject
     {
+         string Name { get; }
     }
 }

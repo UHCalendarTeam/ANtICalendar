@@ -12,11 +12,13 @@ namespace ICalendar.CalendarComponents
     {
         public VTimezone()
         {
-            CalendarComponents = new List<ICalendarComponent>();
+            CalendarComponents = new Dictionary<string, IList<ICalendarComponent>>();
         }
-        public IList<ICalendarComponent> CalendarComponents { get; set; }
+        
 
-        public override string Name => "VTIMEZONE";       
+        public override string Name => "VTIMEZONE";
+
+        public IDictionary<string, IList<ICalendarComponent>> CalendarComponents { get; }
 
         /// <summary>
         /// Add a subcomponent of the VTimeZone object or
@@ -27,7 +29,7 @@ namespace ICalendar.CalendarComponents
         {
             var comp = component as ICalendarComponent;
             if (comp != null)
-                CalendarComponents.Add(comp);
+                CalendarComponents.Add(comp.Name,new List<ICalendarComponent>() {comp});
             else
                  base.AddItem(component);
         }

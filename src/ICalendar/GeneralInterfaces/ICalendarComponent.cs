@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,8 +12,6 @@ namespace ICalendar.GeneralInterfaces
     /// The abstraction of the CalendarComponents implementations.
     /// </summary>
     public interface ICalendarComponent:ISerialize, IComponentPropertiesContainer, IAggregator, ICalendarObject
-    {       
-
-        string Name { get; }
+    {   
     }
 }
