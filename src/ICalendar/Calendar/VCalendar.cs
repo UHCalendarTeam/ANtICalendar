@@ -57,6 +57,8 @@ namespace ICalendar.Calendar
         #endregion
 
         #region Properties
+        
+        
         public TextWriter writer { get; set; }
 
         public string Name => "VCALENDAR";
@@ -142,5 +144,25 @@ namespace ICalendar.Calendar
             return strBuilder.ToString();
 
         }
+
+        /// <summary>
+        /// Return all the CalendarComponents given the name.
+        /// </summary>
+        /// <param name="compName">CalendarComponent name.</param>
+        /// <returns>The components with the given name.</returns>
+        public IList<ICalendarComponent> GetCalendarComponents(string compName)
+        {
+            return CalendarComponents.ContainsKey(compName) ? CalendarComponents[compName] : null;
+        }
+
+        /// <summary>
+        /// Return all the properties by the given name.
+        /// </summary>
+        /// <param name="propName">Property name.</param>
+        /// <returns>The properties with the given name. </returns>
+        public IList<IComponentProperty> GetComponentProperties(string propName)
+        {
+            return Properties.ContainsKey(propName) ? Properties[propName] : null;
+        } 
     }
 }

@@ -102,5 +102,16 @@ namespace ICalendar.CalendarComponents
             strBuilder.AppendLine("END:" + Name);
             return strBuilder.ToString();
         }
+
+
+        /// <summary>
+        /// Return all the properties by the given name.
+        /// </summary>
+        /// <param name="propName">Property name.</param>
+        /// <returns>The properties with the given name. </returns>
+        public IList<IComponentProperty> GetComponentProperties(string propName)
+        {
+            return Properties.ContainsKey(propName) ? Properties[propName] : null;
+        }
     }
 }
