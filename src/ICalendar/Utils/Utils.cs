@@ -365,20 +365,20 @@ namespace ICalendar.Utils
                             resRecur.ByHours = hours;
                         break;
                     case "BYDAY":
-                       
-                        string [] temp = nameValue[1].Split(',');
+
+                        string[] temp = nameValue[1].Split(',');
                         List<WeekDayType> wekkDays = new List<WeekDayType>();
                         foreach (var val in temp)
                         {
                             var match = RxWeekDayType.Match(val);
                             if (match.Success)
                             {
-                                int signInt= 1;
+                                int signInt = 1;
                                 if (match.Groups[1].Value == "-")
                                     signInt = -1;
 
                                 int? resInt = match.Groups[2].Value.ToInt();
-                                resInt = resInt != null? resInt*signInt:null;
+                                resInt = resInt != null ? resInt * signInt : null;
                                 RecurValues.Weekday week;
                                 if (RecurValues.TryParseValue(match.Groups[3].Value, out week))
                                 {
@@ -386,7 +386,7 @@ namespace ICalendar.Utils
                                 }
                             }
                         }
-                        if (wekkDays != null && wekkDays.Count>0)
+                        if (wekkDays != null && wekkDays.Count > 0)
                         {
                             resRecur.ByDays = wekkDays.ToArray();
                         }
@@ -484,7 +484,10 @@ namespace ICalendar.Utils
             else if (property is IValue<DateTime>)
             {
                 var propValue = ((IValue<DateTime>)property).Value;
-                strBuilder.Append(propValue.ToString("yyyyMMddTHHmmss") +
+                if (property.PropertyParameters.Count(propertyParameter => propertyParameter.Name == "VALUE" && propertyParameter.Value == "DATE") == 1)
+                    strBuilder.Append(propValue.ToString("yyyyMMdd"));
+                else
+                    strBuilder.Append(propValue.ToString("yyyyMMddTHHmmss") +
                                   (propValue.Kind == DateTimeKind.Utc ? "Z" : ""));
             }
             else if (property is IValue<ActionValues.ActionValue>)
@@ -506,6 +509,27 @@ namespace ICalendar.Utils
             else if (property is IValue<Recur>)
             {
                 strBuilder.Append(((IValue<Recur>)property).Value);
+            }
+            else if (property is IValue<IList<DateTime>>)
+            {
+                var values = ((IValue<IList<DateTime>>)property).Value;
+                var flag = false;
+                var isDate =
+                    property.PropertyParameters.Count(
+                        propertyParameter => propertyParameter.Name == "VALUE" && propertyParameter.Value == "DATE") ==
+                    1;
+                foreach (var value in values)
+                {
+                    if (flag)
+                        strBuilder.Append(',');
+                    if (isDate)
+                        strBuilder.Append(value.ToString("yyyyMMdd"));
+                    else
+                        strBuilder.Append(value.ToString("yyyyMMddTHHmmss") +
+                                      (value.Kind == DateTimeKind.Utc ? "Z" : ""));
+                    flag = true;
+                }
+
             }
 
 
