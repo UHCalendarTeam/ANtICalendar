@@ -24,8 +24,7 @@ namespace ICalendar.ValueTypes
 
         public int[] ByHours { get; set; }
 
-        //this need a more complex type. skiping for now
-        public string[] ByDays { get; set; }
+        public WeekDayType[] ByDays { get; set; }
 
         public int[] ByMonthDay { get; set; }
 
@@ -79,7 +78,6 @@ namespace ICalendar.ValueTypes
                 strBuilder.Append(";BYHOUR=");
                 AppendAllMembers(strBuilder, ByHours);
             }
-            //this has to change in a future when the type changes
             if (ByDays != null && ByDays.Length > 0)
             {
                 strBuilder.Append(";BYDAY=");
@@ -133,6 +131,24 @@ namespace ICalendar.ValueTypes
 
     public class WeekDayType
     {
+        public WeekDayType(int? ordDay, RecurValues.Weekday weekDay)
+        {
+            OrdDay = ordDay;
+            WeekDay = weekDay;
+        }
+        int? OrdDay { get; set; }
+
+        RecurValues.Weekday WeekDay { get; set; }
+
+        public override string ToString()
+        {
+            StringBuilder str = new StringBuilder();
+            if (OrdDay != null)
+                str.Append(OrdDay);
+            str.Append(RecurValues.ToString(WeekDay));
+            return str.ToString();
+        }
+
         
     }
 
@@ -254,6 +270,37 @@ namespace ICalendar.ValueTypes
                     return Weekday.SU;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(value), value, null);
+            }
+        }
+
+        public static bool TryParseValue(string value, out Weekday weekday)
+        {
+            switch (value)
+            {
+                case "MO":
+                    weekday = Weekday.MO;
+                    return true;
+                case "TU":
+                    weekday = Weekday.TU;
+                    return true;
+                case "WE":
+                    weekday= Weekday.WE;
+                    return true;
+                case "TH":
+                    weekday = Weekday.TH;
+                    return true;
+                case "FR":
+                    weekday = Weekday.FR;
+                    return true;
+                case "SA":
+                    weekday = Weekday.SA;
+                    return true;
+                case "SU":
+                    weekday = Weekday.SU;
+                    return true;
+                default:
+                    weekday = Weekday.WE;
+                    return false;
             }
         }
     }

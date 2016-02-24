@@ -23,7 +23,10 @@ namespace ICalendar.Utils
         private static readonly Regex RxTime = new Regex(@"([+ -]?)PT((\d{1,2})H)?((\d{1,2})M)?((\d{1,2})S)?");
 
         //Offset Regular Expressions
-        private static readonly Regex RxOffset = new Regex(@"((\+|\-)?)(\d{1,2})\:?(\d{2})?");
+        private static readonly Regex RxOffset = new Regex(@"([+ -]?\d{1,2})\:?(\d{2})?");
+
+        //WeekDayType Regular Expression
+        private static readonly Regex RxWeekDayType = new Regex(@"([+ -]?)(\d{1,2})?(\w{2})");
         #endregion
 
 
@@ -362,8 +365,33 @@ namespace ICalendar.Utils
                             resRecur.ByHours = hours;
                         break;
                     case "BYDAY":
-                        //when the valuetype changes this must changes too
-                        resRecur.ByDays = nameValue[1].Split(',');
+                       
+                        string [] temp = nameValue[1].Split(',');
+                        List<WeekDayType> wekkDays = new List<WeekDayType>();
+                        foreach (var val in temp)
+                        {
+                            var match = RxWeekDayType.Match(val);
+                            if (match.Success)
+                            {
+                                int signInt= 1;
+                                if (match.Groups[1].Value == "-")
+                                    signInt = -1;
+
+                                int? resInt = match.Groups[2].Value.ToInt();
+                                resInt = resInt != null? resInt*signInt:null;
+                                RecurValues.Weekday week;
+                                if (RecurValues.TryParseValue(match.Groups[3].Value, out week))
+                                {
+                                    wekkDays.Add(new WeekDayType(resInt, week));
+                                }
+                            }
+                        }
+                        if (wekkDays != null && wekkDays.Count>0)
+                        {
+                            resRecur.ByDays = wekkDays.ToArray();
+                        }
+
+
                         break;
                     case "BYMONTHDAY":
                         var monthDay = ToIntArray(nameValue[1].Split(','));
