@@ -57,7 +57,7 @@ ICAl:
    ✔ Arreglar el RRULE. @done (16-02-23 21:35)
    ☐ RDATE puede ser Period.
    ☐ Trigger puede ser Datetime
-   ☐ Diferenciar Entre Date y Datetime
+   ✔ Diferenciar Entre Date y Datetime @done (16-02-24 11:37)
 
 
  Adriano:
@@ -81,9 +81,9 @@ ICAl:
 
 
  Future Implementations:
-   ☐ Cambiar las propiedades que deben ser string y deben ser URI.
+   ☐ Cambiar las propiedades que son string y deben ser URI.
    ☐ Implementar funcionalidades de Binary values en Attach
-   ☐ Identificar diferencias e/ Date y DateTime
+   ✔ Identificar diferencias e/ Date y DateTime @done (16-02-24 11:38)
 
 
 
