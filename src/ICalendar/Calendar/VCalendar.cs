@@ -90,7 +90,7 @@ namespace ICalendar.Calendar
                 if (Properties.ContainsKey(prop.Name))
                     Properties[prop.Name].Add(prop);
                 else
-                    Properties.Add(prop.Name, new List<IComponentProperty>() {prop});
+                    Properties.Add(prop.Name, new List<IComponentProperty>(1) {prop});
                 
                 return;
             }
@@ -99,7 +99,7 @@ namespace ICalendar.Calendar
                 CalendarComponents[calComponent.Name].Add((ICalendarComponent)calComponent);
             else 
                 CalendarComponents.Add(calComponent.Name,
-                    new List<ICalendarComponent>() { (ICalendarComponent)calComponent});
+                    new List<ICalendarComponent>(1) { (ICalendarComponent)calComponent});
         }
 
         public void Serialize(TextWriter writer)
