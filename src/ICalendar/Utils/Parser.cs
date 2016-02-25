@@ -24,10 +24,10 @@ namespace ICalendar.Utils
         /// <param name="parameters">the paramenters of the element to be parsed</param>
         /// <param name="value">the value of the element to be parsed</param>
         /// <returns>Return true if the line is not empty, false otherwise.</returns>
-        public static bool CalendarParser(TextReader reader,
+        public static bool CalendarParser(string line,
             out string name, out List<PropertyParameter> parameters, out string value)
         {
-            var line = TakeLine(reader);
+            //var line = TakeLine(reader);
             name = "";
             parameters = new List<PropertyParameter>();
             value = "";
@@ -57,6 +57,7 @@ namespace ICalendar.Utils
             //check if the name and value object are setted
             if (name==""||value=="")
             {
+                return false;
                 throw new ArgumentException("Component Properties MUST define the name and the value.");
                 
             }
@@ -126,8 +127,11 @@ namespace ICalendar.Utils
             ICalendarObject compProperty = null;
             Stack<ICalendarObject> objStack = new Stack<ICalendarObject>();
             Type type = null;
-            while (CalendarParser(reader, out name, out parameters, out value))
+            var lines = CalendarReader(reader);
+            foreach (var line in lines)
             {
+                if(!CalendarParser(line, out name, out parameters, out value))
+                    continue;
                 //TODO: Do the necessary with the objects that dont belong to CompProperties
                 if (name == "BEGIN")
                 {
@@ -179,5 +183,19 @@ namespace ICalendar.Utils
             }
             throw new ArgumentException("The calendar file MUST contain at least an element.");
         }
+
+
+        public static string[] CalendarReader(TextReader reader)
+        {
+            var str = new StringBuilder(reader.ReadToEnd());
+            str.Replace("\r\n ", "");
+            str.Replace("\r", "");
+           
+            reader.Dispose();
+            return str.ToString().Split('\n');
+        }
+
+
+        
     }
 }
