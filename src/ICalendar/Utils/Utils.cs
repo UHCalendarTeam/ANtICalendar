@@ -516,8 +516,7 @@ namespace ICalendar.Utils
                 var flag = false;
                 var isDate =
                     property.PropertyParameters.Count(
-                        propertyParameter => propertyParameter.Name == "VALUE" && propertyParameter.Value == "DATE") ==
-                    1;
+                        propertyParameter => propertyParameter.Name == "VALUE" && propertyParameter.Value == "DATE") == 1;
                 foreach (var value in values)
                 {
                     if (flag)
@@ -603,7 +602,7 @@ namespace ICalendar.Utils
             List<PropertyParameter> parameters)
         {
 
-            ((ComponentProperty<IList<DateTime?>>)property).PropertyParameters = parameters;
+            ((ComponentProperty<IList<DateTime>>)property).PropertyParameters = parameters;
             var valList = ValuesList(value);
             property.Value = new List<DateTime>();
             foreach (var val in valList)
