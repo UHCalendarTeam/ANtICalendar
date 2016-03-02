@@ -15,7 +15,7 @@ namespace ICalendar.Utils
     {
         #region Regular Expressions
         //DateTime Regular Expressions
-        private static Regex DatetimeRegex = new Regex(@"(\d{4})(\d{2})(\d{2})T?(\d{2}?)(\d{2}?)(\d{2}?)(Z?)", RegexOptions.IgnoreCase);
+        private static Regex DatetimeRegex = new Regex(@"(\d{4})(\d{2})(\d{2})\:?(T(\d{2})(\d{2})(\d{2})(Z?))?", RegexOptions.IgnoreCase);
 
         //Duration Regular Expressions
         private static readonly Regex RxWeek = new Regex(@"([+ -]?)P(\d{1,2})W");
@@ -23,7 +23,7 @@ namespace ICalendar.Utils
         private static readonly Regex RxTime = new Regex(@"([+ -]?)PT((\d{1,2})H)?((\d{1,2})M)?((\d{1,2})S)?");
 
         //Offset Regular Expressions
-        private static readonly Regex RxOffset = new Regex(@"([+ -]?\d{1,2})\:?(\d{2})?");
+        private static readonly Regex RxOffset = new Regex(@"([+ -]?)(\d{2})(\d{2})(\d{2})?");
 
         //WeekDayType Regular Expression
         private static readonly Regex RxWeekDayType = new Regex(@"([+ -]?)(\d{1,2})?(\w{2})");
@@ -111,9 +111,9 @@ namespace ICalendar.Utils
                     match.Groups[1].Value.ToInt() ?? 0,
                     match.Groups[2].Value.ToInt() ?? 0,
                     match.Groups[3].Value.ToInt() ?? 0,
-                    match.Groups[4].Value.ToInt() ?? 0,
                     match.Groups[5].Value.ToInt() ?? 0,
                     match.Groups[6].Value.ToInt() ?? 0,
+                    match.Groups[7].Value.ToInt() ?? 0,
                  match.Groups[match.Groups.Count - 1].Value.Equals("Z", StringComparison.OrdinalIgnoreCase) ? DateTimeKind.Utc : DateTimeKind.Unspecified);
                 return true;
             }
@@ -148,12 +148,11 @@ namespace ICalendar.Utils
         /// <returns></returns>
         public static string ToStringOffset(this TimeSpan offset)
         {
-            var neg = offset < TimeSpan.Zero;
             var minutes = (int)offset.TotalMinutes;
             var hours = (int)Math.Floor((double)minutes / 60);
             minutes -= hours * 60;
 
-            return (neg ? "-" : null) + hours.ToString("00") + minutes.ToString("00");
+            return hours.ToString("00") + minutes.ToString("00");
         }
 
         /// <summary>
@@ -184,7 +183,8 @@ namespace ICalendar.Utils
             var neg = match.Groups[1].Value == "-";
             var hours = match.Groups[2].Value.ToInt() ?? 0;
             var minutes = match.Groups[3].Value.ToInt() ?? 0;
-            resTimeSpan = TimeSpan.FromHours(hours + ((double)minutes / 60));
+            var seconds = match.Groups[4].Value.ToInt() ?? 0;
+            resTimeSpan = TimeSpan.FromHours(hours + ((double)minutes / 60) + ((double)seconds / 1600));
             resTimeSpan = neg ? -resTimeSpan : resTimeSpan;
             return true;
         }
