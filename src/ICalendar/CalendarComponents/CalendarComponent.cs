@@ -65,7 +65,10 @@ namespace ICalendar.CalendarComponents
         public virtual void AddItem(ICalendarObject component)
         {
             var prop = component as IComponentProperty;
-            Properties.Add(prop.Name, new List<IComponentProperty>(1) {prop});
+            if(Properties.ContainsKey(prop.Name))
+                Properties[prop.Name].Add(prop);
+            else
+                Properties.Add(prop.Name, new List<IComponentProperty>(1) {prop});
         }
 
 

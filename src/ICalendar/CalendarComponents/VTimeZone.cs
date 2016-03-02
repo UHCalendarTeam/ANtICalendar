@@ -29,6 +29,9 @@ namespace ICalendar.CalendarComponents
         {
             var comp = component as ICalendarComponent;
             if (comp != null)
+                if(CalendarComponents.ContainsKey(comp.Name))
+                    CalendarComponents[comp.Name].Add(comp);
+                else
                 CalendarComponents.Add(comp.Name,new List<ICalendarComponent>() {comp});
             else
                  base.AddItem(component);
