@@ -78,9 +78,11 @@ namespace ICalendar.CalendarComponents
             strBuilder.AppendLine("BEGIN:" + Name);
 
             foreach (var property in Properties)
-            {
-                strBuilder.Append(property);
-            }
+                foreach (var prop in property.Value)
+                     strBuilder.Append(property);
+                
+               
+           
             if (this is ICalendarComponentsContainer)
             {
                 var components = (this as ICalendarComponentsContainer).CalendarComponents;
