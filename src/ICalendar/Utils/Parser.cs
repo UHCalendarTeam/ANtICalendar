@@ -109,12 +109,13 @@ namespace ICalendar.Utils
 
 
         /// <summary>
-        /// Call the parser and makes the instace of the 
-        /// CalendarComponents and ComponentProperties dinamically
+        ///Use this method to convert a string containing the calendar object
+        /// to a VCalendar that will contain all the properties, calendar components
+        /// and properties of the calendar components.
         /// </summary>
-        /// <param name="reader"></param>
+        /// <param name="calendarString"></param>
         /// <returns></returns>
-        public static VCalendar CalendarBuilder(TextReader reader)
+        public static VCalendar CalendarBuilder(string calendarString)
         {
             //used to create the instances of the objects dinamically
             var calCompFactory = new CalendarComponentFactory();
@@ -127,7 +128,7 @@ namespace ICalendar.Utils
             ICalendarObject compProperty = null;
             Stack<ICalendarObject> objStack = new Stack<ICalendarObject>();
             Type type = null;
-            var lines = CalendarReader(reader);
+            var lines = CalendarReader(calendarString);
             foreach (var line in lines)
             {
                 if(!CalendarParser(line, out name, out parameters, out value))
@@ -144,11 +145,8 @@ namespace ICalendar.Utils
                     }
                     else
                         calComponent = calCompFactory.CreateIntance(className);
-
-                   
                     objStack.Push(calComponent);
                     continue;
-
                 }
                 if (name == "END")
                 {
@@ -185,14 +183,16 @@ namespace ICalendar.Utils
         }
 
 
-        public static string[] CalendarReader(TextReader reader)
+        /// <summary>
+        /// take the calendar string prepare it for the processing
+        /// </summary>
+        /// <param name="calendar">Calendar string to build.</param>
+        /// <returns>Splited lines of the calendar string.</returns>
+        public static string[] CalendarReader(string calendar)
         {
-            var str = new StringBuilder(reader.ReadToEnd());
-            str.Replace("\r\n ", "");
-            str.Replace("\r", "");
-           
-            reader.Dispose();
-            return str.ToString().Split('\n');
+            calendar.Replace("\r\n ", "");
+            calendar.Replace("\r", "");
+            return calendar.Split('\n');
         }
 
 
