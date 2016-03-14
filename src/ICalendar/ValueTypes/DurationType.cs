@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using ICalendar.Utils;
 
 namespace ICalendar.ValueTypes
 {
@@ -31,6 +32,8 @@ namespace ICalendar.ValueTypes
             Minutes = minutes;
             Seconds = seconds;
         }
+
+      
 
         public int? Days { get; set; }
 
@@ -112,6 +115,27 @@ namespace ICalendar.ValueTypes
 
 
             return strbuilder.ToString();
+        }
+
+        /// <summary>
+        /// For the expansion in the CALDAV.
+        /// If the component doesn't contain a DTEND property
+        /// then should sum dtStart+DURATION.
+        /// This is necessary for the time-filter of the REPORT REQUESTS.
+        /// </summary>
+        /// <param name="dtStart"></param>
+        /// <param name="duration"></param>
+        /// <returns></returns>
+        public static DateTime operator +(DateTime dtStart, DurationType duration)
+        {
+            if (duration.Weeks != null)
+                return dtStart.AddDays(7*duration.Weeks.Value);
+            var span = new TimeSpan(
+                duration.Days??0, 
+                duration.Hours??0,
+                duration.Minutes??0,
+                duration.Seconds??0);
+            return dtStart.Add(span);
         }
     }
 }
