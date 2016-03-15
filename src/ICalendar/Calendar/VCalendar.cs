@@ -94,10 +94,15 @@ namespace ICalendar.Calendar
                 if (name == "END")
                 {
                     var endedObject = objStack.Pop();
-                    //if the last object in the stack is an VCalendar the
+                    //if the last object in the stack is an VCalendar then
                     //is the end of the parsing
                     if (endedObject is VCalendar)
+                    {
+                        var calendar = endedObject as VCalendar;
+                        Properties = calendar.Properties;
+                        CalendarComponents = calendar.CalendarComponents;
                         return;
+                    }
                     ((IAggregator)objStack.Peek()).AddItem(endedObject);
                     continue;
                 }
@@ -124,6 +129,7 @@ namespace ICalendar.Calendar
 
 
             }
+           
             throw new ArgumentException("The calendar file MUST contain at least an element.");
         }
         #endregion
@@ -141,10 +147,10 @@ namespace ICalendar.Calendar
 
         private static readonly string Version = "2.0";
 
-        //OPTIONAL PROPERTIES
+        /*//OPTIONAL PROPERTIES
         public Calscale CalScale { get; set; }
 
-        public Method Method { get; set; }
+        public Method Method { get; set; }*/
 
         public IDictionary<string, IList<ICalendarComponent>> CalendarComponents { get; }
 
@@ -199,7 +205,6 @@ namespace ICalendar.Calendar
 
         public override string ToString()
         {
-            var a = new Stopwatch();
             var strBuilder = new StringBuilder();
             strBuilder.AppendLine("BEGIN:VCALENDAR");
             foreach (var property in Properties)

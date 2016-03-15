@@ -118,9 +118,8 @@ namespace ICalendar.Utils
         /// <returns>Splited lines of the calendar string.</returns>
         public static string[] CalendarReader(string calendar)
         {
-            calendar.Replace("\r\n ", "");
-            calendar.Replace("\r", "");
-            return calendar.Split('\n');
+            return calendar.Replace("\r\n ", "").Replace("\r", "").Split('\n');
+          
         }
 
 
