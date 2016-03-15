@@ -8,8 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using ICalendar.CalendarComponents;
 using ICalendar.ComponentProperties;
+using ICalendar.Factory;
 using ICalendar.GeneralInterfaces;
+using ICalendar.PropertyParameters;
 using Version = ICalendar.ComponentProperties.Version;
+using ICalendar.Utils;
 
 
 namespace ICalendar.Calendar
@@ -54,6 +57,75 @@ namespace ICalendar.Calendar
         //    CalScale = new Calscale() { Value = calscaleVal };
         //    Method = new Method() { Value = methodVal };
         //}
+
+
+        public VCalendar(string calendarString)
+        {
+            var calCompFactory = new CalendarComponentFactory();
+            var compPropFactory = new ComponentPropertyFactory();
+            var assemblyNameCalendar = "ICalendar.Calendar.";
+            string name = "";
+            string value = "";
+            List<PropertyParameter> parameters = new List<PropertyParameter>();
+            ICalendarObject calComponent = null;
+            ICalendarObject compProperty = null;
+            Stack<ICalendarObject> objStack = new Stack<ICalendarObject>();
+            Type type = null;
+            var lines = Parser.CalendarReader(calendarString);
+            foreach (var line in lines)
+            {
+                if (!Parser.CalendarParser(line, out name, out parameters, out value))
+                    continue;
+                //TODO: Do the necessary with the objects that dont belong to CompProperties
+                if (name == "BEGIN")
+                {
+                    var className = value;
+                    className = className.Substring(0, 2) + className.Substring(2).ToLower();
+                    if (value == "VCALENDAR")
+                    {
+                        type = Type.GetType(assemblyNameCalendar + className);
+                        calComponent = Activator.CreateInstance(type) as ICalendarObject;
+                    }
+                    else
+                        calComponent = calCompFactory.CreateIntance(className);
+                    objStack.Push(calComponent);
+                    continue;
+                }
+                if (name == "END")
+                {
+                    var endedObject = objStack.Pop();
+                    //if the last object in the stack is an VCalendar the
+                    //is the end of the parsing
+                    if (endedObject is VCalendar)
+                        return;
+                    ((IAggregator)objStack.Peek()).AddItem(endedObject);
+                    continue;
+                }
+
+                if (name.Contains("-"))
+                    name = name.Replace("-", "_");
+                var propName = name.Substring(0, 1) + name.Substring(1).ToLower();
+                compProperty = compPropFactory.CreateIntance(propName);
+                if (compProperty == null)
+                    continue;
+                //if come an iana property that we dont recognize
+                //so dont do anything with it
+                //try
+                //{
+                //    compProperty = Activator.CreateInstance(type);
+                //}
+                //catch (System.Exception)
+                //{
+                //    continue;
+                //}
+
+                var topObj = objStack.Peek();
+                ((IAggregator)topObj).AddItem(((IDeserialize)compProperty).Deserialize(value, parameters));
+
+
+            }
+            throw new ArgumentException("The calendar file MUST contain at least an element.");
+        }
         #endregion
 
         #region Properties
