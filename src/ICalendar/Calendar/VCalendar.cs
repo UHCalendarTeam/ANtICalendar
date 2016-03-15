@@ -8,8 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using ICalendar.CalendarComponents;
 using ICalendar.ComponentProperties;
+using ICalendar.Factory;
 using ICalendar.GeneralInterfaces;
+using ICalendar.PropertyParameters;
 using Version = ICalendar.ComponentProperties.Version;
+using ICalendar.Utils;
 
 
 namespace ICalendar.Calendar
@@ -23,10 +26,10 @@ namespace ICalendar.Calendar
         #region Constructors
         public VCalendar()
         {
-            Properties = new Dictionary<string, IList<IComponentProperty>>();
+            Properties = new Dictionary<string, IComponentProperty>();
             CalendarComponents = new Dictionary<string, IList<ICalendarComponent>>();
         }
-        public VCalendar(Dictionary<string, IList<IComponentProperty>> properties, IDictionary<string, IList<ICalendarComponent>> calComponents)
+        public VCalendar(Dictionary<string, IComponentProperty> properties, IDictionary<string, IList<ICalendarComponent>> calComponents)
         {
             Properties = properties;
             CalendarComponents = calComponents;
@@ -35,11 +38,11 @@ namespace ICalendar.Calendar
         //temporal changes with parameters
         public VCalendar(/*string uriWriter*/ StreamWriter writer)
         {
-            Properties = new Dictionary<string, IList<IComponentProperty>>();
+            Properties = new Dictionary<string, IComponentProperty>();
             var proid = new Prodid() {Value = ProId};
             var version = new Version() {Value = Version};
-            Properties.Add(proid.Name, new List<IComponentProperty>() {proid});
-            Properties.Add(version.Name, new List<IComponentProperty>() {version});
+            Properties.Add(proid.Name, proid);
+            Properties.Add(version.Name, version);
             //Aignar uri a un filestream
 
             //Asigna directamente el writer
@@ -54,6 +57,81 @@ namespace ICalendar.Calendar
         //    CalScale = new Calscale() { Value = calscaleVal };
         //    Method = new Method() { Value = methodVal };
         //}
+
+
+        public VCalendar(string calendarString)
+        {
+            var calCompFactory = new CalendarComponentFactory();
+            var compPropFactory = new ComponentPropertyFactory();
+            var assemblyNameCalendar = "ICalendar.Calendar.";
+            string name = "";
+            string value = "";
+            List<PropertyParameter> parameters = new List<PropertyParameter>();
+            ICalendarObject calComponent = null;
+            ICalendarObject compProperty = null;
+            Stack<ICalendarObject> objStack = new Stack<ICalendarObject>();
+            Type type = null;
+            var lines = Parser.CalendarReader(calendarString);
+            foreach (var line in lines)
+            {
+                if (!Parser.CalendarParser(line, out name, out parameters, out value))
+                    continue;
+                //TODO: Do the necessary with the objects that dont belong to CompProperties
+                if (name == "BEGIN")
+                {
+                    var className = value;
+                    className = className.Substring(0, 2) + className.Substring(2).ToLower();
+                    if (value == "VCALENDAR")
+                    {
+                        type = Type.GetType(assemblyNameCalendar + className);
+                        calComponent = Activator.CreateInstance(type) as ICalendarObject;
+                    }
+                    else
+                        calComponent = calCompFactory.CreateIntance(className);
+                    objStack.Push(calComponent);
+                    continue;
+                }
+                if (name == "END")
+                {
+                    var endedObject = objStack.Pop();
+                    //if the last object in the stack is an VCalendar then
+                    //is the end of the parsing
+                    if (endedObject is VCalendar)
+                    {
+                        var calendar = endedObject as VCalendar;
+                        Properties = calendar.Properties;
+                        CalendarComponents = calendar.CalendarComponents;
+                        return;
+                    }
+                    ((IAggregator)objStack.Peek()).AddItem(endedObject);
+                    continue;
+                }
+                string propSysName = name;
+                if (name.Contains("-"))
+                    propSysName = name.Replace("-", "_");
+                propSysName = propSysName.Substring(0, 1) + propSysName.Substring(1).ToLower();
+                compProperty = compPropFactory.CreateIntance(propSysName, name);
+                if (compProperty == null)
+                    continue;
+                //if come an iana property that we dont recognize
+                //so dont do anything with it
+                //try
+                //{
+                //    compProperty = Activator.CreateInstance(type);
+                //}
+                //catch (System.Exception)
+                //{
+                //    continue;
+                //}
+
+                var topObj = objStack.Peek();
+                ((IAggregator)topObj).AddItem(((IDeserialize)compProperty).Deserialize(value, parameters));
+
+
+            }
+           
+            throw new ArgumentException("The calendar file MUST contain at least an element.");
+        }
         #endregion
 
         #region Properties
@@ -69,14 +147,14 @@ namespace ICalendar.Calendar
 
         private static readonly string Version = "2.0";
 
-        //OPTIONAL PROPERTIES
+        /*//OPTIONAL PROPERTIES
         public Calscale CalScale { get; set; }
 
-        public Method Method { get; set; }
+        public Method Method { get; set; }*/
 
         public IDictionary<string, IList<ICalendarComponent>> CalendarComponents { get; }
 
-        public IDictionary<string, IList<IComponentProperty>> Properties { get; }
+        public IDictionary<string, IComponentProperty> Properties { get; }
 
         //OPTIONAL MAY OCCUR MORE THAN ONCE
         //  X-PROP,  IANA-PROP
@@ -87,10 +165,7 @@ namespace ICalendar.Calendar
             var prop = calComponent as IComponentProperty; 
             if (prop != null)
             {
-                if (Properties.ContainsKey(prop.Name))
-                    Properties[prop.Name].Add(prop);
-                else
-                    Properties.Add(prop.Name, new List<IComponentProperty>(1) {prop});
+              Properties.Add(prop.Name, prop);
                 
                 return;
             }
@@ -105,12 +180,10 @@ namespace ICalendar.Calendar
         public void Serialize(TextWriter writer)
         {
             writer.WriteLine("BEGIN:VCALENDAR");
-            foreach (var properties in Properties)
+            foreach (var property in Properties.Values)
             {
-                foreach (var property in properties.Value)
-                {
-                     property.Serialize(writer);
-                }
+                property.Serialize(writer);
+                
                
             }
             foreach (var components in CalendarComponents)
@@ -127,18 +200,21 @@ namespace ICalendar.Calendar
 
         public override string ToString()
         {
-            var a = new Stopwatch();
+            var endOfLine = "\n\r";
             var strBuilder = new StringBuilder();
+            
             strBuilder.AppendLine("BEGIN:VCALENDAR");
-            foreach (var property in Properties)
+            foreach (var property in Properties.Values)
             {
-                strBuilder.Append(property.ToString());
-                
+               strBuilder.Append(property.ToString());
             }
-            foreach (var component in CalendarComponents)
+            foreach (var components in CalendarComponents)
             {
+                foreach (var component in components.Value)
+                {
+                    strBuilder.Append(component.ToString());
+                }
 
-                strBuilder.Append(component.ToString());
             }
             strBuilder.AppendLine("END:VCALENDAR");
             return strBuilder.ToString();
@@ -160,7 +236,7 @@ namespace ICalendar.Calendar
         /// </summary>
         /// <param name="propName">Property name.</param>
         /// <returns>The properties with the given name. </returns>
-        public IList<IComponentProperty> GetComponentProperties(string propName)
+        public IComponentProperty GetComponentProperties(string propName)
         {
             return Properties.ContainsKey(propName) ? Properties[propName] : null;
         } 

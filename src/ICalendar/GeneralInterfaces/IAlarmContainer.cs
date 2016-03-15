@@ -8,6 +8,6 @@ namespace ICalendar.GeneralInterfaces
 {
     public interface IAlarmContainer
     {
-         IList<VAlarm> Alarms { get; set; }
+         List<VAlarm> Alarms { get; set; }
     }
 }

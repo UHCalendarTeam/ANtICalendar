@@ -17,7 +17,7 @@ namespace ICalendar.Factory
     /// </summary>
     /// <param name="objectName">The name of the type to create.</param>
     /// <returns></returns>
-    ICalendarObject CreateIntance(string objectName);
+    ICalendarObject CreateIntance(string objectName, string propName="");
 
         /// <summary>
         /// Load the available types that the IFactory
