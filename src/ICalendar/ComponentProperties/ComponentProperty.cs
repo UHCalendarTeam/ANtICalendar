@@ -8,13 +8,18 @@ using ICalendar.ValueTypes;
 
 namespace ICalendar.ComponentProperties
 {
+    /// <summary>
+    /// This class is used for the properties of the 
+    /// CalendarComponents
+    /// </summary>
+    /// <typeparam name="T">The Type of the property</typeparam>
     public class ComponentProperty<T>:IComponentProperty, IValue<T>, IDeserialize
     {
         public ComponentProperty()
         {
             PropertyParameters = new List<PropertyParameter>();
         }
-        public virtual string Name { get; }
+        public virtual string Name { get; set; }
 
         public List<PropertyParameter> PropertyParameters { get; set; }
         

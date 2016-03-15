@@ -12,9 +12,9 @@ namespace ICalendar.Factory
         public Dictionary<string, Type> _types { get; set; }
         private string _assemblyName = "ICalendar.CalendarComponents.";
 
-        public ICalendarObject CreateIntance(string objectName)
+        public ICalendarObject CreateIntance(string objSysName, string objName="")
         {
-            var type = Type.GetType(_assemblyName + objectName);
+            var type = Type.GetType(_assemblyName + objSysName);
             if(type != null)
                 return Activator.CreateInstance(type) as ICalendarComponent;
             return null;

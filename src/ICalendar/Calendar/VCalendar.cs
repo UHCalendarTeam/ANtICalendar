@@ -101,11 +101,11 @@ namespace ICalendar.Calendar
                     ((IAggregator)objStack.Peek()).AddItem(endedObject);
                     continue;
                 }
-
+                string propSysName = name;
                 if (name.Contains("-"))
-                    name = name.Replace("-", "_");
-                var propName = name.Substring(0, 1) + name.Substring(1).ToLower();
-                compProperty = compPropFactory.CreateIntance(propName);
+                    propSysName = name.Replace("-", "_");
+                propSysName = propSysName.Substring(0, 1) + propSysName.Substring(1).ToLower();
+                compProperty = compPropFactory.CreateIntance(propSysName, name);
                 if (compProperty == null)
                     continue;
                 //if come an iana property that we dont recognize
