@@ -82,7 +82,7 @@ END:VCALENDAR
             using (var writer = File.OpenWrite("output1.ics"))
             {
                 writer.Seek(0, SeekOrigin.End);
-                writer.Write(toWrite, 0 , toWrite.Length);
+                writer.Write(toWrite, 0, toWrite.Length);
             }
             using (var reader = File.OpenText("output1.ics"))
             {
@@ -92,7 +92,7 @@ END:VCALENDAR
                 Assert.Equal(expectedLines.Length, writedCalLines.Length);
                 for (int i = 0; i < writedCalLines.Length; i++)
                 {
-                    Assert.Contains(expectedLines[i],writedCalLines);
+                    Assert.Contains(expectedLines[i], writedCalLines);
                 }
 
             }
@@ -163,6 +163,6 @@ END:VCALENDAR
             Assert.Equal(2, eventAlarms.Count);
 
         }
-        
+
     }
 }
