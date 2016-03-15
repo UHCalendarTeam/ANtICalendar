@@ -79,7 +79,7 @@ namespace ICalendar.CalendarComponents
 
             foreach (var property in Properties)
                 foreach (var prop in property.Value)
-                     strBuilder.Append(property);
+                     strBuilder.Append(prop);
                 
                
            

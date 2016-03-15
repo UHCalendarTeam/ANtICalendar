@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using ICalendar;
@@ -70,6 +72,14 @@ END:VCALENDAR
 ";
             VCalendar calendar = new VCalendar(calString);
             var calendarString = calendar.ToString();
+            UnicodeEncoding uniencoding = new UnicodeEncoding();
+            UTF8Encoding utf8Encoding = new UTF8Encoding();
+            var toWrite = utf8Encoding.GetBytes(calendarString);
+            using (var writer = File.OpenWrite("output.ics"))
+            {
+                writer.Seek(0, SeekOrigin.End);
+                writer.Write(toWrite, 0 , toWrite.Length);
+            }
             Assert.Equal(calendarString.Length, calString.Length);
         }
         

@@ -205,17 +205,25 @@ namespace ICalendar.Calendar
 
         public override string ToString()
         {
+            var endOfLine = "\n\r";
             var strBuilder = new StringBuilder();
+            
             strBuilder.AppendLine("BEGIN:VCALENDAR");
-            foreach (var property in Properties)
+            foreach (var properties in Properties)
             {
-                strBuilder.Append(property.ToString());
-                
-            }
-            foreach (var component in CalendarComponents)
-            {
+                foreach (var property in properties.Value)
+                {
+                    strBuilder.Append(property.ToString());
+                }
 
-                strBuilder.Append(component.ToString());
+            }
+            foreach (var components in CalendarComponents)
+            {
+                foreach (var component in components.Value)
+                {
+                    strBuilder.Append(component.ToString());
+                }
+
             }
             strBuilder.AppendLine("END:VCALENDAR");
             return strBuilder.ToString();
