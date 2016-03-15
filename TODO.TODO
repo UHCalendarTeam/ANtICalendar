@@ -84,6 +84,7 @@ ICAl:
    ☐ Cambiar las propiedades que son string y deben ser URI.
    ☐ Implementar funcionalidades de Binary values en Attach
    ✔ Identificar diferencias e/ Date y DateTime @done (16-02-24 11:38)
+   ☐ Crear clase en CalDav para el comprobar correctitud de objetos iCalendar.   
 
 CALDAV:
   ☐ Preconditions Modules (pg 20)
