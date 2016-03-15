@@ -15,19 +15,17 @@ namespace ICalendar.CalendarComponents
     {
         public CalendarComponent()
         {
-            Properties = new Dictionary<string, IList<IComponentProperty>>();
+            Properties = new Dictionary<string,IComponentProperty>();
+            RRules = new List<IComponentProperty>();
         }
 
         public virtual void Serialize(TextWriter writer)
         {
             writer.WriteLine("BEGIN:" + Name);
             
-            foreach (var properties in Properties)
+            foreach (var property in Properties.Values)
             {
-                foreach (var prop in properties.Value)
-                {
-                    prop.Serialize(writer);
-                }
+               property.Serialize(writer);
                 
             }
             if (this is ICalendarComponentsContainer)
@@ -56,19 +54,21 @@ namespace ICalendar.CalendarComponents
             writer.WriteLine("END:" + Name);
         }
 
-        public IDictionary<string, IList<IComponentProperty>> Properties { get;  }
+        public IDictionary<string, IComponentProperty> Properties { get;  }
         public virtual string Name { get; }
 
-        public IList<IComponentProperty> this[string name] => Properties.ContainsKey(name) ? Properties[name] : null;
+        public List<IComponentProperty> RRules { get; } 
+
+        public IComponentProperty this[string name] => Properties.ContainsKey(name) ? Properties[name] : null;
 
 
         public virtual void AddItem(ICalendarObject component)
         {
             var prop = component as IComponentProperty;
-            if(Properties.ContainsKey(prop.Name))
-                Properties[prop.Name].Add(prop);
+            if(prop.Name=="RRULE")
+                RRules.Add(prop);
             else
-                Properties.Add(prop.Name, new List<IComponentProperty>(1) {prop});
+                 Properties.Add(prop.Name, prop);
         }
 
 
@@ -77,9 +77,12 @@ namespace ICalendar.CalendarComponents
             var strBuilder = new StringBuilder();
             strBuilder.AppendLine("BEGIN:" + Name);
 
-            foreach (var property in Properties)
-                foreach (var prop in property.Value)
-                     strBuilder.Append(prop);
+            foreach (var property in Properties.Values)
+                strBuilder.Append(property);
+            foreach (var rRule in RRules)
+            {
+                strBuilder.Append(rRule);
+            }
                 
                
            
@@ -115,7 +118,7 @@ namespace ICalendar.CalendarComponents
         /// </summary>
         /// <param name="propName">Property name.</param>
         /// <returns>The properties with the given name. </returns>
-        public IList<IComponentProperty> GetComponentProperties(string propName)
+        public IComponentProperty GetComponentProperty(string propName)
         {
             return Properties.ContainsKey(propName) ? Properties[propName] : null;
         }

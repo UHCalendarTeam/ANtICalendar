@@ -26,10 +26,10 @@ namespace ICalendar.Calendar
         #region Constructors
         public VCalendar()
         {
-            Properties = new Dictionary<string, IList<IComponentProperty>>();
+            Properties = new Dictionary<string, IComponentProperty>();
             CalendarComponents = new Dictionary<string, IList<ICalendarComponent>>();
         }
-        public VCalendar(Dictionary<string, IList<IComponentProperty>> properties, IDictionary<string, IList<ICalendarComponent>> calComponents)
+        public VCalendar(Dictionary<string, IComponentProperty> properties, IDictionary<string, IList<ICalendarComponent>> calComponents)
         {
             Properties = properties;
             CalendarComponents = calComponents;
@@ -38,11 +38,11 @@ namespace ICalendar.Calendar
         //temporal changes with parameters
         public VCalendar(/*string uriWriter*/ StreamWriter writer)
         {
-            Properties = new Dictionary<string, IList<IComponentProperty>>();
+            Properties = new Dictionary<string, IComponentProperty>();
             var proid = new Prodid() {Value = ProId};
             var version = new Version() {Value = Version};
-            Properties.Add(proid.Name, new List<IComponentProperty>() {proid});
-            Properties.Add(version.Name, new List<IComponentProperty>() {version});
+            Properties.Add(proid.Name, proid);
+            Properties.Add(version.Name, version);
             //Aignar uri a un filestream
 
             //Asigna directamente el writer
@@ -154,7 +154,7 @@ namespace ICalendar.Calendar
 
         public IDictionary<string, IList<ICalendarComponent>> CalendarComponents { get; }
 
-        public IDictionary<string, IList<IComponentProperty>> Properties { get; }
+        public IDictionary<string, IComponentProperty> Properties { get; }
 
         //OPTIONAL MAY OCCUR MORE THAN ONCE
         //  X-PROP,  IANA-PROP
@@ -165,10 +165,7 @@ namespace ICalendar.Calendar
             var prop = calComponent as IComponentProperty; 
             if (prop != null)
             {
-                if (Properties.ContainsKey(prop.Name))
-                    Properties[prop.Name].Add(prop);
-                else
-                    Properties.Add(prop.Name, new List<IComponentProperty>(1) {prop});
+              Properties.Add(prop.Name, prop);
                 
                 return;
             }
@@ -183,12 +180,10 @@ namespace ICalendar.Calendar
         public void Serialize(TextWriter writer)
         {
             writer.WriteLine("BEGIN:VCALENDAR");
-            foreach (var properties in Properties)
+            foreach (var property in Properties.Values)
             {
-                foreach (var property in properties.Value)
-                {
-                     property.Serialize(writer);
-                }
+                property.Serialize(writer);
+                
                
             }
             foreach (var components in CalendarComponents)
@@ -209,13 +204,9 @@ namespace ICalendar.Calendar
             var strBuilder = new StringBuilder();
             
             strBuilder.AppendLine("BEGIN:VCALENDAR");
-            foreach (var properties in Properties)
+            foreach (var property in Properties.Values)
             {
-                foreach (var property in properties.Value)
-                {
-                    strBuilder.Append(property.ToString());
-                }
-
+               strBuilder.Append(property.ToString());
             }
             foreach (var components in CalendarComponents)
             {
@@ -245,7 +236,7 @@ namespace ICalendar.Calendar
         /// </summary>
         /// <param name="propName">Property name.</param>
         /// <returns>The properties with the given name. </returns>
-        public IList<IComponentProperty> GetComponentProperties(string propName)
+        public IComponentProperty GetComponentProperties(string propName)
         {
             return Properties.ContainsKey(propName) ? Properties[propName] : null;
         } 
