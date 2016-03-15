@@ -112,7 +112,7 @@ namespace ICalendar.Utils
 
 
         /// <summary>
-        /// take the calendar string prepare it for the processing
+        /// take the calendar string and prepare it for the processing
         /// </summary>
         /// <param name="calendar">Calendar string to build.</param>
         /// <returns>Splited lines of the calendar string.</returns>

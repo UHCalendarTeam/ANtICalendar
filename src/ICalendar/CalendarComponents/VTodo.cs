@@ -17,7 +17,7 @@ namespace ICalendar.CalendarComponents
 
         public override string Name => "VTODO";
 
-        public IList<VAlarm> Alarms { get; set; }
+        public List<VAlarm> Alarms { get; set; }
 
         /// <summary>
         /// If component is VAlarm type the add it to Alarms

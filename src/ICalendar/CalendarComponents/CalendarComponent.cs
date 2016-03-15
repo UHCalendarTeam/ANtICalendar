@@ -114,13 +114,27 @@ namespace ICalendar.CalendarComponents
 
 
         /// <summary>
-        /// Return all the properties by the given name.
+        /// Return the property by the given name.
         /// </summary>
         /// <param name="propName">Property name.</param>
-        /// <returns>The properties with the given name. </returns>
+        /// <returns>The property with the given name. </returns>
         public IComponentProperty GetComponentProperty(string propName)
         {
             return Properties.ContainsKey(propName) ? Properties[propName] : null;
         }
+
+        /// <summary>
+        /// Get the list that contain the RRules.
+        /// </summary>
+        /// <returns>All the RRules of the Component.</returns>
+        public List<IComponentProperty> GetRRules()
+        {
+            return RRules;
+        }
+
+        public List<VAlarm> GetAlarms()
+        {
+            return (this as IAlarmContainer).Alarms;
+        } 
     }
 }
