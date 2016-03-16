@@ -24,6 +24,7 @@ namespace ICalendar.ComponentProperties
         public List<PropertyParameter> PropertyParameters { get; set; }
         
 
+
         public virtual IComponentProperty Deserialize(string value, List<PropertyParameter> parameters)
         {
             PropertyParameters = parameters;

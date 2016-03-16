@@ -54,10 +54,10 @@ namespace ICalendar.CalendarComponents
             writer.WriteLine("END:" + Name);
         }
 
-        public IDictionary<string, IComponentProperty> Properties { get;  }
-        public virtual string Name { get; }
+        public IDictionary<string, IComponentProperty> Properties { get; set; }
+        public virtual string Name { get; set; }
 
-        public List<IComponentProperty> RRules { get; } 
+        public List<IComponentProperty> RRules { get; set; } 
 
         public IComponentProperty this[string name] => Properties.ContainsKey(name) ? Properties[name] : null;
 
@@ -113,6 +113,49 @@ namespace ICalendar.CalendarComponents
         }
 
 
+        public string ToString(List<string> properties)
+        {
+            var strBuilder = new StringBuilder();
+            strBuilder.AppendLine("BEGIN:" + Name);
+
+            foreach (var property in Properties.Where(x=>properties.Contains(x.Key)).Select(x=>x.Value))
+                strBuilder.Append(property);
+            if(properties.Contains("RRULES"))
+                foreach (var rRule in RRules)
+                {
+                    strBuilder.Append(rRule);
+                }
+
+
+            //TODO: check this out
+            if (this is ICalendarComponentsContainer)
+            {
+                var components = (this as ICalendarComponentsContainer).CalendarComponents;
+                foreach (var component in components)
+                {
+                    //TODO: check this out
+                    foreach (var comp in component.Value)
+                    {
+                        if (comp != null)
+                            strBuilder.Append(comp);
+                    }
+                }
+            }
+            //TODO: check this out
+            var alarmContainer = this as IAlarmContainer;
+            if (alarmContainer != null)
+            {
+                foreach (var alarm in alarmContainer.Alarms)
+                {
+                    strBuilder.Append(alarm);
+                }
+            }
+
+            strBuilder.AppendLine("END:" + Name);
+            return strBuilder.ToString();
+        }
+
+
         /// <summary>
         /// Return the property by the given name.
         /// </summary>
@@ -130,6 +173,19 @@ namespace ICalendar.CalendarComponents
         public List<IComponentProperty> GetRRules()
         {
             return RRules;
+        }
+
+        
+
+        public CalendarComponent WithChoosenProperties(List<string> properties)
+        {
+            var output = new CalendarComponent
+            {
+                Properties = Properties.Where(x => properties.Contains(x.Key)).ToDictionary(x => x.Key, x => x.Value),
+                Name = Name,
+                RRules = properties.Contains("RRULES") ? RRules : null
+            };
+            return output;
         }
 
         public List<VAlarm> GetAlarms()
