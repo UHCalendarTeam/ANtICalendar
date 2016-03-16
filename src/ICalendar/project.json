@@ -1,7 +1,7 @@
 {
-    "version": "1.0.0-beta1-00000",
+    "version": "1.0.0-beta2",
     "description": "ICalendar is a library for parsing and writing icalendar files.\nIt Implement the specification given in RCF 5545.\n",
-    "authors": [ "UHCalendarTeam" ],
+    "authors": [ "Adriano Flechilla, Jose Ignacio Vazquez" ],
     "tags": [ "ICalendar", "RCF 5545", ".ics" ],
     "projectUrl": "",
     "licenseUrl": "",
