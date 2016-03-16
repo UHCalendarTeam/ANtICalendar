@@ -197,6 +197,7 @@ DTSTART;TZID=America/Los_Angeles:20120629T130000
 DTEND;TZID=America/Los_Angeles:20120629T140000
 DTSTAMP:20120629T112428Z
 UID:0kusnhnnacaok1r02v16simh8c@google.com
+RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
 CREATED:20120629T111935Z
 DESCRIPTION:foo
 LAST-MODIFIED:20120629T112428Z
@@ -224,7 +225,8 @@ END:VCALENDAR
             var calData = new Dictionary<string, List<string>>
             {
                 {"VCALENDAR", new List<string>() {"VERSION"}},
-                {"VEVENT", new List<string>() {"SUMMARY", "UID", "DESCRIPTION", "LOCATION" } }
+                {"VEVENT", new List<string>() {"SUMMARY", "UID", "DESCRIPTION"
+                , "LOCATION" } }
             };
             var newCalString = calendar.ToString(calData);
             var newCal = new VCalendar(newCalString);

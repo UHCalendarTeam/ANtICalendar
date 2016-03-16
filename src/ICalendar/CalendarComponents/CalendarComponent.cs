@@ -120,7 +120,7 @@ namespace ICalendar.CalendarComponents
 
             foreach (var property in Properties.Where(x=>properties.Contains(x.Key)).Select(x=>x.Value))
                 strBuilder.Append(property);
-            if(properties.Contains("RRULES"))
+            if(properties.Contains("RRULE"))
                 foreach (var rRule in RRules)
                 {
                     strBuilder.Append(rRule);
