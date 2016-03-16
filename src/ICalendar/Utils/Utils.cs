@@ -226,9 +226,9 @@ namespace ICalendar.Utils
 
                 resDuration = new DurationType(datematch.Groups[2].ToString() != "-",
                     int.TryParse(datematch.Groups[3].ToString(), out days) ? days.NullConvertion() : null, true,
-                    int.TryParse(datematch.Groups[5].ToString(), out hours) ? hours.NullConvertion() : null,
-                    int.TryParse(datematch.Groups[7].ToString(), out minutes) ? minutes.NullConvertion() : null,
-                    int.TryParse(datematch.Groups[9].ToString(), out seconds) ? seconds.NullConvertion() : null);
+                    int.TryParse(datematch.Groups[6].ToString(), out hours) ? hours.NullConvertion() : null,
+                    int.TryParse(datematch.Groups[8].ToString(), out minutes) ? minutes.NullConvertion() : null,
+                    int.TryParse(datematch.Groups[10].ToString(), out seconds) ? seconds.NullConvertion() : null);
 
                 return true;
             }
@@ -428,7 +428,7 @@ namespace ICalendar.Utils
             }
             #endregion
 
-            return resRecur.Frequency == null;
+            return resRecur.Frequency != null;
 
         }
 
