@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ICalendar.CalendarComponents;
 using ICalendar.ComponentProperties;
 using ICalendar.GeneralInterfaces;
 
@@ -25,5 +26,7 @@ namespace ICalendar.GeneralInterfaces
         /// </summary>
         /// <returns>All the RRules of the Component.</returns>
          List<IComponentProperty> GetRRules();
+        
+        string ToString(List<string> value);
     }
 }

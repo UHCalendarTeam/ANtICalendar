@@ -155,6 +155,7 @@ namespace ICalendar.Calendar
         public IDictionary<string, IList<ICalendarComponent>> CalendarComponents { get; }
 
         public IDictionary<string, IComponentProperty> Properties { get; }
+       
 
         //OPTIONAL MAY OCCUR MORE THAN ONCE
         //  X-PROP,  IANA-PROP
@@ -198,15 +199,38 @@ namespace ICalendar.Calendar
         }
 
 
+       
+
+        /// <summary>
+        /// Return all the CalendarComponents that match with given the name.
+        /// </summary>
+        /// <param name="compName">CalendarComponent name.</param>
+        /// <returns>The components with the given name.</returns>
+        public IList<ICalendarComponent> GetCalendarComponents(string compName)
+        {
+            return CalendarComponents.ContainsKey(compName) ? CalendarComponents[compName] : null;
+        }
+
+        /// <summary>
+        /// Return  the properties by the given name.
+        /// </summary>
+        /// <param name="propName">Property name.</param>
+        /// <returns>The properties with the given name. </returns>
+        public IComponentProperty GetComponentProperties(string propName)
+        {
+            return Properties.ContainsKey(propName) ? Properties[propName] : null;
+        }
+
+
+
         public override string ToString()
         {
-            var endOfLine = "\n\r";
             var strBuilder = new StringBuilder();
-            
+
             strBuilder.AppendLine("BEGIN:VCALENDAR");
             foreach (var property in Properties.Values)
             {
-               strBuilder.Append(property.ToString());
+                strBuilder.Append(property.ToString());
             }
             foreach (var components in CalendarComponents)
             {
@@ -221,25 +245,23 @@ namespace ICalendar.Calendar
 
         }
 
-        /// <summary>
-        /// Return all the CalendarComponents given the name.
-        /// </summary>
-        /// <param name="compName">CalendarComponent name.</param>
-        /// <returns>The components with the given name.</returns>
-        public IList<ICalendarComponent> GetCalendarComponents(string compName)
-        {
-            return CalendarComponents.ContainsKey(compName) ? CalendarComponents[compName] : null;
-        }
 
-        /// <summary>
-        /// Return all the properties by the given name.
-        /// </summary>
-        /// <param name="propName">Property name.</param>
-        /// <returns>The properties with the given name. </returns>
-        public IComponentProperty GetComponentProperties(string propName)
+        public string ToString(Dictionary<string, List<string>> calData)
         {
-            return Properties.ContainsKey(propName) ? Properties[propName] : null;
-        } 
+            var strBuilder = new StringBuilder();
+
+            strBuilder.AppendLine("BEGIN:VCALENDAR");
+            foreach (var property in Properties.Values.Where(x=>calData[Name].Contains(x.Name)))
+            {
+                strBuilder.Append(property.ToString());
+            }
+            foreach (var component in CalendarComponents.Where(components => calData.Keys.Contains(components.Key)).SelectMany(components => components.Value))
+            {
+                strBuilder.Append(component.ToString(calData.First(x=>x.Key==component.Name).Value));
+            }
+            strBuilder.AppendLine("END:VCALENDAR");
+            return strBuilder.ToString();
+        }
 
 
 

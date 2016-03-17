@@ -10,6 +10,8 @@ namespace ICalendar.GeneralInterfaces
     public interface IComponentProperty:ISerialize, ICalendarObject
     { 
         List<PropertyParameter> PropertyParameters { get; set; }
-        
+
+       
+
     }
 }
