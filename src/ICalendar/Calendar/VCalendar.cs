@@ -13,6 +13,7 @@ using ICalendar.GeneralInterfaces;
 using ICalendar.PropertyParameters;
 using Version = ICalendar.ComponentProperties.Version;
 using ICalendar.Utils;
+using TreeForXml;
 
 
 namespace ICalendar.Calendar
@@ -246,18 +247,28 @@ namespace ICalendar.Calendar
         }
 
 
-        public string ToString(Dictionary<string, List<string>> calData)
+        public string ToString(IXMLTreeStructure calData)
         {
             var strBuilder = new StringBuilder();
 
             strBuilder.AppendLine("BEGIN:VCALENDAR");
-            foreach (var property in Properties.Values.Where(x=>calData[Name].Contains(x.Name)))
+            var vCal = calData.Children.Where(x => x.NodeName == "comp").
+                First(x => x.Attributes.ContainsValue("VCALENDAR"));
+            IEnumerable<string> propToReturn = vCal.Children
+                .Where(x => x.NodeName == "prop")
+                .SelectMany(x => x.Attributes.Values);
+            foreach (var property in Properties.Values.Where(x=>propToReturn.Contains(x.Name)))
             {
                 strBuilder.Append(property.ToString());
             }
-            foreach (var component in CalendarComponents.Where(components => calData.Keys.Contains(components.Key)).SelectMany(components => components.Value))
+            IEnumerable<string> compToReturn = vCal.Children.Where(x => x.NodeName == "comp").
+                SelectMany(x=>x.Attributes.Values);
+            foreach (var component in CalendarComponents.Where(comp=>compToReturn.Contains(comp.Key)))
             {
-                strBuilder.Append(component.ToString(calData.First(x=>x.Key==component.Name).Value));
+                var properties = vCal.Children.Where(x => x.NodeName == "comp").First(x=>x.Attributes.ContainsValue(component.Key))
+                    .Children.SelectMany(x => x.Attributes.Values);
+                strBuilder.Append(component.Value.First().
+                    ToString(properties));
             }
             strBuilder.AppendLine("END:VCALENDAR");
             return strBuilder.ToString();

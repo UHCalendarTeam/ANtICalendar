@@ -27,6 +27,6 @@ namespace ICalendar.GeneralInterfaces
         /// <returns>All the RRules of the Component.</returns>
          List<IComponentProperty> GetRRules();
         
-        string ToString(List<string> value);
+        string ToString(IEnumerable<string> value);
     }
 }
