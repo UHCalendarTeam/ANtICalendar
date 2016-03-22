@@ -158,7 +158,7 @@ END:VCALENDAR
 ";
 			VCalendar calendar = new VCalendar(calString);
 			var calEvent = calendar.GetCalendarComponents("VEVENT").First() as VEvent;
-			var eventAlarms = calEvent.Alarms;
+			var eventAlarms = calEvent.CalendarComponents["VALARM"];
 			Assert.Equal((calEvent.GetComponentProperty("UID") as IValue<string>).Value, "0kusnhnnacaok1r02v16simh8c@google.com");
 			Assert.Equal((calEvent.GetComponentProperty("DESCRIPTION") as IValue<string>).Value, "foo");
 			Assert.Equal(2, eventAlarms.Count);

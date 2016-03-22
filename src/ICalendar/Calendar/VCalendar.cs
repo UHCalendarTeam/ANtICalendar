@@ -246,7 +246,12 @@ namespace ICalendar.Calendar
 
         }
 
-
+        /// <summary>
+        /// Return the string representation of the calendar
+        /// with just the given properties and components.
+        /// </summary>
+        /// <param name="calData">Properties and components to print.</param>
+        /// <returns></returns>
         public string ToString(IXMLTreeStructure calData)
         {
             var strBuilder = new StringBuilder();
@@ -273,8 +278,5 @@ namespace ICalendar.Calendar
             strBuilder.AppendLine("END:VCALENDAR");
             return strBuilder.ToString();
         }
-
-
-
     }
 }
