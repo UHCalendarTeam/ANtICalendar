@@ -77,7 +77,7 @@ ICAl:
 
 
  General:
- ☐ Revisar que estan bien TODOS las propiedades implementadas.
+ ✔ Revisar que estan bien TODOS las propiedades implementadas. @done (16-03-22 01:42)
 
 
  Future Implementations:
@@ -85,6 +85,9 @@ ICAl:
    ☐ Implementar funcionalidades de Binary values en Attach
    ✔ Identificar diferencias e/ Date y DateTime @done (16-02-24 11:38)
    ☐ Crear clase en CalDav para el comprobar correctitud de objetos iCalendar.   
+   ☐ Implementar ATENDEE como una lista de CompProperties pues una comp puede tener mas de uno
+   ☐  Annadir un value a los IComponentProperty de tipo string.
+
 
 CALDAV:
   ☐ Preconditions Modules (pg 20)
@@ -111,8 +114,7 @@ CALDAV:
    ☐ 7.10 CALDAV:free-busy-query REPORT
    ☐ 
 
- NEEDED:
-   ☐ Buscar un xml parser.
+
 
 
 

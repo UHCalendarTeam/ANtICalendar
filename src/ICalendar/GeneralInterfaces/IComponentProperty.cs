@@ -11,6 +11,11 @@ namespace ICalendar.GeneralInterfaces
     { 
         List<PropertyParameter> PropertyParameters { get; set; }
 
+        /// <summary>
+        /// Contain the string representation of the value
+        /// </summary>
+        string StringValue { get; set; }
+
        
 
     }

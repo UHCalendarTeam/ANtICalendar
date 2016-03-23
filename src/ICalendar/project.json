@@ -1,5 +1,5 @@
 {
-    "version": "1.0.0-beta3",
+    "version": "1.0.0-beta3-22316",
     "description": "ICalendar is a library for parsing and writing icalendar files.\nIt Implement the specification given in RCF 5545.\n",
   "authors": [ "Adriano Flechilla, Jose Ignacio Vazquez" ],
   "tittle": "ICalendar",

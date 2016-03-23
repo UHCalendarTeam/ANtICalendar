@@ -68,7 +68,7 @@ namespace ICalendar.ComponentProperties
                 case Values.InProcess:
                     return "IN-PROCESS";
                 case Values.NeedsAction:
-                    return "NEED-ACTION";
+                    return "NEEDS-ACTION";
                 default:
                     return "UNKNOWN";
             }

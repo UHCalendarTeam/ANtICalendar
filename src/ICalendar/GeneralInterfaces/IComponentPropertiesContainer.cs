@@ -7,6 +7,9 @@ namespace ICalendar.GeneralInterfaces
 {
     public interface IComponentPropertiesContainer
     {
+        /// <summary>
+        /// Contains the name and the value of the ICalendarComponent's properties.
+        /// </summary>
         IDictionary<string, IComponentProperty> Properties { get;  }
     }
 }
