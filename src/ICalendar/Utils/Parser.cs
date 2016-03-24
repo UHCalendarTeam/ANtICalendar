@@ -40,18 +40,19 @@ namespace ICalendar.Utils
 
             //from the begining of the line till the index of these chars
             //has to be the name
-            var indexName = line.IndexOfAny(new char[] { ':', ';' });
-            name = line.Substring(0, indexName);
+            var speraratorIndex = line.IndexOfAny(new char[] { ':', ';' });
+            name = line.Substring(0, speraratorIndex);
 
             //if the first separator is ';' then the line contains params values
-            if (line[indexName] == ';')
+            if (line[speraratorIndex] == ';')
             {
-                var indexParams = line.LastIndexOf(':');
-                parameters = line.Substring(indexName + 1, indexParams-indexName-1).ParamsParser();
-                value = line.Substring(indexParams + 1);
+                //TODO:take the last index of " and take the index of the first : after ".
+                var startValueIndex = line.IndexOfValues();
+                parameters = line.Substring(speraratorIndex + 1, startValueIndex-speraratorIndex-1).ParamsParser();
+                value = line.Substring(startValueIndex + 1);
             }
             else
-                value = line.Substring(indexName + 1);
+                value = line.Substring(speraratorIndex + 1);
 
 
             //check if the name and value object are setted

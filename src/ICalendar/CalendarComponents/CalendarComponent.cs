@@ -113,7 +113,7 @@ namespace ICalendar.CalendarComponents
         }
 
 
-        public string ToString(List<string> properties)
+        public string ToString(IEnumerable<string> properties)
         {
             var strBuilder = new StringBuilder();
             strBuilder.AppendLine("BEGIN:" + Name);

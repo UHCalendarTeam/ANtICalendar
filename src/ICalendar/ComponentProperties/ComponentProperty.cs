@@ -22,11 +22,17 @@ namespace ICalendar.ComponentProperties
         public virtual string Name { get; set; }
 
         public List<PropertyParameter> PropertyParameters { get; set; }
-        
+        public string StringValue { get; set; }
 
-
+        /// <summary>
+        /// Takes the value and the params of the property, build it and return it.
+        /// </summary>
+        /// <param name="value">The value of the property</param>
+        /// <param name="parameters">THe params of the property</param>
+        /// <returns>The IComponentProperty with the value and the params setted.</returns>
         public virtual IComponentProperty Deserialize(string value, List<PropertyParameter> parameters)
         {
+            StringValue = value;
             PropertyParameters = parameters;
             if (this is IValue<string>)
             {

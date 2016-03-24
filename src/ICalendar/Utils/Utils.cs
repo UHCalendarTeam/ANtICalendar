@@ -38,8 +38,15 @@ namespace ICalendar.Utils
         /// <returns>Return the index of the beginning of the values declaration</returns>
         public static int IndexOfValues(this string str)
         {
-            var valuesStartIndex = str.IndexOf(':') + 1;
-            return valuesStartIndex;
+            bool quoteBefore = false;
+            for (int i = 0; i < str.Length; i++)
+            {
+                if (str[i] == '\"')
+                    quoteBefore = !quoteBefore;
+                else if (str[i] == ':' && !quoteBefore)
+                    return i;
+            }
+            throw new ArgumentException("THe line should contains a COLON for the beginning of the values.");
         }
 
         /// <summary>
