@@ -131,6 +131,11 @@ namespace ICalendar.ValueTypes
 
     public class WeekDayType
     {
+        /// <summary>
+        /// Constructor depracated!!
+        /// </summary>
+        /// <param name="ordDay"></param>
+        /// <param name="weekDay"></param>
         public WeekDayType(int? ordDay, RecurValues.Weekday weekDay)
         {
             OrdDay = ordDay;
