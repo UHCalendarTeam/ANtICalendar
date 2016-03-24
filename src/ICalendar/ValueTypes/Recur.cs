@@ -138,7 +138,7 @@ namespace ICalendar.ValueTypes
         }
         int? OrdDay { get; set; }
 
-        RecurValues.Weekday WeekDay { get; set; }
+        public RecurValues.Weekday WeekDay { get; set; }
 
         public override string ToString()
         {
