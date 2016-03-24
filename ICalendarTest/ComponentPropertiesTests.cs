@@ -24,8 +24,8 @@ namespace ICalendarTest
             "RRULE:FREQ=MONTHLY;UNTIL=19971224T000000Z;BYDAY=1FR".ToRecur(out recur);
             Assert.Equal(recur.Frequency.Value, RecurValues.Frequencies.MONTHLY);
            
-            "RRULE:FREQ=DAYLY;UNTIL=19971224T000000Z;BYDAY=1FR".ToRecur(out recur);
-            Assert.Equal(recur.Frequency.Value, RecurValues.Frequencies.DAYLY);
+            "RRULE:FREQ=DAILY;UNTIL=19971224T000000Z;BYDAY=1FR".ToRecur(out recur);
+            Assert.Equal(recur.Frequency.Value, RecurValues.Frequencies.DAILY);
            
 "RRULE:FREQ=WEEKLY;UNTIL=19971224T000000Z;BYDAY=1FR".ToRecur(out recur);
             Assert.Equal(recur.Frequency.Value, RecurValues.Frequencies.WEEKLY);

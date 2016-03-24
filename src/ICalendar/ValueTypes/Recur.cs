@@ -36,7 +36,13 @@ namespace ICalendar.ValueTypes
 
         public int[] BySetPos { get; set; }
 
-        public DayOfWeek? Wkst { get; set; }
+        private DayOfWeek? _weekStart;
+
+        public DayOfWeek Wkst
+        {
+            get{ return _weekStart ?? DayOfWeek.Monday; }
+            set { _weekStart = value; }
+        }
 
         public override string ToString()
         {
@@ -108,10 +114,10 @@ namespace ICalendar.ValueTypes
                 strBuilder.Append(";BYSETPOS=");
                 AppendAllMembers(strBuilder, BySetPos);
             }
-            if (Wkst!=null)
+            if (_weekStart!=null)
             {
                 strBuilder.Append(";WKST=");
-                strBuilder.Append(RecurValues.ToString(Wkst.Value));
+                strBuilder.Append(RecurValues.ToString(Wkst));
             }
 
             return strBuilder.ToString();
@@ -131,16 +137,7 @@ namespace ICalendar.ValueTypes
 
     public class WeekDayType
     {
-        /// <summary>
-        /// Constructor depracated!!
-        /// </summary>
-        /// <param name="ordDay"></param>
-        /// <param name="weekDay"></param>
-        public WeekDayType(int? ordDay, RecurValues.Weekday weekDay)
-        {
-            OrdDay = ordDay;
-            WeekDay = weekDay;
-        }
+       
 
         /// <summary>
         /// Use this contructor for building this type.
@@ -155,8 +152,6 @@ namespace ICalendar.ValueTypes
         }
 
         public int? OrdDay { get; set; }
-
-        public RecurValues.Weekday WeekDay { get; set; }
 
         public DayOfWeek DayOfWeek { get; set; }
 
@@ -176,13 +171,9 @@ namespace ICalendar.ValueTypes
     {
         public enum Frequencies
         {
-            SECONDLY,MINUTELY, HOURLY, DAYLY, WEEKLY, MONTHLY, YEARLY
+            SECONDLY,MINUTELY, HOURLY, DAILY, WEEKLY, MONTHLY, YEARLY
         }
 
-        public enum Weekday
-        {
-            MO, TU, WE, TH, FR, SA, SU
-        }
         /// <summary>
         /// Convert an Frequency to its string representation
         /// </summary>
@@ -196,8 +187,8 @@ namespace ICalendar.ValueTypes
                     return "MINUTELY";
                 case Frequencies.HOURLY:
                     return "HOURLY";
-                case Frequencies.DAYLY:
-                    return "DAYLY";
+                case Frequencies.DAILY:
+                    return "DAILY";
                 case Frequencies.WEEKLY:
                     return "WEEKLY";
                 case Frequencies.MONTHLY:
@@ -253,8 +244,8 @@ namespace ICalendar.ValueTypes
                     return Frequencies.MINUTELY;
                 case "HOURLY":
                     return Frequencies.HOURLY;
-                case "DAYLY":
-                    return Frequencies.DAYLY;
+                case "DAILY":
+                    return Frequencies.DAILY;
                 case "WEEKLY":
                     return Frequencies.WEEKLY;
                 case "MONTHLY":
