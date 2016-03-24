@@ -389,10 +389,10 @@ namespace ICalendar.Utils
 
                                 int? resInt = match.Groups[2].Value.ToInt();
                                 resInt = resInt != null ? resInt * signInt : null;
-                                RecurValues.Weekday week;
-                                if (RecurValues.TryParseValue(match.Groups[3].Value, out week))
+                                DayOfWeek day;
+                                if (RecurValues.TryParseValue(match.Groups[3].Value, out day))
                                 {
-                                    wekkDays.Add(new WeekDayType(resInt, week));
+                                    wekkDays.Add(new WeekDayType(resInt, day));
                                 }
                             }
                         }
