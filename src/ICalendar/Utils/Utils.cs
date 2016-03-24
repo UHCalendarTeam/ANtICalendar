@@ -32,7 +32,7 @@ namespace ICalendar.Utils
 
         #region string extension methods.
         /// <summary>
-        /// Get the index first ':'
+        /// Get the index where starts the values declaration
         /// </summary>
         /// <param name="str"></param>
         /// <returns>Return the index of the beginning of the values declaration</returns>
@@ -335,7 +335,10 @@ namespace ICalendar.Utils
         public static bool ToRecur(this string stringRecut, out Recur resRecur)
         {
             resRecur = new Recur();
-
+            //when the user calls this method directly it comes 
+            //with the name of the property (RRULE)
+            if(stringRecut.Contains(":"))
+                 stringRecut = stringRecut.ValuesSubString().Replace(":","");
             var value = stringRecut.Split(';').ToList();
 
             #region ForeachRegion

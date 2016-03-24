@@ -136,7 +136,7 @@ namespace ICalendar.ValueTypes
             OrdDay = ordDay;
             WeekDay = weekDay;
         }
-        int? OrdDay { get; set; }
+        public int? OrdDay { get; set; }
 
         public RecurValues.Weekday WeekDay { get; set; }
 
@@ -156,7 +156,7 @@ namespace ICalendar.ValueTypes
     {
         public enum Frequencies
         {
-            MINUTELY, HOURLY, DAILY, WEEKLY, MONTHLY, YEARLY
+            SECONDLY,MINUTELY, HOURLY, DAYLY, WEEKLY, MONTHLY, YEARLY
         }
 
         public enum Weekday
@@ -176,14 +176,16 @@ namespace ICalendar.ValueTypes
                     return "MINUTELY";
                 case Frequencies.HOURLY:
                     return "HOURLY";
-                case Frequencies.DAILY:
-                    return "DAILY";
+                case Frequencies.DAYLY:
+                    return "DAYLY";
                 case Frequencies.WEEKLY:
                     return "WEEKLY";
                 case Frequencies.MONTHLY:
                     return "MONTHLY";
                 case Frequencies.YEARLY:
                     return "YEARLY";
+                    case Frequencies.SECONDLY:
+                    return "SECONDLY";
                 default:
                     throw new ArgumentOutOfRangeException(nameof(value), value, null);
             }
@@ -231,14 +233,16 @@ namespace ICalendar.ValueTypes
                     return Frequencies.MINUTELY;
                 case "HOURLY":
                     return Frequencies.HOURLY;
-                case "DAILY":
-                    return Frequencies.DAILY;
+                case "DAYLY":
+                    return Frequencies.DAYLY;
                 case "WEEKLY":
                     return Frequencies.WEEKLY;
                 case "MONTHLY":
                     return Frequencies.MONTHLY;
                 case "YEARLY":
                     return Frequencies.YEARLY;
+                case "SECONDLY":
+                    return Frequencies.SECONDLY;
                 default:
                     return null;
             }

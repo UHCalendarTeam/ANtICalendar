@@ -116,6 +116,7 @@ CALDAV:
   To Fix:
    ✔ el parametro the ATENDEE con nombre PARTSTAT esta cogiendo :mailto, so esta cogiendo parte del value @done (16-03-23 18:22)
    ☐ RecurValues.Frequencies no tiene un valor pa SECONDLY
+   ☐ string.ToRecur no esta cogiendo la FREQ cuando es DAYLY, YEARLY
 
 
 

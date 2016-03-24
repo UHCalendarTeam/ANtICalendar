@@ -46,7 +46,7 @@ namespace ICalendar.Utils
             //if the first separator is ';' then the line contains params values
             if (line[speraratorIndex] == ';')
             {
-                //TODO:take the last index of " and take the index of the first : after ".
+                
                 var startValueIndex = line.IndexOfValues();
                 parameters = line.Substring(speraratorIndex + 1, startValueIndex-speraratorIndex-1).ParamsParser();
                 value = line.Substring(startValueIndex + 1);
