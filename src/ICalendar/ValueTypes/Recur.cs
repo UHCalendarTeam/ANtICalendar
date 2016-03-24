@@ -36,7 +36,7 @@ namespace ICalendar.ValueTypes
 
         public int[] BySetPos { get; set; }
 
-        public RecurValues.Weekday? Wkst { get; set; }
+        public DayOfWeek? Wkst { get; set; }
 
         public override string ToString()
         {
@@ -131,21 +131,41 @@ namespace ICalendar.ValueTypes
 
     public class WeekDayType
     {
+        /// <summary>
+        /// Constructor depracated!!
+        /// </summary>
+        /// <param name="ordDay"></param>
+        /// <param name="weekDay"></param>
         public WeekDayType(int? ordDay, RecurValues.Weekday weekDay)
         {
             OrdDay = ordDay;
             WeekDay = weekDay;
         }
-        int? OrdDay { get; set; }
 
-        RecurValues.Weekday WeekDay { get; set; }
+        /// <summary>
+        /// Use this contructor for building this type.
+        /// The other is still for compatibilities reason
+        /// </summary>
+        /// <param name="ordDay"></param>
+        /// <param name="day"></param>
+        public WeekDayType(int? ordDay, DayOfWeek day)
+        {
+            OrdDay = ordDay;
+            DayOfWeek = day;
+        }
+
+        public int? OrdDay { get; set; }
+
+        public RecurValues.Weekday WeekDay { get; set; }
+
+        public DayOfWeek DayOfWeek { get; set; }
 
         public override string ToString()
         {
             StringBuilder str = new StringBuilder();
             if (OrdDay != null)
                 str.Append(OrdDay);
-            str.Append(RecurValues.ToString(WeekDay));
+            str.Append(RecurValues.ToString(DayOfWeek));
             return str.ToString();
         }
 
@@ -156,7 +176,7 @@ namespace ICalendar.ValueTypes
     {
         public enum Frequencies
         {
-            MINUTELY, HOURLY, DAILY, WEEKLY, MONTHLY, YEARLY
+            SECONDLY,MINUTELY, HOURLY, DAYLY, WEEKLY, MONTHLY, YEARLY
         }
 
         public enum Weekday
@@ -176,14 +196,16 @@ namespace ICalendar.ValueTypes
                     return "MINUTELY";
                 case Frequencies.HOURLY:
                     return "HOURLY";
-                case Frequencies.DAILY:
-                    return "DAILY";
+                case Frequencies.DAYLY:
+                    return "DAYLY";
                 case Frequencies.WEEKLY:
                     return "WEEKLY";
                 case Frequencies.MONTHLY:
                     return "MONTHLY";
                 case Frequencies.YEARLY:
                     return "YEARLY";
+                    case Frequencies.SECONDLY:
+                    return "SECONDLY";
                 default:
                     throw new ArgumentOutOfRangeException(nameof(value), value, null);
             }
@@ -194,23 +216,23 @@ namespace ICalendar.ValueTypes
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static string ToString(Weekday value)
+        public static string ToString(DayOfWeek value)
         {
             switch (value)
             {
-                case Weekday.MO:
+                case DayOfWeek.Monday:
                     return "MO";
-                case Weekday.TU:
+                case DayOfWeek.Tuesday:
                     return "TU";
-                case Weekday.WE:
+                case DayOfWeek.Wednesday:
                     return "WE";
-                case Weekday.TH:
+                case DayOfWeek.Thursday:
                     return "TH";
-                case Weekday.FR:
+                case DayOfWeek.Friday:
                     return "FR";
-                case Weekday.SA:
+                case DayOfWeek.Saturday:
                     return "SA";
-                case Weekday.SU:
+                case DayOfWeek.Sunday:
                     return "SU";
                 default:
                     throw new ArgumentOutOfRangeException(nameof(value), value, null);
@@ -231,14 +253,16 @@ namespace ICalendar.ValueTypes
                     return Frequencies.MINUTELY;
                 case "HOURLY":
                     return Frequencies.HOURLY;
-                case "DAILY":
-                    return Frequencies.DAILY;
+                case "DAYLY":
+                    return Frequencies.DAYLY;
                 case "WEEKLY":
                     return Frequencies.WEEKLY;
                 case "MONTHLY":
                     return Frequencies.MONTHLY;
                 case "YEARLY":
                     return Frequencies.YEARLY;
+                case "SECONDLY":
+                    return Frequencies.SECONDLY;
                 default:
                     return null;
             }
@@ -250,56 +274,56 @@ namespace ICalendar.ValueTypes
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static Weekday ParseValues(string value)
+        public static DayOfWeek ParseValues(string value)
         {
             switch (value)
             {
                 case "MO":
-                    return Weekday.MO;
+                    return DayOfWeek.Monday;
                 case "TU":
-                    return Weekday.TU;
+                    return DayOfWeek.Tuesday;
                 case "WE":
-                    return Weekday.WE;
+                    return DayOfWeek.Wednesday;
                 case "TH":
-                    return Weekday.TH;
+                    return DayOfWeek.Thursday;
                 case "FR":
-                    return Weekday.FR;
+                    return DayOfWeek.Friday;
                 case "SA":
-                    return Weekday.SA;
+                    return DayOfWeek.Saturday;
                 case "SU":
-                    return Weekday.SU;
+                    return DayOfWeek.Sunday;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(value), value, null);
             }
         }
 
-        public static bool TryParseValue(string value, out Weekday weekday)
+        public static bool TryParseValue(string value, out DayOfWeek weekday)
         {
             switch (value)
             {
                 case "MO":
-                    weekday = Weekday.MO;
+                    weekday = DayOfWeek.Monday;
                     return true;
                 case "TU":
-                    weekday = Weekday.TU;
+                    weekday = DayOfWeek.Tuesday;
                     return true;
                 case "WE":
-                    weekday= Weekday.WE;
+                    weekday= DayOfWeek.Wednesday;
                     return true;
                 case "TH":
-                    weekday = Weekday.TH;
+                    weekday = DayOfWeek.Thursday;
                     return true;
                 case "FR":
-                    weekday = Weekday.FR;
+                    weekday = DayOfWeek.Friday;
                     return true;
                 case "SA":
-                    weekday = Weekday.SA;
+                    weekday = DayOfWeek.Saturday;
                     return true;
                 case "SU":
-                    weekday = Weekday.SU;
+                    weekday = DayOfWeek.Sunday;
                     return true;
                 default:
-                    weekday = Weekday.WE;
+                    weekday = DayOfWeek.Wednesday;
                     return false;
             }
         }
