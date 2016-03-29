@@ -37,7 +37,7 @@ namespace ICalendar.GeneralInterfaces
 
         /// <summary>
         /// Contains the properties that might be defined
-        /// multiple times. These are RRULE and ATTENDEE
+        /// multiple times. These are RRULE | ATTENDEE | FREEBUSY
         /// </summary>
         Dictionary<string, List<IComponentProperty>> MultipleValuesProperties { get; set; }
 

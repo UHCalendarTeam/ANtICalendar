@@ -1,4 +1,4 @@
-﻿namespace ICalendar.ComponentProperties.Unknown
+﻿namespace ICalendar.ComponentProperties
 {
     public class Unknown : ComponentProperty<string>
     {

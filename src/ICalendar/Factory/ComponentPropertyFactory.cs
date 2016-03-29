@@ -1,4 +1,4 @@
-﻿using ICalendar.ComponentProperties.Unknown;
+﻿using ICalendar.ComponentProperties;
 using ICalendar.GeneralInterfaces;
 using System;
 
@@ -24,10 +24,11 @@ namespace ICalendar.Factory
             /// of the specified in the iCalendar protocol
             /// the process it to get its equivalent name
             /// of this system.
+            propSysName = propSysName.Substring(0, 1) + propSysName.Substring(1).ToLower();
             if (propSysName.Contains("-"))
             {
                 propSysName = propSysName.Replace("-", "_");
-                propSysName = propSysName.Substring(0, 1) + propSysName.Substring(1).ToLower();
+               
             }
 
             var type = Type.GetType(_assemblyName + propSysName);

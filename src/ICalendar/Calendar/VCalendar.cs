@@ -169,13 +169,12 @@ namespace ICalendar.Calendar
                 switch (name)
                 {
                     case "BEGIN":
-                        var className = value;
-                        className = className.Substring(0, 2) + className.Substring(2).ToLower();
+                       
 
                         ///if the component is vcalendar then create is
                         /// if not then call the factory to get the object
                         /// that name.
-                        calComponent = value == "VCALENDAR" ? new VCalendar() : calCompFactory.CreateIntance(className);
+                        calComponent = value == "VCALENDAR" ? new VCalendar() : calCompFactory.CreateIntance(value);
                         objStack.Push(calComponent);
                         continue;
                     case "END":

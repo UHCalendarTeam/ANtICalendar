@@ -15,11 +15,7 @@ namespace ICalendar.CalendarComponents
         public CalendarComponent()
         {
             Properties = new Dictionary<string, IComponentProperty>();
-            MultipleValuesProperties = new Dictionary<string, List<IComponentProperty>>()
-            {
-                {"RRULE", new List<IComponentProperty>() },
-                {"ATTENDEE", new List<IComponentProperty>() }
-            };
+            MultipleValuesProperties = new Dictionary<string, List<IComponentProperty>>();
         }
 
         public virtual void Serialize(TextWriter writer)
@@ -64,9 +60,12 @@ namespace ICalendar.CalendarComponents
             var prop = component as IComponentProperty;
             if (prop == null)
                 throw new ArgumentException("THe value should be an IComponentProperty");
-            if (prop.Name == "RRULE" || prop.Name == "ATTENDEE")
+            if (prop.Name == "RRULE" || prop.Name == "ATTENDEE" || prop.Name == "FREEBUSY")
             {
-                MultipleValuesProperties[prop.Name].Add(prop);
+                if(MultipleValuesProperties.ContainsKey(prop.Name))
+                    MultipleValuesProperties[prop.Name].Add(prop);
+                else 
+                    MultipleValuesProperties[prop.Name] = new List<IComponentProperty>() {prop};
             }
             else
                 Properties.Add(prop.Name, prop);

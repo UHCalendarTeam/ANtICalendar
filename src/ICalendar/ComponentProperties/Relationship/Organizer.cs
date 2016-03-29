@@ -1,4 +1,4 @@
-﻿namespace ICalendar.ComponentProperties.Relationship
+﻿namespace ICalendar.ComponentProperties
 {
     /// <summary>
     /// Purpose: This property defines the organizer for a calendar component.

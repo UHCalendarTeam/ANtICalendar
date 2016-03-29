@@ -1,6 +1,6 @@
 ﻿namespace ICalendar.CalendarComponents
 {
-    public class VFreeBusy : CalendarComponent
+    public class VFreebusy : CalendarComponent
     {
         public override string Name => "VFREEBUSY";
     }

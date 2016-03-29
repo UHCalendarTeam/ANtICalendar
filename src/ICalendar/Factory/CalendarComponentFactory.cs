@@ -14,14 +14,15 @@ namespace ICalendar.Factory
         private readonly string _assemblyName = "ICalendar.CalendarComponents.";
 
         /// <summary>
-        ///     Creates an intences of the spicified type
-        ///     using the default contructor.
+        ///     Creates an instance of the specified type
+        ///     using the default constructor.
         /// </summary>
         /// <param name="objSysName">The name of the object.</param>
         /// <param name="objName"></param>
         /// <returns></returns>
         public ICalendarObject CreateIntance(string objSysName, string objName = "")
         {
+            objSysName = objSysName.Substring(0, 2) + objSysName.Substring(2).ToLower();
             var type = Type.GetType(_assemblyName + objSysName);
             if (type != null)
                 return Activator.CreateInstance(type) as ICalendarComponent;
