@@ -20,8 +20,8 @@ namespace ICalendar.CalendarComponents
        
 
         /// <summary>
-        /// If component is VAlarm type the add it to Alarms
-        /// if not is a property and call the base
+        /// Add an ICalendarComponent to the event
+        /// or a property.
         /// </summary>
         /// <param name="component"></param>
         public override void AddItem(ICalendarObject component)
@@ -36,6 +36,9 @@ namespace ICalendar.CalendarComponents
                 base.AddItem(component);
         }
 
+        /// <summary>
+        /// Contains the components of the VEvent (i.e 
+        /// </summary>
         public IDictionary<string, IList<ICalendarComponent>> CalendarComponents { get; }
     }
 }

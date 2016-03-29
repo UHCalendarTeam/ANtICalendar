@@ -9,23 +9,37 @@ using ICalendar.ValueTypes;
 namespace ICalendar.ComponentProperties
 {
     /// <summary>
-    /// This class is used for the properties of the 
-    /// CalendarComponents
+    ///     Represent the iCalendar component properties.
+    ///     Contains the name and the value of the property
+    ///     with its .NET type.
     /// </summary>
     /// <typeparam name="T">The Type of the property</typeparam>
-    public class ComponentProperty<T>:IComponentProperty, IValue<T>, IDeserialize
+    public class ComponentProperty<T> : IComponentProperty, IValue<T>
     {
         public ComponentProperty()
         {
             PropertyParameters = new List<PropertyParameter>();
         }
-        public virtual string Name { get; set; }
+
+
+        #region Properties
+         public virtual string Name { get; set; }
 
         public List<PropertyParameter> PropertyParameters { get; set; }
+
         public string StringValue { get; set; }
 
+        public T Value { get; set; }
+        #endregion
+
+
+        public virtual void Serialize(TextWriter writer)
+        {
+            writer.Write(this.StringRepresentation());
+        }
+
         /// <summary>
-        /// Takes the value and the params of the property, build it and return it.
+        ///     Takes the value and the params of the property, build it and return it.
         /// </summary>
         /// <param name="value">The value of the property</param>
         /// <param name="parameters">THe params of the property</param>
@@ -89,18 +103,11 @@ namespace ICalendar.ComponentProperties
             throw new ArgumentException("Don't implemented argument.");
         }
 
-        public T Value { get; set; }
-
-        public virtual void Serialize(TextWriter writer)
-        {
-           writer.Write(this.StringRepresentation());
-        }
-
+       
 
         public override string ToString()
         {
             return this.StringRepresentation();
         }
     }
-    
 }
