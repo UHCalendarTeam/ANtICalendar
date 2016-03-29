@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,8 +15,11 @@ namespace ICalendar.CalendarComponents
         public CalendarComponent()
         {
             Properties = new Dictionary<string, IComponentProperty>();
-            RRules = new List<IComponentProperty>();
-            Attendees = new List<IComponentProperty>();
+            MultipleValuesProperties = new Dictionary<string, List<IComponentProperty>>()
+            {
+                {"RRULE", new List<IComponentProperty>() },
+                {"ATTENDEE", new List<IComponentProperty>() }
+            };
         }
 
         public virtual void Serialize(TextWriter writer)
@@ -58,17 +62,17 @@ namespace ICalendar.CalendarComponents
         public virtual void AddItem(ICalendarObject component)
         {
             var prop = component as IComponentProperty;
-            if (prop.Name == "RRULE")
-                RRules.Add(prop);
+            if (prop == null) 
+                throw new ArgumentException("THe value should be an IComponentProperty");
+            if (prop.Name == "RRULE" || prop.Name == "ATTENDEE")
+            {
+                MultipleValuesProperties[prop.Name].Add(prop);
+            }
             else
                 Properties.Add(prop.Name, prop);
         }
 
 
-        public List<IComponentProperty> GetAttendees()
-        {
-            return Attendees;
-        }
 
         /// <summary>
         /// Returns the string representation of the 
@@ -82,10 +86,16 @@ namespace ICalendar.CalendarComponents
 
             foreach (var property in Properties.Where(x => properties.Contains(x.Key)).Select(x => x.Value))
                 strBuilder.Append(property);
+
             if (properties.Contains("RRULE"))
-                foreach (var rRule in RRules)
+                foreach (var rRule in MultipleValuesProperties["RRULE"])
                 {
                     strBuilder.Append(rRule);
+                }
+            if (properties.Contains("ATTENDEE"))
+                foreach (var attendee in MultipleValuesProperties["ATTENDEE"])
+                {
+                    strBuilder.Append(attendee);
                 }
 
 
@@ -118,6 +128,8 @@ namespace ICalendar.CalendarComponents
             return strBuilder.ToString();
         }
 
+        public Dictionary<string, List<IComponentProperty>> MultipleValuesProperties { get; set; }
+
 
         /// <summary>
         ///     Return the property by the given name.
@@ -128,16 +140,16 @@ namespace ICalendar.CalendarComponents
         {
             return Properties.ContainsKey(propName) ? Properties[propName] : null;
         }
-
         /// <summary>
-        ///     Get the list that contain the RRules.
+        /// Returns the properties that might have multiple 
+        /// definitions.(i.e RRULE, ATTENDEE)
         /// </summary>
-        /// <returns>All the RRules of the Component.</returns>
-        public List<IComponentProperty> GetRRules()
+        /// <param name="propName"></param>
+        /// <returns></returns>
+        public List<IComponentProperty> GetMultipleCompProperties(string propName)
         {
-            return RRules;
+            return MultipleValuesProperties.ContainsKey(propName) ? MultipleValuesProperties[propName] : null;
         }
-
 
         public override string ToString()
         {
@@ -146,10 +158,8 @@ namespace ICalendar.CalendarComponents
 
             foreach (var property in Properties.Values)
                 strBuilder.Append(property);
-            foreach (var rRule in RRules)
-            {
-                strBuilder.Append(rRule);
-            }
+            foreach (var prop in MultipleValuesProperties.Values.SelectMany(multipleValuesProperty => multipleValuesProperty))
+                strBuilder.Append(prop);
 
 
             if (this is ICalendarComponentsContainer)
@@ -178,31 +188,17 @@ namespace ICalendar.CalendarComponents
             return strBuilder.ToString();
         }
 
-
-        public CalendarComponent WithChoosenProperties(List<string> properties)
-        {
-            var output = new CalendarComponent
-            {
-                Properties = Properties.Where(x => properties.Contains(x.Key)).ToDictionary(x => x.Key, x => x.Value),
-                Name = Name,
-                RRules = properties.Contains("RRULES") ? RRules : null
-            };
-            return output;
-        }
-
         public List<VAlarm> GetAlarms()
         {
-            return (this as IAlarmContainer).Alarms;
+            var alarmContainer = this as IAlarmContainer;
+            return alarmContainer?.Alarms;
         }
 
         #region Properties
 
         public IDictionary<string, IComponentProperty> Properties { get; set; }
         public virtual string Name { get; set; }
-
-        public List<IComponentProperty> RRules { get; set; }
-
-        public List<IComponentProperty> Attendees { get; set; }
+     
 
         public IComponentProperty this[string name] => Properties.ContainsKey(name) ? Properties[name] : null;
 
