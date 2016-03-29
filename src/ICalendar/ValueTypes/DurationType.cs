@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using ICalendar.Utils;
 
 namespace ICalendar.ValueTypes
 {
@@ -32,8 +31,6 @@ namespace ICalendar.ValueTypes
             Minutes = minutes;
             Seconds = seconds;
         }
-
-      
 
         public int? Days { get; set; }
 
@@ -73,7 +70,7 @@ namespace ICalendar.ValueTypes
                 }
                 if (Seconds != null)
                 {
-                    if (Hours == null && Minutes==null)
+                    if (Hours == null && Minutes == null)
                         strbuilder.Append("T");
                     strbuilder.Append(Seconds + "S");
                 }
@@ -111,12 +108,7 @@ namespace ICalendar.ValueTypes
                 throw new NullReferenceException();
             }
 
-
-
-
             return strbuilder.ToString();
         }
-
-   
     }
 }

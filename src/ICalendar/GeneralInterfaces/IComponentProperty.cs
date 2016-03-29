@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using ICalendar.PropertyParameters;
+﻿using ICalendar.PropertyParameters;
+using System.Collections.Generic;
 
 namespace ICalendar.GeneralInterfaces
 {
@@ -21,7 +21,5 @@ namespace ICalendar.GeneralInterfaces
         ///     text-match filter of the REPORT method of CalDAV.
         /// </summary>
         string StringValue { get; set; }
-
-      
     }
 }

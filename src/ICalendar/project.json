@@ -1,5 +1,5 @@
 {
-    "version": "1.0.0-beta3-28316",
+    "version": "1.0.0-rc1",
     "description": "ICalendar is a library for parsing and writing icalendar files.\nIt Implements the specification given in RCF 5545.\n",
   "authors": [ "Adriano Flechilla, Jose Ignacio Vazquez" ],
   "Release Notes" : "Fixed some bugs in the Recur class.\n Fixed a typo in the FREQ",
@@ -22,5 +22,4 @@
         "dnx451": { },
         "dnxcore50": { }
     }
-
 }

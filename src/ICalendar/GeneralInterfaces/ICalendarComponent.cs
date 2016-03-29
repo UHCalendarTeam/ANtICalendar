@@ -11,22 +11,20 @@ namespace ICalendar.GeneralInterfaces
     {
         /// <summary>
         ///     Returns a property by the given name.
-        ///     
+        ///
         /// </summary>
         /// <param name="propName">Property name.</param>
         /// <returns>The property with the given name. </returns>
         IComponentProperty GetComponentProperty(string propName);
 
         /// <summary>
-        ///     The iCalendar properties RRUES and 
+        ///     The iCalendar properties RRUES and
         ///     ATTENDEE may be defined multiple times
-        ///     in a cal component so are returned as a list     
+        ///     in a cal component so are returned as a list
         /// </summary>
         /// <param name="propName">"RRULE" || "ATTENDEE"</param>
         /// <returns>Multiple definition of one of this properties</returns>
         List<IComponentProperty> GetMultipleCompProperties(string propName);
-
-      
 
         /// <summary>
         ///     Convert the object in his iCalendar string representation.
@@ -36,23 +34,24 @@ namespace ICalendar.GeneralInterfaces
         string ToString(IEnumerable<string> value);
 
         #region Properties
+
         /// <summary>
-        /// Contains the properties that might be defined 
+        /// Contains the properties that might be defined
         /// multiple times. These are RRULE and ATTENDEE
         /// </summary>
-        Dictionary<string,List<IComponentProperty>> MultipleValuesProperties { get; set; }
-        
+        Dictionary<string, List<IComponentProperty>> MultipleValuesProperties { get; set; }
 
         /// <summary>
         /// Returns the property of the component that
         /// has the given name. The HAVE to be one of the
-        /// specifies in iCalendar protocol except 
+        /// specifies in iCalendar protocol except
         /// RRULES and ATTENDEES that might be defined multiple
         /// times.
         /// </summary>
         /// <param name="name">The iCalendar name of the property.</param>
         /// <returns></returns>
         IComponentProperty this[string name] { get; }
-        #endregion
+
+        #endregion Properties
     }
 }

@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using ICalendar.GeneralInterfaces;
+﻿using ICalendar.GeneralInterfaces;
 using ICalendar.PropertyParameters;
 using ICalendar.Utils;
 using ICalendar.ValueTypes;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace ICalendar.ComponentProperties
 {
@@ -20,7 +20,6 @@ namespace ICalendar.ComponentProperties
         {
             PropertyParameters = new List<PropertyParameter>();
         }
-
 
         public virtual void Serialize(TextWriter writer)
         {
@@ -92,7 +91,6 @@ namespace ICalendar.ComponentProperties
             throw new ArgumentException("Don't implemented argument.");
         }
 
-
         public override string ToString()
         {
             return this.StringRepresentation();
@@ -108,6 +106,6 @@ namespace ICalendar.ComponentProperties
 
         public T Value { get; set; }
 
-        #endregion
+        #endregion Properties
     }
 }

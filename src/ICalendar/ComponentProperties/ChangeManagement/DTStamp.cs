@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using ICalendar.GeneralInterfaces;
 
 namespace ICalendar.ComponentProperties
 {
@@ -13,8 +9,6 @@ namespace ICalendar.ComponentProperties
     /// </summary>
     public class Dtstamp : ComponentProperty<DateTime>
     {
-
         public override string Name => "DTSTAMP";
-        
     }
 }

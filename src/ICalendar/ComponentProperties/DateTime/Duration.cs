@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using ICalendar.GeneralInterfaces;
-using ICalendar.ValueTypes;
+﻿using ICalendar.ValueTypes;
 
 namespace ICalendar.ComponentProperties
 {
@@ -13,9 +9,6 @@ namespace ICalendar.ComponentProperties
     /// </summary>
     public class Duration : ComponentProperty<DurationType>
     {
-
         public override string Name => "DURATION";
-       
-
     }
 }

@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using ICalendar.GeneralInterfaces;
-
-namespace ICalendar.ComponentProperties
+﻿namespace ICalendar.ComponentProperties
 {
     /// <summary>
     /// Calendar Components: VEVENT, VTODO, VJOURNAL;
@@ -12,8 +7,6 @@ namespace ICalendar.ComponentProperties
     /// </summary>
     public class Sequence : ComponentProperty<int>
     {
-
         public override string Name => "SEQUENCE";
-        
     }
 }

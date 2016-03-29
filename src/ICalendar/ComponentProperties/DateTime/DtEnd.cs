@@ -1,7 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Text;
-using ICalendar.GeneralInterfaces;
 
 namespace ICalendar.ComponentProperties
 {
@@ -13,6 +10,5 @@ namespace ICalendar.ComponentProperties
     public class Dtend : ComponentProperty<DateTime>
     {
         public override string Name => "DTEND";
-
     }
 }

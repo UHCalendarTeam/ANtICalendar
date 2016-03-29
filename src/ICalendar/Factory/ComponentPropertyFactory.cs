@@ -1,6 +1,6 @@
-﻿using System;
-using ICalendar.ComponentProperties.Unknown;
+﻿using ICalendar.ComponentProperties.Unknown;
 using ICalendar.GeneralInterfaces;
+using System;
 
 namespace ICalendar.Factory
 {
@@ -20,7 +20,7 @@ namespace ICalendar.Factory
         /// <returns></returns>
         public ICalendarObject CreateIntance(string propSysName, string propName)
         {
-            ///if the name of the object is one 
+            ///if the name of the object is one
             /// of the specified in the iCalendar protocol
             /// the process it to get its equivalent name
             /// of this system.
@@ -37,10 +37,10 @@ namespace ICalendar.Factory
                 return Activator.CreateInstance(type) as IComponentProperty;
 
             //if the property isn't define in the system
-            //then it's a private property an is gonna be returned as 
+            //then it's a private property an is gonna be returned as
             //an Unknown property
 
-            return new Unknown {Name = propName};
+            return new Unknown { Name = propName };
         }
     }
 }

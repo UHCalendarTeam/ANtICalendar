@@ -1,5 +1,5 @@
-﻿using System;
-using ICalendar.GeneralInterfaces;
+﻿using ICalendar.GeneralInterfaces;
+using System;
 
 namespace ICalendar.Factory
 {

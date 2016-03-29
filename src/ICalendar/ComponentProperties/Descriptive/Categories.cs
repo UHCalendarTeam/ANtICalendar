@@ -1,7 +1,4 @@
 ﻿using System.Collections.Generic;
-using ICalendar.ComponentProperties;
-using ICalendar.GeneralInterfaces;
-using static ICalendar.Utils.Utils;
 
 namespace ICalendar.ComponentProperties
 {
@@ -10,13 +7,12 @@ namespace ICalendar.ComponentProperties
     ///component.
     /// ---Conformance: The property can be specified within "VEVENT", "VTODO",
     ///or "VJOURNAL" calendar components.
-    /// 
-    /// 
+    ///
+    ///
     /// </summary>
     /// ////
     public class Categories : ComponentProperty<IList<string>>
     {
         public override string Name => "CATEGORIES";
     }
- 
 }

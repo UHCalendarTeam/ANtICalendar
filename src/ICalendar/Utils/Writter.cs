@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ICalendar.Calendar;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using ICalendar.Calendar;
 
 namespace ICalendar.Utils
 {
@@ -14,7 +10,6 @@ namespace ICalendar.Utils
     {
         public static bool CalendarWriter(TextWriter writer, VCalendar calendar)
         {
-
             return false;
         }
     }

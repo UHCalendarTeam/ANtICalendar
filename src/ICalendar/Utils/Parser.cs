@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using ICalendar.PropertyParameters;
+using System.Collections.Generic;
 using System.Linq;
-using ICalendar.PropertyParameters;
 
 namespace ICalendar.Utils
 {
@@ -31,13 +31,13 @@ namespace ICalendar.Utils
             if (line == "")
             {
                 //it means there's nothing else in the file
-                //so return 
+                //so return
                 return false;
             }
 
             //from the begining of the line till the index of these chars
             //has to be the name
-            var speraratorIndex = line.IndexOfAny(new[] {':', ';'});
+            var speraratorIndex = line.IndexOfAny(new[] { ':', ';' });
             name = line.Substring(0, speraratorIndex);
 
             //if the first separator is ';' then the line contains params values
@@ -50,11 +50,9 @@ namespace ICalendar.Utils
             else
                 value = line.Substring(speraratorIndex + 1);
 
-
             //check if the name and value object are setted
             return name != "" && value != "";
         }
-
 
         /// <summary>
         ///     Parse a string than contains the params of a property.
@@ -70,7 +68,6 @@ namespace ICalendar.Utils
                     .Select(nameValue => new PropertyParameter(nameValue[0], nameValue[1]))
                     .ToList();
         }
-
 
         /// <summary>
         ///     take the calendar string and prepare it for the processing

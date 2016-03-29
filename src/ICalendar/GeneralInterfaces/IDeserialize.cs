@@ -1,8 +1,5 @@
-﻿using System;
+﻿using ICalendar.PropertyParameters;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ICalendar.PropertyParameters;
 
 namespace ICalendar.GeneralInterfaces
 {

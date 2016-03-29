@@ -1,14 +1,9 @@
-﻿using System;
+﻿using ICalendar.GeneralInterfaces;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using ICalendar.ComponentProperties;
-using ICalendar.GeneralInterfaces;
 
 namespace ICalendar.CalendarComponents
 {
-    public class VTodo: CalendarComponent, ICalendarComponentsContainer
+    public class VTodo : CalendarComponent, ICalendarComponentsContainer
     {
         public VTodo()
         {
@@ -17,7 +12,6 @@ namespace ICalendar.CalendarComponents
 
         public override string Name => "VTODO";
         public IDictionary<string, IList<ICalendarComponent>> CalendarComponents { get; }
-
 
         /// <summary>
         /// If component is VAlarm type the add it to Alarms
@@ -35,7 +29,5 @@ namespace ICalendar.CalendarComponents
             else
                 base.AddItem(component);
         }
-
-       
     }
 }

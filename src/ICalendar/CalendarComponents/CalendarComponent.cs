@@ -1,9 +1,9 @@
-﻿using System;
+﻿using ICalendar.GeneralInterfaces;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using ICalendar.GeneralInterfaces;
 
 namespace ICalendar.CalendarComponents
 {
@@ -56,13 +56,13 @@ namespace ICalendar.CalendarComponents
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="component"></param>
         public virtual void AddItem(ICalendarObject component)
         {
             var prop = component as IComponentProperty;
-            if (prop == null) 
+            if (prop == null)
                 throw new ArgumentException("THe value should be an IComponentProperty");
             if (prop.Name == "RRULE" || prop.Name == "ATTENDEE")
             {
@@ -72,10 +72,8 @@ namespace ICalendar.CalendarComponents
                 Properties.Add(prop.Name, prop);
         }
 
-
-
         /// <summary>
-        /// Returns the string representation of the 
+        /// Returns the string representation of the
         /// </summary>
         /// <param name="properties"></param>
         /// <returns></returns>
@@ -97,7 +95,6 @@ namespace ICalendar.CalendarComponents
                 {
                     strBuilder.Append(attendee);
                 }
-
 
             //TODO: check this out
             var container = this as ICalendarComponentsContainer;
@@ -130,7 +127,6 @@ namespace ICalendar.CalendarComponents
 
         public Dictionary<string, List<IComponentProperty>> MultipleValuesProperties { get; set; }
 
-
         /// <summary>
         ///     Return the property by the given name.
         /// </summary>
@@ -140,8 +136,9 @@ namespace ICalendar.CalendarComponents
         {
             return Properties.ContainsKey(propName) ? Properties[propName] : null;
         }
+
         /// <summary>
-        /// Returns the properties that might have multiple 
+        /// Returns the properties that might have multiple
         /// definitions.(i.e RRULE, ATTENDEE)
         /// </summary>
         /// <param name="propName"></param>
@@ -160,7 +157,6 @@ namespace ICalendar.CalendarComponents
                 strBuilder.Append(property);
             foreach (var prop in MultipleValuesProperties.Values.SelectMany(multipleValuesProperty => multipleValuesProperty))
                 strBuilder.Append(prop);
-
 
             if (this is ICalendarComponentsContainer)
             {
@@ -198,10 +194,9 @@ namespace ICalendar.CalendarComponents
 
         public IDictionary<string, IComponentProperty> Properties { get; set; }
         public virtual string Name { get; set; }
-     
 
         public IComponentProperty this[string name] => Properties.ContainsKey(name) ? Properties[name] : null;
 
-        #endregion
+        #endregion Properties
     }
 }

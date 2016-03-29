@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using ICalendar.GeneralInterfaces;
+﻿using ICalendar.GeneralInterfaces;
 
 namespace ICalendar.Factory
 {

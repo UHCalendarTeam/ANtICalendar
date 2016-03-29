@@ -1,12 +1,12 @@
-﻿using System;
+﻿using ICalendar.Factory;
+using ICalendar.GeneralInterfaces;
+using ICalendar.PropertyParameters;
+using ICalendar.Utils;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using ICalendar.Factory;
-using ICalendar.GeneralInterfaces;
-using ICalendar.PropertyParameters;
-using ICalendar.Utils;
 using TreeForXml;
 
 namespace ICalendar.Calendar
@@ -37,10 +37,10 @@ namespace ICalendar.Calendar
             }
 
             if (CalendarComponents.ContainsKey(calComponent.Name))
-                CalendarComponents[calComponent.Name].Add((ICalendarComponent) calComponent);
+                CalendarComponents[calComponent.Name].Add((ICalendarComponent)calComponent);
             else
                 CalendarComponents.Add(calComponent.Name,
-                    new List<ICalendarComponent>(1) {(ICalendarComponent) calComponent});
+                    new List<ICalendarComponent>(1) { (ICalendarComponent)calComponent });
         }
 
         /// <summary>
@@ -61,7 +61,6 @@ namespace ICalendar.Calendar
             }
             writer.WriteLine("END:VCALENDAR");
         }
-
 
         /// <summary>
         ///     Return all the CalendarComponents that match with given the name.
@@ -109,7 +108,6 @@ namespace ICalendar.Calendar
             return strBuilder.ToString();
         }
 
-
         /// <summary>
         ///     Return the string representation of the calendar
         ///     with just the given properties and components.
@@ -146,7 +144,7 @@ namespace ICalendar.Calendar
 
         /// <summary>
         /// Parse the string that contain a calendar defines
-        /// under the protocol RFC 5545. Builds an instance 
+        /// under the protocol RFC 5545. Builds an instance
         /// of VCalendar with its components, properties..
         /// </summary>
         /// <param name="calendarString">The calendar to parse.</param>
@@ -191,14 +189,14 @@ namespace ICalendar.Calendar
                         ///if the object is not a VCalendar means
                         /// that should be added to his father that
                         /// is the first in the stack
-                        ((IAggregator) objStack.Peek()).AddItem(endedObject);
+                        ((IAggregator)objStack.Peek()).AddItem(endedObject);
                         continue;
                 }
                 ///creates an instance of a property
                 compProperty = compPropFactory.CreateIntance(name, name);
 
                 var topObj = objStack.Peek();
-                ((IAggregator) topObj).AddItem(((IDeserialize) compProperty).Deserialize(value, parameters));
+                ((IAggregator)topObj).AddItem(((IDeserialize)compProperty).Deserialize(value, parameters));
             }
 
             throw new ArgumentException("The calendar file MUST contain at least an element.");
@@ -273,7 +271,7 @@ namespace ICalendar.Calendar
                         CalendarComponents = calendar.CalendarComponents;
                         return;
                     }
-                    ((IAggregator) objStack.Peek()).AddItem(endedObject);
+                    ((IAggregator)objStack.Peek()).AddItem(endedObject);
                     continue;
                 }
                 var propSysName = name;
@@ -284,20 +282,18 @@ namespace ICalendar.Calendar
                 if (compProperty == null)
                     continue;
 
-
                 var topObj = objStack.Peek();
-                ((IAggregator) topObj).AddItem(((IDeserialize) compProperty).Deserialize(value, parameters));
+                ((IAggregator)topObj).AddItem(((IDeserialize)compProperty).Deserialize(value, parameters));
             }
 
             throw new ArgumentException("The calendar file MUST contain at least an element.");
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Properties
 
         public string Name => "VCALENDAR";
-
 
         //REQUIRED PROPERTIES
         private static readonly string ProId = "//UHCalendarTeam//UHCalendar//EN";
@@ -313,10 +309,9 @@ namespace ICalendar.Calendar
 
         public IDictionary<string, IComponentProperty> Properties { get; }
 
-
         //OPTIONAL MAY OCCUR MORE THAN ONCE
         //  X-PROP,  IANA-PROP
 
-        #endregion
+        #endregion Properties
     }
 }

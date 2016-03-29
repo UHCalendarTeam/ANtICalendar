@@ -1,7 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Text;
-using ICalendar.GeneralInterfaces;
 
 namespace ICalendar.ComponentProperties
 {
