@@ -22,17 +22,6 @@ namespace ICalendar.ComponentProperties
         }
 
 
-        #region Properties
-         public virtual string Name { get; set; }
-
-        public List<PropertyParameter> PropertyParameters { get; set; }
-
-        public string StringValue { get; set; }
-
-        public T Value { get; set; }
-        #endregion
-
-
         public virtual void Serialize(TextWriter writer)
         {
             writer.Write(this.StringRepresentation());
@@ -103,11 +92,22 @@ namespace ICalendar.ComponentProperties
             throw new ArgumentException("Don't implemented argument.");
         }
 
-       
 
         public override string ToString()
         {
             return this.StringRepresentation();
         }
+
+        #region Properties
+
+        public virtual string Name { get; set; }
+
+        public List<PropertyParameter> PropertyParameters { get; set; }
+
+        public string StringValue { get; set; }
+
+        public T Value { get; set; }
+
+        #endregion
     }
 }

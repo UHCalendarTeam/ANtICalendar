@@ -51,6 +51,10 @@ namespace ICalendar.CalendarComponents
             writer.WriteLine("END:" + Name);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="component"></param>
         public virtual void AddItem(ICalendarObject component)
         {
             var prop = component as IComponentProperty;
@@ -66,6 +70,11 @@ namespace ICalendar.CalendarComponents
             return Attendees;
         }
 
+        /// <summary>
+        /// Returns the string representation of the 
+        /// </summary>
+        /// <param name="properties"></param>
+        /// <returns></returns>
         public string ToString(IEnumerable<string> properties)
         {
             var strBuilder = new StringBuilder();
