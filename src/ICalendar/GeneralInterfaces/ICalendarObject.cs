@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace ICalendar.GeneralInterfaces
+﻿namespace ICalendar.GeneralInterfaces
 {
+    /// <summary>
+    ///     Represent a .NET object of an iCalendar
+    ///     component.
+    /// </summary>
     public interface ICalendarObject
     {
-         string Name { get; }
+        string Name { get; }
     }
 }

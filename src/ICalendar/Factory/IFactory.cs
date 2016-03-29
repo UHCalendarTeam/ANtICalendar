@@ -1,36 +1,17 @@
-﻿using ICalendar.GeneralInterfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using ICalendar.GeneralInterfaces;
 
 namespace ICalendar.Factory
 {
     public interface IFactory
     {
-         Dictionary<string, Type> _types { get; set;}
-    
-
-    /// <summary>
-    /// Create an instance of a Type with name
-    /// given by objectName
-    /// </summary>
-    /// <param name="objectName">The name of the type to create.</param>
-    /// <returns></returns>
-    ICalendarObject CreateIntance(string objectName, string propName="");
-
         /// <summary>
-        /// Load the available types that the IFactory
-        /// implementation can creates.
+        ///     Create an instance of a Type with the same name
+        ///     given by objectName
         /// </summary>
-        void LoadAvailableTypes();
-
-        /// <summary>
-        /// Resolve and returns the type of the 
-        /// object to be created.
-        /// </summary>
-        /// <param name="objName"></param>
+        /// <param name="objectName">The name of the type to create.</param>
         /// <returns></returns>
-        Type GetTypeToCreate(string objName);
+        ICalendarObject CreateIntance(string objectName, string propName = "");
     }
 }

@@ -12,8 +12,8 @@ using TreeForXml;
 namespace ICalendar.Calendar
 {
     /// <summary>
-    ///     Is the object representation of the VCALENDAR
-    ///     iCalendar component.
+    ///     Is the object representation of the
+    ///     iCalendar component VCALENDAR.
     ///     Contains the component properties and calendar components
     ///     of the VCALENDAR.
     /// </summary>
@@ -21,9 +21,9 @@ namespace ICalendar.Calendar
         ICalendarObject
     {
         /// <summary>
-        /// Add an item to the VCALENDAR.
-        /// The item SHOULD BE either an iCalendar property
-        /// or ICalendar component.
+        ///     Add an item to the VCALENDAR.
+        ///     The item SHOULD BE either an iCalendar property
+        ///     or ICalendar component.
         /// </summary>
         /// <param name="calComponent"></param>
         public void AddItem(ICalendarObject calComponent)
@@ -44,8 +44,8 @@ namespace ICalendar.Calendar
         }
 
         /// <summary>
-        /// Writes in the TextWriter the string representation 
-        /// of the calendar.
+        ///     Writes in the TextWriter the string representation
+        ///     of the calendar.
         /// </summary>
         /// <param name="writer"></param>
         public void Serialize(TextWriter writer)
@@ -84,9 +84,9 @@ namespace ICalendar.Calendar
         }
 
         /// <summary>
-        /// Returns the string representation of the 
-        /// VCALENDAR object followinb the format
-        /// defined in iCalendar protocol (RFC 5545).
+        ///     Returns the string representation of the
+        ///     VCALENDAR object followinb the format
+        ///     defined in iCalendar protocol (RFC 5545).
         /// </summary>
         /// <returns></returns>
         public override string ToString()
@@ -109,7 +109,6 @@ namespace ICalendar.Calendar
             return strBuilder.ToString();
         }
 
-       
 
         /// <summary>
         ///     Return the string representation of the calendar
@@ -145,11 +144,72 @@ namespace ICalendar.Calendar
             return strBuilder.ToString();
         }
 
-        #region Constructors
         /// <summary>
-        /// Use this when the components and the 
-        /// properties of the calendar are gonna be 
-        /// set manually.
+        /// Parse the string that contain a calendar defines
+        /// under the protocol RFC 5545. Builds an instance 
+        /// of VCalendar with its components, properties..
+        /// </summary>
+        /// <param name="calendarString">The calendar to parse.</param>
+        /// <returns>An instance of VCalendar.</returns>
+        public static VCalendar Parse(string calendarString)
+        {
+            var calCompFactory = new CalendarComponentFactory();
+            var compPropFactory = new ComponentPropertyFactory();
+            var name = "";
+            var value = "";
+            var parameters = new List<PropertyParameter>();
+            ICalendarObject calComponent = null;
+            ICalendarObject compProperty = null;
+            var objStack = new Stack<ICalendarObject>();
+            Type type = null;
+            var lines = Parser.CalendarReader(calendarString);
+
+            foreach (var line in lines)
+            {
+                if (!Parser.CalendarParser(line, out name, out parameters, out value))
+                    continue;
+                switch (name)
+                {
+                    case "BEGIN":
+                        var className = value;
+                        className = className.Substring(0, 2) + className.Substring(2).ToLower();
+
+                        ///if the component is vcalendar then create is
+                        /// if not then call the factory to get the object
+                        /// that name.
+                        calComponent = value == "VCALENDAR" ? new VCalendar() : calCompFactory.CreateIntance(className);
+                        objStack.Push(calComponent);
+                        continue;
+                    case "END":
+                        var endedObject = objStack.Pop();
+                        //if the last object in the stack is an VCalendar then
+                        //is the end of the parsing
+                        var vCalendar = endedObject as VCalendar;
+                        if (vCalendar != null)
+                            return vCalendar;
+
+                        ///if the object is not a VCalendar means
+                        /// that should be added to his father that
+                        /// is the first in the stack
+                        ((IAggregator) objStack.Peek()).AddItem(endedObject);
+                        continue;
+                }
+                ///creates an instance of a property
+                compProperty = compPropFactory.CreateIntance(name, name);
+
+                var topObj = objStack.Peek();
+                ((IAggregator) topObj).AddItem(((IDeserialize) compProperty).Deserialize(value, parameters));
+            }
+
+            throw new ArgumentException("The calendar file MUST contain at least an element.");
+        }
+
+        #region Constructors
+
+        /// <summary>
+        ///     Use this when the components and the
+        ///     properties of the calendar are gonna be
+        ///     set manually.
         /// </summary>
         public VCalendar()
         {
@@ -164,17 +224,11 @@ namespace ICalendar.Calendar
             CalendarComponents = calComponents;
         }
 
-
-        //public VCalendar(string methodVal, string calscaleVal)
-        //{
-        //    ComponentProperties = new List<IComponentProperty>();
-        //    CalendarComponents = new List<ICalendarComponent>();
-
-        //    CalScale = new Calscale() { Value = calscaleVal };
-        //    Method = new Method() { Value = methodVal };
-        //}
-
-
+        /// <summary>
+        /// THis constructor is deprecated.
+        /// Use the Parse method instead.
+        /// </summary>
+        /// <param name="calendarString"></param>
         public VCalendar(string calendarString)
         {
             var calCompFactory = new CalendarComponentFactory();

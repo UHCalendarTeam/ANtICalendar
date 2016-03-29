@@ -74,7 +74,7 @@ END:VALARM
 END:VEVENT
 END:VCALENDAR
 ";
-			VCalendar calendar = new VCalendar(calString);
+			VCalendar calendar = VCalendar.Parse(calString);
 			var calendarString = calendar.ToString();
 			UnicodeEncoding uniencoding = new UnicodeEncoding();
 			UTF8Encoding utf8Encoding = new UTF8Encoding();
@@ -156,7 +156,7 @@ END:VALARM
 END:VEVENT
 END:VCALENDAR
 ";
-			VCalendar calendar = new VCalendar(calString);
+			VCalendar calendar = VCalendar.Parse(calString);
 			var calEvent = calendar.GetCalendarComponents("VEVENT").First() as VEvent;
 			var eventAlarms = calEvent.CalendarComponents["VALARM"];
 			Assert.Equal((calEvent.GetComponentProperty("UID") as IValue<string>).Value, "0kusnhnnacaok1r02v16simh8c@google.com");
@@ -222,7 +222,7 @@ END:VALARM
 END:VEVENT
 END:VCALENDAR
 ";
-			VCalendar calendar = new VCalendar(calString);
+			VCalendar calendar = VCalendar.Parse(calString);
 			var xmlDoc = @"<?xml version=""1.0"" encoding=""utf-8"" ?>
 <C:calendar-query xmlns:D=""DAV:""
 xmlns:C=""urn:ietf:params:xml:ns:caldav"">
