@@ -1,0 +1,104 @@
+ICAl:
+  ✔ Cambiar library icalendar a una library de asp.net 5 --dependency injection-- @done (16-02-11 12:15)
+  ✔ Implementar una clase por cada propiedad. @done (16-02-11 12:15)
+   Properties to implement:
+    Descriptive Component Properties --Adriano: 
+      ✔ Attachment @done (16-02-20 17:16)
+      ✔ Categories @done (16-02-20 17:16)
+      ✔ Comment @done (16-02-20 17:16)
+      ✔ Classificaction @done (16-02-20 17:16)
+      ✔ Description @done (16-02-20 17:16)
+      ✔ Location @done (16-02-20 17:16)
+      ✔ Status @done (16-02-20 17:16)
+      ✔ Summary @done (16-02-20 17:16)
+      ✔ Resources @done (16-02-20 17:16)
+      ✔ Priority @done (16-02-20 17:16)
+    Date and Time COmponent Properties --Nacho: 
+      ✔ DT Completed @done (16-02-20 17:17)
+      ✔ DT End @done (16-02-20 17:17)
+      ✔ DT Due @done (16-02-20 17:17)
+      ✔ DT Start @done (16-02-20 17:17)
+      ✔ Duration @done (16-02-20 17:17)
+      ✔ Free/Busy Time @done (16-02-20 17:17)
+      ✔ Time Transparency @done (16-02-20 17:17)
+   Relatoinship Component Properties --Adriano:
+      ☐ Attendee
+      ☐ Contact
+      ☐ Organizer
+      ☐ Recurrence ID
+      ☐ Related To
+      ☐ Uniform Resource Locator
+      ☐ Unique Identifier
+   Recurrence Component Properties --Nacho:
+       ✔ Exception DT @done (16-02-20 17:20)
+       ✔ Recurrence DT @done (16-02-20 17:20)
+       ✔ Recurrence Rule @done (16-02-20 17:20)
+   Alarm Component Properties --Nacho:
+       ✔ Action @done (16-02-20 17:20)
+       ✔ Repeat Count @done (16-02-20 17:20)
+       ☐ Trigger
+   Change Managment Component Properties --nacho: 
+       ✔ DT Created @done (16-02-20 17:20)
+       ✔ DT Stamp @done (16-02-20 17:20)
+       ✔ Last Modified @done (16-02-20 17:20)
+
+
+
+ NACHO:    
+   ☐ RDATE puede ser Period.
+   ☐ Trigger puede ser Datetime
+ 
+
+
+ Adriano: 
+
+
+ General:
+
+
+
+ Future Implementations:
+   ☐ Cambiar las propiedades que son string y deben ser URI.
+   ☐ Implementar funcionalidades de Binary values en Attach
+   ✔ Identificar diferencias e/ Date y DateTime @done (16-02-24 11:38)
+   ☐ Crear clase en CalDav para el comprobar correctitud de objetos iCalendar.   
+   ☐ Implementar ATENDEE como una lista de CompProperties pues una comp puede tener mas de uno
+   ☐  Annadir un value a los IComponentProperty de tipo string.
+
+
+CALDAV:
+  ☐ Preconditions Modules (pg 20)
+  ☐ Filter module.
+
+
+ Calendar Access Features:
+   MUST be defined on all calendar collections:
+     ☐ 5.2.2 CALDAV:calendar-timezone Property
+     ☐ 5.2.5 CALDAV:max-resource-size Propert->para limitar el tamanno d los attachments.
+     ☐ 5.2.6 CALDAV:min-date-time Property->para limitar las componentes almacenadas.
+     ☐ 5.3.4 Calendar Object Resource Entity Tag
+ Calendar Access Control:
+   ☐ 6.1.1 CALDAV:read-free-busy Privilege
+
+ Calendaring Reports:
+   ☐ 7.1 REPORT Method  (defined in Section 3.6 of [RFC3253])
+   ☐ 7.3 Date and Floating Time
+   ☐ 7.4 Time Range Filtering
+   ☐ 7.5 Searching Text: Collations
+         ☐ 7.5.1 CALDAV:supported-collation-set Property
+   ☐ 7.8 CALDAV:calendar-query REPORT
+   ☐ 7.9 CALDAV:calendar-multiget REPORT
+   ☐ 7.10 CALDAV:free-busy-query REPORT
+  
+   ☐ 
+  To Fix:
+   ✔ el parametro the ATENDEE con nombre PARTSTAT esta cogiendo :mailto, so esta cogiendo parte del value @done (16-03-23 18:22)
+   ☐ RecurValues.Frequencies no tiene un valor pa SECONDLY
+   ☐ string.ToRecur no esta cogiendo la FREQ cuando es DAYLY, YEARLY
+
+
+
+
+
+
+
