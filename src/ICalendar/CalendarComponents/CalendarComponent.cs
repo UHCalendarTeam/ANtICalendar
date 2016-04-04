@@ -81,19 +81,18 @@ namespace ICalendar.CalendarComponents
             var strBuilder = new StringBuilder();
             strBuilder.AppendLine("BEGIN:" + Name);
 
+            ///take the properties that are requested
             foreach (var property in Properties.Where(x => properties.Contains(x.Key)).Select(x => x.Value))
                 strBuilder.Append(property);
 
-            if (properties.Contains("RRULE"))
-                foreach (var rRule in MultipleValuesProperties["RRULE"])
-                {
-                    strBuilder.Append(rRule);
-                }
-            if (properties.Contains("ATTENDEE"))
-                foreach (var attendee in MultipleValuesProperties["ATTENDEE"])
-                {
-                    strBuilder.Append(attendee);
-                }
+            ///take the multiple properties that are requested and add them to the output
+            foreach (var componentProperty in MultipleValuesProperties.Where(prop => properties.Contains(prop.Key)).SelectMany(prop => prop.Value))
+            {
+                strBuilder.Append(componentProperty);
+            }
+
+
+               
 
             //TODO: check this out
             var container = this as ICalendarComponentsContainer;

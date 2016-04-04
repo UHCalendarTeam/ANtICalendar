@@ -119,24 +119,38 @@ namespace ICalendar.Calendar
             var strBuilder = new StringBuilder();
 
             strBuilder.AppendLine("BEGIN:VCALENDAR");
+            
+            ///take the first node in the tree that contains VCALENDAR in the 
+            /// attr "name"
             var vCal = calData.Children.Where(x => x.NodeName == "comp").
                 First(x => x.Attributes.ContainsValue("VCALENDAR"));
+
+            ///take the name of the properties in VCALENDAR that have to b
+            /// returned
             var propToReturn = vCal.Children
                 .Where(x => x.NodeName == "prop")
                 .SelectMany(x => x.Attributes.Values);
+
+            ///take those properties from the VCalendar object
             foreach (var property in Properties.Values.Where(x => propToReturn.Contains(x.Name)))
             {
                 strBuilder.Append(property);
             }
+
+            ///take the desired components from the tree that are contained
+            /// in the VCALENDAR node
             var compToReturn = vCal.Children.Where(x => x.NodeName == "comp").
                 SelectMany(x => x.Attributes.Values);
             foreach (var component in CalendarComponents.Where(comp => compToReturn.Contains(comp.Key)))
             {
+                ///take the properties of the current component that are in the
+                /// node of the tree with name = to the current component.
                 var properties = vCal.Children.Where(x => x.NodeName == "comp")
                     .First(x => x.Attributes.ContainsValue(component.Key))
                     .Children.SelectMany(x => x.Attributes.Values);
-                strBuilder.Append(component.Value.First().
-                    ToString(properties));
+
+                ///toString the current component with the desired properties.
+                strBuilder.Append(component.Value.First().ToString(properties));
             }
             strBuilder.AppendLine("END:VCALENDAR");
             return strBuilder.ToString();
