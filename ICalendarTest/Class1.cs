@@ -187,6 +187,7 @@ TZOFFSETTO:-0800
 TZNAME:PST
 DTSTART:19701101T020000
 RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
+RDATE:19450603T010000
 END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
@@ -255,6 +256,20 @@ end=""20060105T000000Z""/>
             Assert.Contains("VEVENT", newCal.CalendarComponents.Keys);
             Assert.Contains("VTIMEZONE", newCal.CalendarComponents.Keys);
             Assert.Equal(4, newCal.CalendarComponents["VEVENT"].First().Properties.Count);
+        }
+
+
+
+        [Fact]
+        public void CalendarFromSolCalendar()
+        {
+            using (var reader = File.OpenText("sol.ics"))
+            {
+                var calString = reader.ReadToEnd();
+                var cal = VCalendar.Parse(calString);
+                Assert.NotNull(cal);
+            }
+         
         }
     }
 }

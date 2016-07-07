@@ -1,10 +1,10 @@
-﻿using ICalendar.GeneralInterfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using ICalendar.GeneralInterfaces;
 using ICalendar.PropertyParameters;
 using ICalendar.Utils;
 using ICalendar.ValueTypes;
-using System;
-using System.Collections.Generic;
-using System.IO;
 
 namespace ICalendar.ComponentProperties
 {
@@ -13,7 +13,7 @@ namespace ICalendar.ComponentProperties
     ///     Contains the name and the value of the property
     ///     with its .NET type.
     /// </summary>
-    /// <typeparam name="T">The Type of the property</typeparam>
+    /// <typeparam name="T">The Type of the property's value.</typeparam>
     public class ComponentProperty<T> : IComponentProperty, IValue<T>
     {
         public ComponentProperty()
@@ -27,7 +27,9 @@ namespace ICalendar.ComponentProperties
         }
 
         /// <summary>
-        ///     Takes the value and the params of the property, build it and return it.
+        ///     Takes the value and the params of the property
+        ///     and build a component property. The deserialization
+        ///     depends on the value type of the class param T.
         /// </summary>
         /// <param name="value">The value of the property</param>
         /// <param name="parameters">THe params of the property</param>
@@ -91,6 +93,10 @@ namespace ICalendar.ComponentProperties
             throw new ArgumentException("Don't implemented argument.");
         }
 
+        /// <summary>
+        ///     Returns the string representations of the object.
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return this.StringRepresentation();
@@ -98,12 +104,28 @@ namespace ICalendar.ComponentProperties
 
         #region Properties
 
+        /// <summary>
+        ///     The component property name, following the RFC 5545
+        ///     specification.
+        /// </summary>
         public virtual string Name { get; set; }
 
+        /// <summary>
+        ///     The properties params.
+        /// </summary>
         public List<PropertyParameter> PropertyParameters { get; set; }
 
+        /// <summary>
+        ///     The string representation of propertyy value.
+        ///     Useful for when we write the object to .ics files.
+        /// </summary>
         public string StringValue { get; set; }
 
+        /// <summary>
+        ///     The property value. The type of the value
+        ///     depends on the type of object that the
+        ///     property represents.
+        /// </summary>
         public T Value { get; set; }
 
         #endregion Properties

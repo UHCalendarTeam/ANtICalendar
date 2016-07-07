@@ -11,7 +11,6 @@ namespace ICalendar.GeneralInterfaces
     {
         /// <summary>
         ///     Returns a property by the given name.
-        ///
         /// </summary>
         /// <param name="propName">Property name.</param>
         /// <returns>The property with the given name. </returns>
@@ -36,17 +35,17 @@ namespace ICalendar.GeneralInterfaces
         #region Properties
 
         /// <summary>
-        /// Contains the properties that might be defined
-        /// multiple times. These are RRULE | ATTENDEE | FREEBUSY
+        ///     Contains the properties that might be defined
+        ///     multiple times. These are RRULE | ATTENDEE | FREEBUSY
         /// </summary>
         Dictionary<string, List<IComponentProperty>> MultipleValuesProperties { get; set; }
 
         /// <summary>
-        /// Returns the property of the component that
-        /// has the given name. The HAVE to be one of the
-        /// specifies in iCalendar protocol except
-        /// RRULES and ATTENDEES that might be defined multiple
-        /// times.
+        ///     Returns the property of the component that
+        ///     has the given name. The HAVE to be one of the
+        ///     specifies in iCalendar protocol except
+        ///     RRULES and ATTENDEES that might be defined multiple
+        ///     times.
         /// </summary>
         /// <param name="name">The iCalendar name of the property.</param>
         /// <returns></returns>

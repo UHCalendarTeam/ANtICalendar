@@ -1,12 +1,12 @@
-﻿using ICalendar.Factory;
-using ICalendar.GeneralInterfaces;
-using ICalendar.PropertyParameters;
-using ICalendar.Utils;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using ICalendar.Factory;
+using ICalendar.GeneralInterfaces;
+using ICalendar.PropertyParameters;
+using ICalendar.Utils;
 using TreeForXml;
 
 namespace ICalendar.Calendar
@@ -29,18 +29,19 @@ namespace ICalendar.Calendar
         public void AddItem(ICalendarObject calComponent)
         {
             var prop = calComponent as IComponentProperty;
+            //if the object is a property, add it to the properties container
             if (prop != null)
             {
                 Properties.Add(prop.Name, prop);
 
                 return;
             }
-
+            //if not add to the calendar component container
             if (CalendarComponents.ContainsKey(calComponent.Name))
-                CalendarComponents[calComponent.Name].Add((ICalendarComponent)calComponent);
+                CalendarComponents[calComponent.Name].Add((ICalendarComponent) calComponent);
             else
                 CalendarComponents.Add(calComponent.Name,
-                    new List<ICalendarComponent>(1) { (ICalendarComponent)calComponent });
+                    new List<ICalendarComponent>(1) {(ICalendarComponent) calComponent});
         }
 
         /// <summary>
@@ -119,7 +120,7 @@ namespace ICalendar.Calendar
             var strBuilder = new StringBuilder();
 
             strBuilder.AppendLine("BEGIN:VCALENDAR");
-            
+
             ///take the first node in the tree that contains VCALENDAR in the 
             /// attr "name"
             var vCal = calData.Children.Where(x => x.NodeName == "comp").
@@ -157,19 +158,21 @@ namespace ICalendar.Calendar
         }
 
         /// <summary>
-        /// Parse the string that contain a calendar defines
-        /// under the protocol RFC 5545. Builds an instance
-        /// of VCalendar with its components, properties..
+        ///     Parse the string that contain a calendar defines
+        ///     under the protocol RFC 5545. Builds an instance
+        ///     of VCalendar with its components, properties..
         /// </summary>
         /// <param name="calendarString">The calendar to parse.</param>
         /// <returns>An instance of VCalendar.</returns>
         public static VCalendar Parse(string calendarString)
         {
+            //used to create instance of calendar component objects
             var calCompFactory = new CalendarComponentFactory();
+            //used to create instance of component property objects
             var compPropFactory = new ComponentPropertyFactory();
-            var name = "";
-            var value = "";
-            var parameters = new List<PropertyParameter>();
+            string name;
+            string value;
+            List<PropertyParameter> parameters;
             ICalendarObject calComponent = null;
             ICalendarObject compProperty = null;
             var objStack = new Stack<ICalendarObject>();
@@ -183,7 +186,7 @@ namespace ICalendar.Calendar
                 switch (name)
                 {
                     case "BEGIN":
-                       
+
 
                         ///if the component is vcalendar then create is
                         /// if not then call the factory to get the object
@@ -202,14 +205,15 @@ namespace ICalendar.Calendar
                         ///if the object is not a VCalendar means
                         /// that should be added to his father that
                         /// is the first in the stack
-                        ((IAggregator)objStack.Peek()).AddItem(endedObject);
+                        ((IAggregator) objStack.Peek()).AddItem(endedObject);
                         continue;
                 }
                 ///creates an instance of a property
                 compProperty = compPropFactory.CreateIntance(name, name);
 
                 var topObj = objStack.Peek();
-                ((IAggregator)topObj).AddItem(((IDeserialize)compProperty).Deserialize(value, parameters));
+                //set the value and params in the compProperty via the Deserializer of the property
+                ((IAggregator) topObj).AddItem(((IDeserialize) compProperty).Deserialize(value, parameters));
             }
 
             throw new ArgumentException("The calendar file MUST contain at least an element.");
@@ -236,10 +240,11 @@ namespace ICalendar.Calendar
         }
 
         /// <summary>
-        /// THis constructor is deprecated.
-        /// Use the Parse method instead.
+        ///     THis constructor is deprecated.
+        ///     Use the Parse method instead.
         /// </summary>
         /// <param name="calendarString"></param>
+        [Obsolete("Use the static method Parse instead. For the next version is gonna be removed.")]
         public VCalendar(string calendarString)
         {
             var calCompFactory = new CalendarComponentFactory();
@@ -284,7 +289,7 @@ namespace ICalendar.Calendar
                         CalendarComponents = calendar.CalendarComponents;
                         return;
                     }
-                    ((IAggregator)objStack.Peek()).AddItem(endedObject);
+                    ((IAggregator) objStack.Peek()).AddItem(endedObject);
                     continue;
                 }
                 var propSysName = name;
@@ -296,7 +301,7 @@ namespace ICalendar.Calendar
                     continue;
 
                 var topObj = objStack.Peek();
-                ((IAggregator)topObj).AddItem(((IDeserialize)compProperty).Deserialize(value, parameters));
+                ((IAggregator) topObj).AddItem(((IDeserialize) compProperty).Deserialize(value, parameters));
             }
 
             throw new ArgumentException("The calendar file MUST contain at least an element.");
