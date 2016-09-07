@@ -1,15 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using ICalendar.ComponentProperties;
-using ICalendar.GeneralInterfaces;
-using static ICalendar.Utils.Utils;
-
-namespace ICalendar.ComponentProperties
+﻿namespace ICalendar.ComponentProperties
 {
     /// <summary>
     /// --Purpose: This property provides a more complete description of the
@@ -19,7 +8,7 @@ namespace ICalendar.ComponentProperties
     ///specified multiple times only within a "VJOURNAL" calendar
     ///component.
     /// </summary>
-    public class Description: ComponentProperty<string>
+    public class Description : ComponentProperty<string>
     {
         public override string Name => "DESCRIPTION";
     }

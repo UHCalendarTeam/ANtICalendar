@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using ICalendar.GeneralInterfaces;
-using ICalendar.Utils;
-
-namespace ICalendar.ComponentProperties
+﻿namespace ICalendar.ComponentProperties
 {
     /// <summary>
     /// Calendar Components: VALARM;
@@ -13,10 +7,6 @@ namespace ICalendar.ComponentProperties
     /// </summary>
     public class Repeat : ComponentProperty<int>
     {
-
         public override string Name => "REPEAT";
-           
-       
-
     }
 }

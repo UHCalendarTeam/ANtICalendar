@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using ICalendar.GeneralInterfaces;
-using ICalendar.Utils;
-using ICalendar.ValueTypes;
+﻿using ICalendar.ValueTypes;
 
 namespace ICalendar.ComponentProperties
 {

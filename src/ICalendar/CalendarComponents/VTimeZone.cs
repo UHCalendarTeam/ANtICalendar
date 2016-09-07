@@ -1,20 +1,14 @@
-﻿using System;
+﻿using ICalendar.GeneralInterfaces;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using ICalendar.ComponentProperties;
-using ICalendar.GeneralInterfaces;
 
 namespace ICalendar.CalendarComponents
 {
-    public class VTimezone:CalendarComponent, ICalendarComponentsContainer
+    public class VTimezone : CalendarComponent, ICalendarComponentsContainer
     {
         public VTimezone()
         {
             CalendarComponents = new Dictionary<string, IList<ICalendarComponent>>();
         }
-        
 
         public override string Name => "VTIMEZONE";
 
@@ -29,16 +23,12 @@ namespace ICalendar.CalendarComponents
         {
             var comp = component as ICalendarComponent;
             if (comp != null)
-                if(CalendarComponents.ContainsKey(comp.Name))
+                if (CalendarComponents.ContainsKey(comp.Name))
                     CalendarComponents[comp.Name].Add(comp);
                 else
-                CalendarComponents.Add(comp.Name,new List<ICalendarComponent>() {comp});
+                    CalendarComponents.Add(comp.Name, new List<ICalendarComponent>() { comp });
             else
-                 base.AddItem(component);
+                base.AddItem(component);
         }
-
-
-       
-
     }
 }

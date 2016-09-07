@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using ICalendar.GeneralInterfaces;
-using ICalendar.Utils;
-
-namespace ICalendar.ComponentProperties
+﻿namespace ICalendar.ComponentProperties
 {
     /// <summary>
     /// Purpose: This property defines the overall status or confirmation
@@ -11,11 +6,10 @@ namespace ICalendar.ComponentProperties
     /// Conformance: This property can be specified once in "VEVENT",
     ///"VTODO", or "VJOURNAL" calendar components.
     /// </summary>
-    public class Status: ComponentProperty<StatusValues.Values>
+    public class Status : ComponentProperty<StatusValues.Values>
     {
         public override string Name => "STATUS";
     }
-
 
     public class StatusValues
     {
@@ -38,16 +32,22 @@ namespace ICalendar.ComponentProperties
             {
                 case "TENTATIVE":
                     return Values.Tentative;
+
                 case "CONFIRMED":
                     return Values.Confirmed;
+
                 case "CANCELLED":
                     return Values.Cancelled;
+
                 case "NEEDS-ACTION":
                     return Values.NeedsAction;
+
                 case "COMPLETED":
                     return Values.Completed;
+
                 case "IN-PROCESS":
                     return Values.Completed;
+
                 default:
                     return Values.Unknown;
             }
@@ -59,16 +59,22 @@ namespace ICalendar.ComponentProperties
             {
                 case Values.Tentative:
                     return "TENTATIVE";
+
                 case Values.Cancelled:
                     return "CANCELLED";
+
                 case Values.Completed:
                     return "COMPLETED";
+
                 case Values.Confirmed:
                     return "CONFIRMED";
+
                 case Values.InProcess:
                     return "IN-PROCESS";
+
                 case Values.NeedsAction:
                     return "NEEDS-ACTION";
+
                 default:
                     return "UNKNOWN";
             }

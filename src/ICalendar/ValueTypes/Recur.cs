@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ICalendar.ValueTypes
 {
-
     public class Recur
     {
         public RecurValues.Frequencies? Frequency { get; set; }
@@ -40,7 +35,7 @@ namespace ICalendar.ValueTypes
 
         public DayOfWeek Wkst
         {
-            get{ return _weekStart ?? DayOfWeek.Monday; }
+            get { return _weekStart ?? DayOfWeek.Monday; }
             set { _weekStart = value; }
         }
 
@@ -53,7 +48,7 @@ namespace ICalendar.ValueTypes
             strBuilder.Append("FREQ=");
             strBuilder.Append(RecurValues.ToString(Frequency.Value));
 
-            if (Until !=null)
+            if (Until != null)
             {
                 strBuilder.Append(";UNTIL=");
                 strBuilder.Append(Until.Value.ToString("yyyyMMddTHHmmss") +
@@ -64,12 +59,12 @@ namespace ICalendar.ValueTypes
                 strBuilder.Append(";COUNT=");
                 strBuilder.Append(Count);
             }
-            if (Interval!=null)
+            if (Interval != null)
             {
                 strBuilder.Append(";INTERVAL=");
                 strBuilder.Append(Interval);
             }
-            if (BySeconds!=null && BySeconds.Length>0)
+            if (BySeconds != null && BySeconds.Length > 0)
             {
                 strBuilder.Append(";BYSECOND=");
                 AppendAllMembers(strBuilder, BySeconds);
@@ -114,31 +109,28 @@ namespace ICalendar.ValueTypes
                 strBuilder.Append(";BYSETPOS=");
                 AppendAllMembers(strBuilder, BySetPos);
             }
-            if (_weekStart!=null)
+            if (_weekStart != null)
             {
                 strBuilder.Append(";WKST=");
                 strBuilder.Append(RecurValues.ToString(Wkst));
             }
 
             return strBuilder.ToString();
-
         }
 
-        private static void AppendAllMembers<T>(StringBuilder stringBuilder, T [] array)
+        private static void AppendAllMembers<T>(StringBuilder stringBuilder, T[] array)
         {
-                stringBuilder.Append(array[0]);
-                for (var i = 1; i < array.Length; i++)
-                {
-                    stringBuilder.Append(",");
-                    stringBuilder.Append(array[i]);
-                }
+            stringBuilder.Append(array[0]);
+            for (var i = 1; i < array.Length; i++)
+            {
+                stringBuilder.Append(",");
+                stringBuilder.Append(array[i]);
+            }
         }
     }
 
     public class WeekDayType
     {
-       
-
         /// <summary>
         /// Use this contructor for building this type.
         /// The other is still for compatibilities reason
@@ -163,15 +155,13 @@ namespace ICalendar.ValueTypes
             str.Append(RecurValues.ToString(DayOfWeek));
             return str.ToString();
         }
-
-        
     }
 
     public class RecurValues
     {
         public enum Frequencies
         {
-            SECONDLY,MINUTELY, HOURLY, DAILY, WEEKLY, MONTHLY, YEARLY
+            SECONDLY, MINUTELY, HOURLY, DAILY, WEEKLY, MONTHLY, YEARLY
         }
 
         /// <summary>
@@ -185,18 +175,25 @@ namespace ICalendar.ValueTypes
             {
                 case Frequencies.MINUTELY:
                     return "MINUTELY";
+
                 case Frequencies.HOURLY:
                     return "HOURLY";
+
                 case Frequencies.DAILY:
                     return "DAILY";
+
                 case Frequencies.WEEKLY:
                     return "WEEKLY";
+
                 case Frequencies.MONTHLY:
                     return "MONTHLY";
+
                 case Frequencies.YEARLY:
                     return "YEARLY";
-                    case Frequencies.SECONDLY:
+
+                case Frequencies.SECONDLY:
                     return "SECONDLY";
+
                 default:
                     throw new ArgumentOutOfRangeException(nameof(value), value, null);
             }
@@ -213,18 +210,25 @@ namespace ICalendar.ValueTypes
             {
                 case DayOfWeek.Monday:
                     return "MO";
+
                 case DayOfWeek.Tuesday:
                     return "TU";
+
                 case DayOfWeek.Wednesday:
                     return "WE";
+
                 case DayOfWeek.Thursday:
                     return "TH";
+
                 case DayOfWeek.Friday:
                     return "FR";
+
                 case DayOfWeek.Saturday:
                     return "SA";
+
                 case DayOfWeek.Sunday:
                     return "SU";
+
                 default:
                     throw new ArgumentOutOfRangeException(nameof(value), value, null);
             }
@@ -242,18 +246,25 @@ namespace ICalendar.ValueTypes
             {
                 case "MINUTELY":
                     return Frequencies.MINUTELY;
+
                 case "HOURLY":
                     return Frequencies.HOURLY;
+
                 case "DAILY":
                     return Frequencies.DAILY;
+
                 case "WEEKLY":
                     return Frequencies.WEEKLY;
+
                 case "MONTHLY":
                     return Frequencies.MONTHLY;
+
                 case "YEARLY":
                     return Frequencies.YEARLY;
+
                 case "SECONDLY":
                     return Frequencies.SECONDLY;
+
                 default:
                     return null;
             }
@@ -271,18 +282,25 @@ namespace ICalendar.ValueTypes
             {
                 case "MO":
                     return DayOfWeek.Monday;
+
                 case "TU":
                     return DayOfWeek.Tuesday;
+
                 case "WE":
                     return DayOfWeek.Wednesday;
+
                 case "TH":
                     return DayOfWeek.Thursday;
+
                 case "FR":
                     return DayOfWeek.Friday;
+
                 case "SA":
                     return DayOfWeek.Saturday;
+
                 case "SU":
                     return DayOfWeek.Sunday;
+
                 default:
                     throw new ArgumentOutOfRangeException(nameof(value), value, null);
             }
@@ -295,24 +313,31 @@ namespace ICalendar.ValueTypes
                 case "MO":
                     weekday = DayOfWeek.Monday;
                     return true;
+
                 case "TU":
                     weekday = DayOfWeek.Tuesday;
                     return true;
+
                 case "WE":
-                    weekday= DayOfWeek.Wednesday;
+                    weekday = DayOfWeek.Wednesday;
                     return true;
+
                 case "TH":
                     weekday = DayOfWeek.Thursday;
                     return true;
+
                 case "FR":
                     weekday = DayOfWeek.Friday;
                     return true;
+
                 case "SA":
                     weekday = DayOfWeek.Saturday;
                     return true;
+
                 case "SU":
                     weekday = DayOfWeek.Sunday;
                     return true;
+
                 default:
                     weekday = DayOfWeek.Wednesday;
                     return false;

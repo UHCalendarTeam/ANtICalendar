@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using ICalendar.ComponentProperties;
-using ICalendar.GeneralInterfaces;
-
-namespace ICalendar.CalendarComponents
+﻿namespace ICalendar.CalendarComponents
 {
-    public class VJournal:CalendarComponent
+    public class VJournal : CalendarComponent
     {
-        public override string Name => "VJOURNAL";   
-
+        public override string Name => "VJOURNAL";
     }
 }

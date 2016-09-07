@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using ICalendar.GeneralInterfaces;
-using static ICalendar.Utils.Utils;
 
 namespace ICalendar.ComponentProperties
 {
@@ -15,7 +9,7 @@ namespace ICalendar.ComponentProperties
     /// Conformance: The property MUST be specified in the "VEVENT",
     ///"VTODO", "VJOURNAL", or "VFREEBUSY" calendar components.
     /// </summary>
-    public class Uid: ComponentProperty<string>
+    public class Uid : ComponentProperty<string>
     {
         public override string Name => "UID";
 
@@ -27,7 +21,7 @@ namespace ICalendar.ComponentProperties
         {
             var str = new StringBuilder(DateTime.Now.ToString("yyyyMMddhhmmss")).
                 Append(DateTime.Now.Millisecond).Append('@');
-            
+
             //TODO: Add the right side( the domain of the current computer)
             Value = str.ToString();
         }

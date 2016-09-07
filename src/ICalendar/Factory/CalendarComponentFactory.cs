@@ -1,42 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ICalendar.GeneralInterfaces;
-using System.Reflection;
+﻿using ICalendar.GeneralInterfaces;
+using System;
 
 namespace ICalendar.Factory
 {
+    /// <summary>
+    ///     Factory for the building of CalendarComponent objects.
+    /// </summary>
     public class CalendarComponentFactory : IFactory
     {
-        public Dictionary<string, Type> _types { get; set; }
-        private string _assemblyName = "ICalendar.CalendarComponents.";
+        /// <summary>
+        ///     The assembly where are defined the Properties of the cal components.
+        /// </summary>
+        private readonly string _assemblyName = "ICalendar.CalendarComponents.";
 
-        public ICalendarObject CreateIntance(string objSysName, string objName="")
+        /// <summary>
+        ///     Creates an instance of the specified type
+        ///     using the default constructor.
+        /// </summary>
+        /// <param name="objSysName">The name of the object.</param>
+        /// <param name="objName"></param>
+        /// <returns></returns>
+        public ICalendarObject CreateIntance(string objSysName, string objName = "")
         {
+            objSysName = objSysName.Substring(0, 2) + objSysName.Substring(2).ToLower();
             var type = Type.GetType(_assemblyName + objSysName);
-            if(type != null)
+            if (type != null)
                 return Activator.CreateInstance(type) as ICalendarComponent;
             return null;
-
         }
-
-        public Type GetTypeToCreate(string objName)
-        {
-            if (_types.Keys.Contains(objName))
-                return _types[objName];
-            return null;
-        }
-
-        public void LoadAvailableTypes()
-        {
-            //_types = new Dictionary<string, Type>();            
-            //var typesInAssembly = Assembly.Load("ICalendar.CalendarComponents").GetTypes();
-            //foreach (var type in typesInAssembly)
-            //{
-            //    if (type.GetInterface(typeof(ICalendarComponent).ToString()) != null)
-            //        _types.Add(type.Name.ToLower(), type);
-            //}
-        }
-    }    
+    }
 }

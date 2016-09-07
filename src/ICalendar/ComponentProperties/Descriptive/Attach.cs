@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using ICalendar.GeneralInterfaces;
-
-namespace ICalendar.ComponentProperties
+﻿namespace ICalendar.ComponentProperties
 {
     /// <summary>
     /// --Purpose: This property provides the capability to associate a
@@ -16,7 +11,9 @@ namespace ICalendar.ComponentProperties
     public class Attach : ComponentProperty<string>
     {
         #region Properties
-        public override string  Name => "ATTACH";
-        #endregion
+
+        public override string Name => "ATTACH";
+
+        #endregion Properties
     }
 }

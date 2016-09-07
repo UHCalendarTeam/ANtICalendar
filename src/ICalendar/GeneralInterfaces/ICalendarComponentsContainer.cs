@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace ICalendar.GeneralInterfaces
 {
     /// <summary>
-    /// Container for the Calendar Components that the VCalendar
-    /// have.
+    ///     Container for the Calendar Components that the VCalendar
+    ///     have. This cal Components are any of the defined in iCalendar.
+    ///     SHOULD BE VTODO, VEVENT...
     /// </summary>
     public interface ICalendarComponentsContainer
     {
         /// <summary>
-        /// Key: Calendar Components name
-        /// Value: List with the Components (A calendar has many components).
+        ///     Key: Calendar Component name
+        ///     Value: List with the Components (A calendar has many components).
         /// </summary>
-         IDictionary<string,IList<ICalendarComponent>> CalendarComponents { get;  }
+        IDictionary<string, IList<ICalendarComponent>> CalendarComponents { get; }
     }
 }

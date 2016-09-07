@@ -1,15 +1,13 @@
 {
-    "version": "1.0.0-beta3-27316",
-    "description": "ICalendar is a library for parsing and writing icalendar files.\nIt Implements the specification given in RCF 5545.\n",
+    "version": "1.0.0-rc2-160400",
+    "description": "ICalendar is a library for parsing and writing iCalendar files.\nIt Implements the specification given in RCF 5545.\n",
   "authors": [ "Adriano Flechilla, Jose Ignacio Vazquez" ],
-  "Release Notes" : "Fixed some bugs in the Recur class.\n Fixed a typo in the FREQ",
+  "Release Notes" : "Fixed a bug in the toString with selected components and properties.",
   "tittle": "ICalendar",
     "tags": [ "ICalendar", "RCF 5545", ".ics" ],
     "projectUrl": "",
     "licenseUrl": "",
-  "dependencies": {
-    "xunit": "2.1.0-*",
-    "xunit.runner.visualstudio": "2.0.1",
+  "dependencies": {   
     "Microsoft.CSharp": "4.0.1-beta-23516",
     "System.Collections": "4.0.11-beta-23516",
     "System.Linq": "4.0.1-beta-23516",
@@ -22,5 +20,4 @@
         "dnx451": { },
         "dnxcore50": { }
     }
-
 }

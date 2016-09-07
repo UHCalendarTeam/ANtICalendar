@@ -1,32 +1,30 @@
-﻿using System;
+﻿using ICalendar.GeneralInterfaces;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using ICalendar.GeneralInterfaces;
 
 namespace ICalendar.CalendarComponents
 {
     /// <summary>
-    /// The abstraction class for the different Calendar components implementations.
+    ///     The abstraction class for the different Calendar components implementations.
     /// </summary>
-    public class CalendarComponent:ICalendarComponent
+    public class CalendarComponent : ICalendarComponent
     {
         public CalendarComponent()
         {
-            Properties = new Dictionary<string,IComponentProperty>();
-            RRules = new List<IComponentProperty>();
+            Properties = new Dictionary<string, IComponentProperty>();
+            MultipleValuesProperties = new Dictionary<string, List<IComponentProperty>>();
         }
 
         public virtual void Serialize(TextWriter writer)
         {
             writer.WriteLine("BEGIN:" + Name);
-            
+
             foreach (var property in Properties.Values)
             {
-               property.Serialize(writer);
-                
+                property.Serialize(writer);
             }
             if (this is ICalendarComponentsContainer)
             {
@@ -39,7 +37,6 @@ namespace ICalendar.CalendarComponents
                         if (component != null)
                             component.Serialize(writer);
                     }
-                    
                 }
             }
             var alarmContainer = this as IAlarmContainer;
@@ -54,83 +51,54 @@ namespace ICalendar.CalendarComponents
             writer.WriteLine("END:" + Name);
         }
 
-        public IDictionary<string, IComponentProperty> Properties { get; set; }
-        public virtual string Name { get; set; }
-
-        public List<IComponentProperty> RRules { get; set; } 
-
-        public IComponentProperty this[string name] => Properties.ContainsKey(name) ? Properties[name] : null;
-
-
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="component"></param>
         public virtual void AddItem(ICalendarObject component)
         {
             var prop = component as IComponentProperty;
-            if(prop.Name=="RRULE")
-                RRules.Add(prop);
+            if (prop == null)
+                throw new ArgumentException("THe value should be an IComponentProperty");
+            if (prop.Name == "RRULE" || prop.Name == "ATTENDEE" || prop.Name == "FREEBUSY")
+            {
+                if(MultipleValuesProperties.ContainsKey(prop.Name))
+                    MultipleValuesProperties[prop.Name].Add(prop);
+                else 
+                    MultipleValuesProperties[prop.Name] = new List<IComponentProperty>() {prop};
+            }
             else
-                 Properties.Add(prop.Name, prop);
+                Properties.Add(prop.Name, prop);
         }
 
-
-        public override string ToString()
-        {
-            var strBuilder = new StringBuilder();
-            strBuilder.AppendLine("BEGIN:" + Name);
-
-            foreach (var property in Properties.Values)
-                strBuilder.Append(property);
-            foreach (var rRule in RRules)
-            {
-                strBuilder.Append(rRule);
-            }
-                
-               
-           
-            if (this is ICalendarComponentsContainer)
-            {
-                var components = (this as ICalendarComponentsContainer).CalendarComponents;
-                foreach (var component in components)
-                {
-                    //TODO: check this out
-                    foreach (var comp in component.Value)
-                    {
-                        if (comp != null)
-                        strBuilder.Append(comp);
-                    }
-                }
-            }
-            var alarmContainer = this as IAlarmContainer;
-            if (alarmContainer != null)
-            {
-                foreach (var alarm in alarmContainer.Alarms)
-                {
-                    strBuilder.Append(alarm);
-                }
-            }
-
-            strBuilder.AppendLine("END:" + Name);
-            return strBuilder.ToString();
-        }
-
-
+        /// <summary>
+        /// Returns the string representation of the
+        /// </summary>
+        /// <param name="properties"></param>
+        /// <returns></returns>
         public string ToString(IEnumerable<string> properties)
         {
             var strBuilder = new StringBuilder();
             strBuilder.AppendLine("BEGIN:" + Name);
 
-            foreach (var property in Properties.Where(x=>properties.Contains(x.Key)).Select(x=>x.Value))
+            ///take the properties that are requested
+            foreach (var property in Properties.Where(x => properties.Contains(x.Key)).Select(x => x.Value))
                 strBuilder.Append(property);
-            if(properties.Contains("RRULE"))
-                foreach (var rRule in RRules)
-                {
-                    strBuilder.Append(rRule);
-                }
 
+            ///take the multiple properties that are requested and add them to the output
+            foreach (var componentProperty in MultipleValuesProperties.Where(prop => properties.Contains(prop.Key)).SelectMany(prop => prop.Value))
+            {
+                strBuilder.Append(componentProperty);
+            }
+
+
+               
 
             //TODO: check this out
-            if (this is ICalendarComponentsContainer)
+            var container = this as ICalendarComponentsContainer;
+            if (container != null)
             {
-                var components = (this as ICalendarComponentsContainer).CalendarComponents;
+                var components = container.CalendarComponents;
                 foreach (var component in components)
                 {
                     //TODO: check this out
@@ -155,9 +123,10 @@ namespace ICalendar.CalendarComponents
             return strBuilder.ToString();
         }
 
+        public Dictionary<string, List<IComponentProperty>> MultipleValuesProperties { get; set; }
 
         /// <summary>
-        /// Return the property by the given name.
+        ///     Return the property by the given name.
         /// </summary>
         /// <param name="propName">Property name.</param>
         /// <returns>The property with the given name. </returns>
@@ -167,30 +136,65 @@ namespace ICalendar.CalendarComponents
         }
 
         /// <summary>
-        /// Get the list that contain the RRules.
+        /// Returns the properties that might have multiple
+        /// definitions.(i.e RRULE, ATTENDEE)
         /// </summary>
-        /// <returns>All the RRules of the Component.</returns>
-        public List<IComponentProperty> GetRRules()
+        /// <param name="propName"></param>
+        /// <returns></returns>
+        public List<IComponentProperty> GetMultipleCompProperties(string propName)
         {
-            return RRules;
+            return MultipleValuesProperties.ContainsKey(propName) ? MultipleValuesProperties[propName] : null;
         }
 
-        
-
-        public CalendarComponent WithChoosenProperties(List<string> properties)
+        public override string ToString()
         {
-            var output = new CalendarComponent
+            var strBuilder = new StringBuilder();
+            strBuilder.AppendLine("BEGIN:" + Name);
+
+            foreach (var property in Properties.Values)
+                strBuilder.Append(property);
+            foreach (var prop in MultipleValuesProperties.Values.SelectMany(multipleValuesProperty => multipleValuesProperty))
+                strBuilder.Append(prop);
+
+            if (this is ICalendarComponentsContainer)
             {
-                Properties = Properties.Where(x => properties.Contains(x.Key)).ToDictionary(x => x.Key, x => x.Value),
-                Name = Name,
-                RRules = properties.Contains("RRULES") ? RRules : null
-            };
-            return output;
+                var components = (this as ICalendarComponentsContainer).CalendarComponents;
+                foreach (var component in components)
+                {
+                    //TODO: check this out
+                    foreach (var comp in component.Value)
+                    {
+                        if (comp != null)
+                            strBuilder.Append(comp);
+                    }
+                }
+            }
+            var alarmContainer = this as IAlarmContainer;
+            if (alarmContainer != null)
+            {
+                foreach (var alarm in alarmContainer.Alarms)
+                {
+                    strBuilder.Append(alarm);
+                }
+            }
+
+            strBuilder.AppendLine("END:" + Name);
+            return strBuilder.ToString();
         }
 
         public List<VAlarm> GetAlarms()
         {
-            return (this as IAlarmContainer).Alarms;
-        } 
+            var alarmContainer = this as IAlarmContainer;
+            return alarmContainer?.Alarms;
+        }
+
+        #region Properties
+
+        public IDictionary<string, IComponentProperty> Properties { get; set; }
+        public virtual string Name { get; set; }
+
+        public IComponentProperty this[string name] => Properties.ContainsKey(name) ? Properties[name] : null;
+
+        #endregion Properties
     }
 }

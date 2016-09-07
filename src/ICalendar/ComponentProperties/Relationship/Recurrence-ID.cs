@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace ICalendar.ComponentProperties.Relationship
+namespace ICalendar.ComponentProperties
 {
     public class Recurrence_id : ComponentProperty<DateTime>
     {

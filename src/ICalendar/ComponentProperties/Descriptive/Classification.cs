@@ -1,10 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using ICalendar.ComponentProperties;
-using ICalendar.GeneralInterfaces;
-using ICalendar.Utils;
-
-namespace ICalendar.ComponentProperties
+﻿namespace ICalendar.ComponentProperties
 {
     /// <summary>
     /// Purpose: This property defines the access classification for a
@@ -12,10 +6,9 @@ namespace ICalendar.ComponentProperties
     /// Conformance: The property can be specified once in a "VEVENT",
     ///"VTODO", or "VJOURNAL" calendar components.
     /// </summary>
-    public class Classification: ComponentProperty<ClassificationValues.ClassificationValue>
+    public class Classification : ComponentProperty<ClassificationValues.ClassificationValue>
     {
         public override string Name => "CLASSIFICATION";
-
     }
 
     /// <summary>
@@ -39,18 +32,22 @@ namespace ICalendar.ComponentProperties
             {
                 case ClassificationValue.CONFIDENTIAL:
                     return "CONFIDENTIAL";
+
                 case ClassificationValue.PRIVATE:
                     return "PRIVATE";
+
                 case ClassificationValue.PUBLIC:
                     return "PUBLIC";
+
                 default:
                     return "PUBLIC";
             }
         }
+
         /// <summary>
         /// return a Value enum from the given string
-        /// If the value is not recognised the return the 
-        /// default PUBLC 
+        /// If the value is not recognised the return the
+        /// default PUBLC
         /// </summary>
         /// <param name="str">The string representation of the Value</param>
         /// <returns>The equivalent of the string representation</returns>
@@ -60,14 +57,16 @@ namespace ICalendar.ComponentProperties
             {
                 case "CONFIDENTIAL":
                     return ClassificationValue.CONFIDENTIAL;
+
                 case "PRIVATE":
                     return ClassificationValue.PRIVATE;
+
                 case "PUBLC":
                     return ClassificationValue.PUBLIC;
+
                 default:
-                    return ClassificationValue.PUBLIC;    
+                    return ClassificationValue.PUBLIC;
             }
         }
     }
-    
 }

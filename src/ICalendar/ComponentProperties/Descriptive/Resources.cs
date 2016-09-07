@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ICalendar.GeneralInterfaces;
-using ICalendar.Utils;
+﻿using System.Collections.Generic;
 
 namespace ICalendar.ComponentProperties
 {
@@ -15,7 +8,7 @@ namespace ICalendar.ComponentProperties
     /// Conformance: This property can be specified once in "VEVENT" or
     ///"VTODO" calendar component.
     /// </summary>
-    public class Resources: ComponentProperty<IList<string>>
+    public class Resources : ComponentProperty<IList<string>>
     {
         public override string Name => "RESOURCES";
     }

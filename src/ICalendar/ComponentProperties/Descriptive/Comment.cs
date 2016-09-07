@@ -1,11 +1,6 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using ICalendar.GeneralInterfaces;
-using static ICalendar.Utils.Utils;
-
-namespace ICalendar.ComponentProperties
+﻿namespace ICalendar.ComponentProperties
 {
-    public class Comment: ComponentProperty<string>
+    public class Comment : ComponentProperty<string>
     {
         public override string Name => "COMMENT";
     }

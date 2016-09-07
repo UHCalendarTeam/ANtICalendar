@@ -9,8 +9,6 @@ namespace ICalendar.ComponentProperties
     /// </summary>
     public class Created : ComponentProperty<DateTime>
     {
-
         public override string Name => "CREATED";
-
     }
 }
