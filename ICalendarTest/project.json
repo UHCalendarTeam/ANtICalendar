@@ -1,31 +1,29 @@
 {
-    "version": "1.0.0-*",
-    "description": "",
-    "authors": [ "" ],
-    "tags": [ "" ],
-    "projectUrl": "",
-    "licenseUrl": "",
-    "tooling": {
-      "defaultNamespace": "<%= namespace %>"
-    },
-    "dependencies": {
-        "ICalendar": "1.0.0-*",
-        "xunit": "2.1.0",
-        "xunit.runner.dnx": "2.1.0-rc1-build204"
-    },
-    "commands": {
-        "test": "xunit.runner.dnx"
-    },
-    "frameworks": {
-        "dnx451": { },
-        "dnxcore50": {
-          "dependencies": {
-            "Microsoft.CSharp": "4.0.1-beta-23516",
-            "System.Collections": "4.0.11-beta-23516",
-            "System.Linq": "4.0.1-beta-23516",
-            "System.Runtime": "4.0.21-beta-23516",
-            "System.Threading": "4.0.11-beta-23516"
-          }
-        }
+  "version": "1.0.0-*",
+  "description": "",
+  "authors": [ "" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+  "tooling": {
+    "defaultNamespace": "<%= namespace %>"
+  },
+  "dependencies": {
+    "ICalendar": "1.0.0-*",
+    "xunit.runner.dnx": "2.1.0-rc1-build204",
+    "Microsoft.CSharp": "4.0.1",
+    "System.Collections": "4.0.11",
+    "System.Linq": "4.1.0",
+    "System.Runtime": "4.1.0",
+    "System.Threading": "4.0.11",
+    "xunit": "2.2.0-beta2-build3300"
+  },
+  "commands": {
+    "test": "xunit.runner.dnx"
+  },
+  "frameworks": {
+    "netcoreapp1.0": {
+      "imports": [ "dnxcore50", "portable-net45+win8" ]
     }
+  }
 }
