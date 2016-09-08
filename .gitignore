@@ -314,3 +314,5 @@ _Pvt_Extensions
 *.ics
 
 **/NDepend*
+
+*.orig
