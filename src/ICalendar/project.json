@@ -1,8 +1,8 @@
 {
-    "version": "1.0.0-rc2-260400",
+    "version": "1.0.0-rc2-080900",
     "description": "ICalendar is a library for parsing and writing iCalendar files.\nIt Implements the specification given in RCF 5545.\n",
   "authors": [ "Adriano Flechilla, Jose Ignacio Vazquez" ],
-  "Release Notes" : "Fixed a bug in the toString with selected components and properties.",
+  "Release Notes" : "Fixed a  bug when obtaining the string representation of an VCalendar object.",
   "tittle": "ICalendar",
     "tags": [ "ICalendar", "RCF 5545", ".ics" ],
     "projectUrl": "",

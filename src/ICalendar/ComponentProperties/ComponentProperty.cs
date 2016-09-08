@@ -5,6 +5,7 @@ using ICalendar.GeneralInterfaces;
 using ICalendar.PropertyParameters;
 using ICalendar.Utils;
 using ICalendar.ValueTypes;
+using System.Text;
 
 namespace ICalendar.ComponentProperties
 {
@@ -23,7 +24,7 @@ namespace ICalendar.ComponentProperties
 
         public virtual void Serialize(TextWriter writer)
         {
-            writer.Write(this.StringRepresentation());
+            writer.Write(this.ToString());
         }
 
         /// <summary>
@@ -99,7 +100,21 @@ namespace ICalendar.ComponentProperties
         /// <returns></returns>
         public override string ToString()
         {
-            return this.StringRepresentation();
+            var property = this;
+
+            var strBuilder = new StringBuilder(property.Name);
+
+            foreach (var proParam in property.PropertyParameters)
+            {
+                strBuilder.Append(";");
+                strBuilder.Append(proParam.Name + "=" + proParam.Value);
+            }
+
+            strBuilder.Append(":");
+
+            strBuilder.Append(property.StringValue);
+
+            return strBuilder.SplitLines().ToString();
         }
 
         #region Properties
