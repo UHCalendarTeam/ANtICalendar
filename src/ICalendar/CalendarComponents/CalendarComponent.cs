@@ -1,9 +1,9 @@
-﻿using ICalendar.GeneralInterfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using ICalendar.GeneralInterfaces;
 
 namespace ICalendar.CalendarComponents
 {
@@ -52,7 +52,6 @@ namespace ICalendar.CalendarComponents
         }
 
         /// <summary>
-        ///
         /// </summary>
         /// <param name="component"></param>
         public virtual void AddItem(ICalendarObject component)
@@ -60,19 +59,22 @@ namespace ICalendar.CalendarComponents
             var prop = component as IComponentProperty;
             if (prop == null)
                 throw new ArgumentException("THe value should be an IComponentProperty");
-            if (prop.Name == "RRULE" || prop.Name == "ATTENDEE" || prop.Name == "FREEBUSY")
+            //TODO:this properties should implement other interface to indentify that may contains
+            //multiples values, this way is gonna be simpler this verification, among other things
+            if (prop.Name == "RRULE" || prop.Name == "ATTENDEE" || prop.Name == "FREEBUSY"
+                || prop.Name == "RDATE")
             {
-                if(MultipleValuesProperties.ContainsKey(prop.Name))
+                if (MultipleValuesProperties.ContainsKey(prop.Name))
                     MultipleValuesProperties[prop.Name].Add(prop);
-                else 
-                    MultipleValuesProperties[prop.Name] = new List<IComponentProperty>() {prop};
+                else
+                    MultipleValuesProperties[prop.Name] = new List<IComponentProperty> {prop};
             }
             else
                 Properties.Add(prop.Name, prop);
         }
 
         /// <summary>
-        /// Returns the string representation of the
+        ///     Returns the string representation of the
         /// </summary>
         /// <param name="properties"></param>
         /// <returns></returns>
@@ -86,14 +88,13 @@ namespace ICalendar.CalendarComponents
                 strBuilder.Append(property);
 
             ///take the multiple properties that are requested and add them to the output
-            foreach (var componentProperty in MultipleValuesProperties.Where(prop => properties.Contains(prop.Key)).SelectMany(prop => prop.Value))
+            foreach (
+                var componentProperty in
+                    MultipleValuesProperties.Where(prop => properties.Contains(prop.Key)).SelectMany(prop => prop.Value)
+                )
             {
                 strBuilder.Append(componentProperty);
             }
-
-
-               
-
             //TODO: check this out
             var container = this as ICalendarComponentsContainer;
             if (container != null)
@@ -136,8 +137,8 @@ namespace ICalendar.CalendarComponents
         }
 
         /// <summary>
-        /// Returns the properties that might have multiple
-        /// definitions.(i.e RRULE, ATTENDEE)
+        ///     Returns the properties that might have multiple
+        ///     definitions.(i.e RRULE, ATTENDEE)
         /// </summary>
         /// <param name="propName"></param>
         /// <returns></returns>
@@ -153,7 +154,9 @@ namespace ICalendar.CalendarComponents
 
             foreach (var property in Properties.Values)
                 strBuilder.Append(property);
-            foreach (var prop in MultipleValuesProperties.Values.SelectMany(multipleValuesProperty => multipleValuesProperty))
+            foreach (
+                var prop in MultipleValuesProperties.Values.SelectMany(multipleValuesProperty => multipleValuesProperty)
+                )
                 strBuilder.Append(prop);
 
             if (this is ICalendarComponentsContainer)

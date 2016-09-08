@@ -151,6 +151,8 @@ namespace ICalendar.Utils
         public static int IndexOfValues(this string str)
         {
             var quoteBefore = false;
+            if (!str.Contains(":"))
+                return 0;
             for (var i = 0; i < str.Length; i++)
             {
                 if (str[i] == '\"')
@@ -428,8 +430,8 @@ namespace ICalendar.Utils
 
         /// <summary>
         ///     Try to parse an string into a Recur valueType.
-        ///     In case of return false it mitgh be that it does not contain Frequency
-        ///     but the rest of proerties would be asignated to the out value;
+        ///     In case of return false it might be that it does not contain Frequency
+        ///     but the rest of properties would be asignated to the out value;
         /// </summary>
         /// <param name="stringRecut"></param>
         /// <param name="resRecur"></param>

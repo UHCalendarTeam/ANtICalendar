@@ -22,8 +22,8 @@ namespace ICalendar.Factory
         {
             ///if the name of the object is one
             /// of the specified in the iCalendar protocol
-            /// the process it to get its equivalent name
-            /// of this system.
+            /// then process it to get its equivalent name
+            /// in this system.
             propSysName = propSysName.Substring(0, 1) + propSysName.Substring(1).ToLower();
             if (propSysName.Contains("-"))
             {

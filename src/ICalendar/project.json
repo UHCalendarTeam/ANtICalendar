@@ -1,5 +1,5 @@
 {
-    "version": "1.0.0-rc2-160400",
+    "version": "1.0.0-rc2-260400",
     "description": "ICalendar is a library for parsing and writing iCalendar files.\nIt Implements the specification given in RCF 5545.\n",
   "authors": [ "Adriano Flechilla, Jose Ignacio Vazquez" ],
   "Release Notes" : "Fixed a bug in the toString with selected components and properties.",
@@ -8,16 +8,21 @@
     "projectUrl": "",
     "licenseUrl": "",
   "dependencies": {   
-    "Microsoft.CSharp": "4.0.1-beta-23516",
-    "System.Collections": "4.0.11-beta-23516",
-    "System.Linq": "4.0.1-beta-23516",
-    "System.Runtime": "4.0.21-beta-23516",
-    "System.Threading": "4.0.11-beta-23516",
+    
+    "Microsoft.NETCore.App": {
+        "version": "1.0.0",
+        "type": "platform"
+    },
+    "Microsoft.CSharp": "4.0.1",
+    "System.Collections": "4.0.11",
+    "System.Linq": "4.1.0",
+    "System.Runtime": "4.1.0",
+    "System.Threading": "4.0.11",
     "TreeForXml": "1.0.0"
   },
-
-    "frameworks": {
-        "dnx451": { },
-        "dnxcore50": { }
+   "frameworks": {
+        "netcoreapp1.0": {
+            "imports": ["dnxcore50", "portable-net45+win8"]
+        }
     }
 }

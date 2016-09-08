@@ -1,6 +1,8 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Text;
 using ICalendar.Calendar;
+using ICalendar.CalendarComponents;
 using ICalendar.Utils;
 using TreeForXml;
 using Xunit;
@@ -139,5 +141,44 @@ END:VCALENDAR";
             var calString = result.ToString(XmlTreeStructure.Parse(xmlStr));
 
         }
+
+
+
+
+
+
+
+        [Fact]
+        public void TestVConferenceComponent()
+        {
+            var vConfString = @"BEGIN:VCALENDAR
+            VERSION:2.0
+            PRODID:-//Example Corp.//CalDAV Client//EN
+            BEGIN:VCONFERENCE
+            DTSTAMP:20160206T001220Z
+            DTSTART;TZID=US/Eastern:20160104T100000
+            DURATION:PT1H30M
+            SUMMARY:LP Conference
+            UID:DC6C50A017428C5216A2F1CD@example.com
+            RRULE:FREQ=WEEKLY;UNTIL=20161224T000000Z
+            END:VCONFERENCE
+            END:VCALENDAR
+            ";
+            var vConference = VCalendar.Parse(vConfString);
+            var stringVConf = vConference.ToString();
+
+            Assert.Equal(vConfString,stringVConf);
+        }
+        
+
+
+
+
+
+
+
+
+
+
     }
 }

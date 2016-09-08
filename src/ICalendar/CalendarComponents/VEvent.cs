@@ -1,5 +1,5 @@
-﻿using ICalendar.GeneralInterfaces;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using ICalendar.GeneralInterfaces;
 
 namespace ICalendar.CalendarComponents
 {
@@ -13,8 +13,14 @@ namespace ICalendar.CalendarComponents
         public override string Name => "VEVENT";
 
         /// <summary>
-        /// Add an ICalendarComponent to the event
-        /// or a property.
+        ///     Contains the calendar components of the VEvent.
+        ///     By general rule these components are just gonna be alarms.
+        /// </summary>
+        public IDictionary<string, IList<ICalendarComponent>> CalendarComponents { get; }
+
+        /// <summary>
+        ///     Add an ICalendarComponent to the event
+        ///     or a property.
         /// </summary>
         /// <param name="component"></param>
         public override void AddItem(ICalendarObject component)
@@ -24,14 +30,9 @@ namespace ICalendar.CalendarComponents
                 if (CalendarComponents.ContainsKey(component.Name))
                     CalendarComponents[component.Name].Add(item);
                 else
-                    CalendarComponents.Add(item.Name, new List<ICalendarComponent>() { item });
+                    CalendarComponents.Add(item.Name, new List<ICalendarComponent> {item});
             else
                 base.AddItem(component);
         }
-
-        /// <summary>
-        /// Contains the components of the VEvent (i.e
-        /// </summary>
-        public IDictionary<string, IList<ICalendarComponent>> CalendarComponents { get; }
     }
 }
