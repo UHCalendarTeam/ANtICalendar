@@ -1,5 +1,5 @@
 {
-    "version": "1.0.0-rc2-080900",
+    "version": "1.0.0",
     "description": "ICalendar is a library for parsing and writing iCalendar files.\nIt Implements the specification given in RCF 5545.\n",
   "authors": [ "Adriano Flechilla, Jose Ignacio Vazquez" ],
   "Release Notes" : "Fixed a  bug when obtaining the string representation of an VCalendar object.",

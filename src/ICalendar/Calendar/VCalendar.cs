@@ -12,36 +12,37 @@ using TreeForXml;
 namespace ICalendar.Calendar
 {
     /// <summary>
-    ///     Is the object representation of the
-    ///     iCalendar component VCALENDAR.
-    ///     Contains the component properties and calendar components
-    ///     of the VCALENDAR.
+    ///     Is the object representation of the iCalendar component file VCALENDAR.
+    ///     Contains the component properties and calendar components of the VCALENDARs.
     /// </summary>
     public class VCalendar : ISerialize, ICalendarComponentsContainer, IComponentPropertiesContainer, IAggregator,
         ICalendarObject
     {
         /// <summary>
         ///     Add an item to the VCALENDAR.
-        ///     The item SHOULD BE either an iCalendar property
-        ///     or ICalendar component.
+        ///     The item HAS TO BE either an ComponentProperty or CalendarComponent.
         /// </summary>
-        /// <param name="calComponent"></param>
-        public void AddItem(ICalendarObject calComponent)
+        /// <param name="calObject">The object to be added.</param>
+        public void AddItem(ICalendarObject calObject)
         {
-            var prop = calComponent as IComponentProperty;
-            //if the object is a property, add it to the properties container
-            if (prop != null)
-            {
-                Properties.Add(prop.Name, prop);
+            var calendarProperty = calObject as IComponentProperty;
 
+            //if the object is a property, add it to the properties container
+            if (calendarProperty != null)
+            {
+                Properties.Add(calendarProperty.Name, calendarProperty);
                 return;
             }
-            //if not add to the calendar component container
+
+            //if is not a property add it to the calendar components container
+
+            var calComponent = calObject as ICalendarComponent;
+
             if (CalendarComponents.ContainsKey(calComponent.Name))
-                CalendarComponents[calComponent.Name].Add((ICalendarComponent) calComponent);
+                CalendarComponents[calComponent.Name].Add( calComponent);
             else
                 CalendarComponents.Add(calComponent.Name,
-                    new List<ICalendarComponent>(1) {(ICalendarComponent) calComponent});
+                    new List<ICalendarComponent>(1) {calComponent});
         }
 
         /// <summary>
@@ -49,6 +50,7 @@ namespace ICalendar.Calendar
         ///     of the calendar.
         /// </summary>
         /// <param name="writer"></param>
+        [Obsolete("It's gonna be removed in the next version of the library.")]
         public void Serialize(TextWriter writer)
         {
             writer.WriteLine("BEGIN:VCALENDAR");
@@ -64,19 +66,22 @@ namespace ICalendar.Calendar
         }
 
         /// <summary>
-        ///     Return all the CalendarComponents that match with given the name.
+        ///     Return all the CalendarComponents that match with the given the name.
         /// </summary>
-        /// <param name="compName">CalendarComponent name.</param>
-        /// <returns>The components with the given name.</returns>
-        public IList<ICalendarComponent> GetCalendarComponents(string compName)
+        /// <param name="componentName">The name of the CalendarComponent.</param>
+        /// <returns>
+        /// The components with the given name. Null if the VCalendar doesn't contain
+        /// a CalendarComponent with the given name.
+        /// </returns>
+        public IList<ICalendarComponent> GetCalendarComponents(string componentName)
         {
-            return CalendarComponents.ContainsKey(compName) ? CalendarComponents[compName] : null;
+            return CalendarComponents.ContainsKey(componentName) ? CalendarComponents[componentName] : null;
         }
 
         /// <summary>
-        ///     Return a property by the given name.
+        ///     Return the VCALENDAR property with the given name.
         /// </summary>
-        /// <param name="propName">Property name.</param>
+        /// <param name="propName">The name of the desired property.</param>
         /// <returns>The property with the given name. </returns>
         public IComponentProperty GetComponentProperties(string propName)
         {
@@ -85,8 +90,8 @@ namespace ICalendar.Calendar
 
         /// <summary>
         ///     Returns the string representation of the
-        ///     VCALENDAR object followinb the format
-        ///     defined in iCalendar protocol (RFC 5545).
+        ///     VCALENDAR object following the format
+        ///     defined in the iCalendar protocol (RFC 5545).
         /// </summary>
         /// <returns></returns>
         public override string ToString()
@@ -110,7 +115,7 @@ namespace ICalendar.Calendar
         }
 
         /// <summary>
-        ///     Return the string representation of the calendar
+        ///     Return the string representation of the VCALENDAR object
         ///     with just the given properties and components.
         /// </summary>
         /// <param name="calData">Properties and components to print.</param>
@@ -126,7 +131,7 @@ namespace ICalendar.Calendar
             var vCal = calData.Children.Where(x => x.NodeName == "comp").
                 First(x => x.Attributes.ContainsValue("VCALENDAR"));
 
-            ///take the name of the properties in VCALENDAR that have to b
+            ///take the name of the properties in VCALENDAR that have to be
             /// returned
             var propToReturn = vCal.Children
                 .Where(x => x.NodeName == "prop")
@@ -138,10 +143,11 @@ namespace ICalendar.Calendar
                 strBuilder.Append(property);
             }
 
-            ///take the desired components from the tree that are contained
-            /// in the VCALENDAR node
+            ///take the desired calendar component names from the tree
             var compToReturn = vCal.Children.Where(x => x.NodeName == "comp").
                 SelectMany(x => x.Attributes.Values);
+
+            ///take the calendar components from the VCALENDAR object
             foreach (var component in CalendarComponents.Where(comp => compToReturn.Contains(comp.Key)))
             {
                 ///take the properties of the current component that are in the
@@ -150,7 +156,8 @@ namespace ICalendar.Calendar
                     .First(x => x.Attributes.ContainsValue(component.Key))
                     .Children.SelectMany(x => x.Attributes.Values);
 
-                ///toString the current component with the desired properties.
+                ///take the string representation of the current cal component
+                /// and all the requested properties
                 strBuilder.Append(component.Value.First().ToString(properties));
             }
             strBuilder.AppendLine("END:VCALENDAR");
@@ -158,32 +165,32 @@ namespace ICalendar.Calendar
         }
 
         /// <summary>
-        ///     Parse the string that contain a calendar defines
-        ///     under the protocol RFC 5545. Builds an instance
-        ///     of VCalendar with its components, properties..
+        ///     Parse the text that contains the iCalendar representation.
+        ///     Create an instance of VCALENDAR object with all the calendar components
+        ///     and properties.
         /// </summary>
-        /// <param name="calendarString">The calendar to parse.</param>
-        /// <returns>An instance of VCalendar.</returns>
+        /// <param name="calendarString">The calendar representation to be parsed.</param>
+        /// <returns>The VCaledar instance.</returns>
         public static VCalendar Parse(string calendarString)
         {
             //used to create instance of calendar component objects
             var calCompFactory = new CalendarComponentFactory();
+
             //used to create instance of component property objects
             var compPropFactory = new ComponentPropertyFactory();
-            string name;
-            string value;
-            List<PropertyParameter> parameters;
-            ICalendarObject calComponent = null;
-            ICalendarObject compProperty = null;
             var objStack = new Stack<ICalendarObject>();
-            Type type = null;
+            
             var lines = Parser.CalendarReader(calendarString);
 
             foreach (var line in lines)
             {
-                if (!Parser.CalendarParser(line, out name, out parameters, out value))
+                List<PropertyParameter> parameters;
+                string lineValue;
+
+                string firstLineString;
+                if (!Parser.LineParser(line, out firstLineString, out parameters, out lineValue))
                     continue;
-                switch (name)
+                switch (firstLineString)
                 {
                     case "BEGIN":
 
@@ -191,7 +198,7 @@ namespace ICalendar.Calendar
                         ///if the component is vcalendar then create is
                         /// if not then call the factory to get the object
                         /// that name.
-                        calComponent = value == "VCALENDAR" ? new VCalendar() : calCompFactory.CreateIntance(value);
+                        var calComponent = lineValue == "VCALENDAR" ? new VCalendar() : calCompFactory.CreateIntance(lineValue);
                         objStack.Push(calComponent);
                         continue;
                     case "END":
@@ -209,11 +216,11 @@ namespace ICalendar.Calendar
                         continue;
                 }
                 ///creates an instance of a property
-                compProperty = compPropFactory.CreateIntance(name, name);
+                var compProperty = compPropFactory.CreateIntance(firstLineString, firstLineString);
 
                 var topObj = objStack.Peek();
                 //set the value and params in the compProperty via the Deserializer of the property
-                ((IAggregator) topObj).AddItem(((IDeserialize) compProperty).Deserialize(value, parameters));
+                ((IAggregator) topObj).AddItem(((IDeserialize) compProperty).Deserialize(lineValue, parameters));
             }
 
             throw new ArgumentException("The calendar file MUST contain at least an element.");
@@ -260,7 +267,7 @@ namespace ICalendar.Calendar
             var lines = Parser.CalendarReader(calendarString);
             foreach (var line in lines)
             {
-                if (!Parser.CalendarParser(line, out name, out parameters, out value))
+                if (!Parser.LineParser(line, out name, out parameters, out value))
                     continue;
                 //TODO: Do the necessary with the objects that dont belong to CompProperties
                 if (name == "BEGIN")
