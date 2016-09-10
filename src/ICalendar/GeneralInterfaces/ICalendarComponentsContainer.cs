@@ -13,6 +13,6 @@ namespace ICalendar.GeneralInterfaces
         ///     Key: Calendar Component name
         ///     Value: List with the Components (A calendar has many components).
         /// </summary>
-        IDictionary<string, IList<ICalendarComponent>> CalendarComponents { get; }
+        Dictionary<string, List<ICalendarComponent>> CalendarComponents { get; }
     }
 }

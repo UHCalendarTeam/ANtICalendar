@@ -18,6 +18,121 @@ namespace ICalendar.Calendar
     public class VCalendar : ISerialize, ICalendarComponentsContainer, IComponentPropertiesContainer, IAggregator,
         ICalendarObject
     {
+        #region Constructors
+
+        /// <summary>
+        ///     Use this when the components and the
+        ///     properties of the calendar are gonna be
+        ///     set manually.
+        /// </summary>
+        public VCalendar()
+        {
+            Properties = new Dictionary<string, IComponentProperty>();
+            CalendarComponents = new Dictionary<string, IList<ICalendarComponent>>();
+        }
+
+        public VCalendar(Dictionary<string, IComponentProperty> properties,
+            Dictionary<string, IList<ICalendarComponent>> calComponents)
+        {
+            Properties = properties;
+            CalendarComponents = calComponents;
+        }
+
+        /// <summary>
+        ///     THis constructor is deprecated.
+        ///     Use the Parse method instead.
+        /// </summary>
+        /// <param name="calendarString"></param>
+        [Obsolete("Use the static method Parse instead. For the next version is gonna be removed.")]
+        public VCalendar(string calendarString)
+        {
+            var calCompFactory = new CalendarComponentFactory();
+            var compPropFactory = new ComponentPropertyFactory();
+            var assemblyNameCalendar = "ICalendar.Calendar.";
+            var name = "";
+            var value = "";
+            var parameters = new List<PropertyParameter>();
+            ICalendarObject calComponent = null;
+            ICalendarObject compProperty = null;
+            var objStack = new Stack<ICalendarObject>();
+            Type type = null;
+            var lines = Parser.CalendarReader(calendarString);
+            foreach (var line in lines)
+            {
+                if (!Parser.LineParser(line, out name, out parameters, out value))
+                    continue;
+                //TODO: Do the necessary with the objects that dont belong to CompProperties
+                if (name == "BEGIN")
+                {
+                    var className = value;
+                    className = className.Substring(0, 2) + className.Substring(2).ToLower();
+                    if (value == "VCALENDAR")
+                    {
+                        type = Type.GetType(assemblyNameCalendar + className);
+                        calComponent = Activator.CreateInstance(type) as ICalendarObject;
+                    }
+                    else
+                        calComponent = calCompFactory.CreateIntance(className);
+                    objStack.Push(calComponent);
+                    continue;
+                }
+                if (name == "END")
+                {
+                    var endedObject = objStack.Pop();
+                    //if the last object in the stack is an VCalendar then
+                    //is the end of the parsing
+                    if (endedObject is VCalendar)
+                    {
+                        var calendar = endedObject as VCalendar;
+                        Properties = calendar.Properties;
+                        CalendarComponents = calendar.CalendarComponents;
+                        return;
+                    }
+                    ((IAggregator) objStack.Peek()).AddItem(endedObject);
+                    continue;
+                }
+                var propSysName = name;
+                if (name.Contains("-"))
+                    propSysName = name.Replace("-", "_");
+                propSysName = propSysName.Substring(0, 1) + propSysName.Substring(1).ToLower();
+                compProperty = compPropFactory.CreateIntance(propSysName, name);
+                if (compProperty == null)
+                    continue;
+
+                var topObj = objStack.Peek();
+                ((IAggregator) topObj).AddItem(((IDeserialize) compProperty).Deserialize(value, parameters));
+            }
+
+            throw new ArgumentException("The calendar file MUST contain at least an element.");
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public string Name => "VCALENDAR";
+
+        //REQUIRED PROPERTIES
+        private static readonly string ProId = "//UHCalendarTeam//UHCalendar//EN";
+
+        private static readonly string Version = "2.0";
+
+        /*//OPTIONAL PROPERTIES
+        public Calscale CalScale { get; set; }
+
+        public Method Method { get; set; }*/
+
+        public Dictionary<string, IList<ICalendarComponent>> CalendarComponents { get; }
+
+        public Dictionary<string, IComponentProperty> Properties { get; }
+
+        //OPTIONAL MAY OCCUR MORE THAN ONCE
+        //  X-PROP,  IANA-PROP
+
+        #endregion Properties
+
+        #region Methods
+
         /// <summary>
         ///     Add an item to the VCALENDAR.
         ///     The item HAS TO BE either an ComponentProperty or CalendarComponent.
@@ -39,7 +154,7 @@ namespace ICalendar.Calendar
             var calComponent = calObject as ICalendarComponent;
 
             if (CalendarComponents.ContainsKey(calComponent.Name))
-                CalendarComponents[calComponent.Name].Add( calComponent);
+                CalendarComponents[calComponent.Name].Add(calComponent);
             else
                 CalendarComponents.Add(calComponent.Name,
                     new List<ICalendarComponent>(1) {calComponent});
@@ -70,8 +185,8 @@ namespace ICalendar.Calendar
         /// </summary>
         /// <param name="componentName">The name of the CalendarComponent.</param>
         /// <returns>
-        /// The components with the given name. Null if the VCalendar doesn't contain
-        /// a CalendarComponent with the given name.
+        ///     The components with the given name. Null if the VCalendar doesn't contain
+        ///     a CalendarComponent with the given name.
         /// </returns>
         public IList<ICalendarComponent> GetCalendarComponents(string componentName)
         {
@@ -173,170 +288,9 @@ namespace ICalendar.Calendar
         /// <returns>The VCaledar instance.</returns>
         public static VCalendar Parse(string calendarString)
         {
-            //used to create instance of calendar component objects
-            var calCompFactory = new CalendarComponentFactory();
-
-            //used to create instance of component property objects
-            var compPropFactory = new ComponentPropertyFactory();
-            var objStack = new Stack<ICalendarObject>();
-            
-            var lines = Parser.CalendarReader(calendarString);
-
-            foreach (var line in lines)
-            {
-                List<PropertyParameter> parameters;
-                string lineValue;
-
-                string firstLineString;
-                if (!Parser.LineParser(line, out firstLineString, out parameters, out lineValue))
-                    continue;
-                switch (firstLineString)
-                {
-                    case "BEGIN":
-
-
-                        ///if the component is vcalendar then create is
-                        /// if not then call the factory to get the object
-                        /// that name.
-                        var calComponent = lineValue == "VCALENDAR" ? new VCalendar() : calCompFactory.CreateIntance(lineValue);
-                        objStack.Push(calComponent);
-                        continue;
-                    case "END":
-                        var endedObject = objStack.Pop();
-                        //if the last object in the stack is an VCalendar then
-                        //is the end of the parsing
-                        var vCalendar = endedObject as VCalendar;
-                        if (vCalendar != null)
-                            return vCalendar;
-
-                        ///if the object is not a VCalendar means
-                        /// that should be added to his father that
-                        /// is the first in the stack
-                        ((IAggregator) objStack.Peek()).AddItem(endedObject);
-                        continue;
-                }
-                ///creates an instance of a property
-                var compProperty = compPropFactory.CreateIntance(firstLineString, firstLineString);
-
-                var topObj = objStack.Peek();
-                //set the value and params in the compProperty via the Deserializer of the property
-                ((IAggregator) topObj).AddItem(((IDeserialize) compProperty).Deserialize(lineValue, parameters));
-            }
-
-            throw new ArgumentException("The calendar file MUST contain at least an element.");
+            return Parser.iCalendarParser(calendarString);
         }
 
-        #region Constructors
-
-        /// <summary>
-        ///     Use this when the components and the
-        ///     properties of the calendar are gonna be
-        ///     set manually.
-        /// </summary>
-        public VCalendar()
-        {
-            Properties = new Dictionary<string, IComponentProperty>();
-            CalendarComponents = new Dictionary<string, IList<ICalendarComponent>>();
-        }
-
-        public VCalendar(Dictionary<string, IComponentProperty> properties,
-            IDictionary<string, IList<ICalendarComponent>> calComponents)
-        {
-            Properties = properties;
-            CalendarComponents = calComponents;
-        }
-
-        /// <summary>
-        ///     THis constructor is deprecated.
-        ///     Use the Parse method instead.
-        /// </summary>
-        /// <param name="calendarString"></param>
-        [Obsolete("Use the static method Parse instead. For the next version is gonna be removed.")]
-        public VCalendar(string calendarString)
-        {
-            var calCompFactory = new CalendarComponentFactory();
-            var compPropFactory = new ComponentPropertyFactory();
-            var assemblyNameCalendar = "ICalendar.Calendar.";
-            var name = "";
-            var value = "";
-            var parameters = new List<PropertyParameter>();
-            ICalendarObject calComponent = null;
-            ICalendarObject compProperty = null;
-            var objStack = new Stack<ICalendarObject>();
-            Type type = null;
-            var lines = Parser.CalendarReader(calendarString);
-            foreach (var line in lines)
-            {
-                if (!Parser.LineParser(line, out name, out parameters, out value))
-                    continue;
-                //TODO: Do the necessary with the objects that dont belong to CompProperties
-                if (name == "BEGIN")
-                {
-                    var className = value;
-                    className = className.Substring(0, 2) + className.Substring(2).ToLower();
-                    if (value == "VCALENDAR")
-                    {
-                        type = Type.GetType(assemblyNameCalendar + className);
-                        calComponent = Activator.CreateInstance(type) as ICalendarObject;
-                    }
-                    else
-                        calComponent = calCompFactory.CreateIntance(className);
-                    objStack.Push(calComponent);
-                    continue;
-                }
-                if (name == "END")
-                {
-                    var endedObject = objStack.Pop();
-                    //if the last object in the stack is an VCalendar then
-                    //is the end of the parsing
-                    if (endedObject is VCalendar)
-                    {
-                        var calendar = endedObject as VCalendar;
-                        Properties = calendar.Properties;
-                        CalendarComponents = calendar.CalendarComponents;
-                        return;
-                    }
-                    ((IAggregator) objStack.Peek()).AddItem(endedObject);
-                    continue;
-                }
-                var propSysName = name;
-                if (name.Contains("-"))
-                    propSysName = name.Replace("-", "_");
-                propSysName = propSysName.Substring(0, 1) + propSysName.Substring(1).ToLower();
-                compProperty = compPropFactory.CreateIntance(propSysName, name);
-                if (compProperty == null)
-                    continue;
-
-                var topObj = objStack.Peek();
-                ((IAggregator) topObj).AddItem(((IDeserialize) compProperty).Deserialize(value, parameters));
-            }
-
-            throw new ArgumentException("The calendar file MUST contain at least an element.");
-        }
-
-        #endregion Constructors
-
-        #region Properties
-
-        public string Name => "VCALENDAR";
-
-        //REQUIRED PROPERTIES
-        private static readonly string ProId = "//UHCalendarTeam//UHCalendar//EN";
-
-        private static readonly string Version = "2.0";
-
-        /*//OPTIONAL PROPERTIES
-        public Calscale CalScale { get; set; }
-
-        public Method Method { get; set; }*/
-
-        public IDictionary<string, IList<ICalendarComponent>> CalendarComponents { get; }
-
-        public IDictionary<string, IComponentProperty> Properties { get; }
-
-        //OPTIONAL MAY OCCUR MORE THAN ONCE
-        //  X-PROP,  IANA-PROP
-
-        #endregion Properties
+        #endregion
     }
 }

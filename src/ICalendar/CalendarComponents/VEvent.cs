@@ -16,11 +16,10 @@ namespace ICalendar.CalendarComponents
         ///     Contains the calendar components of the VEvent.
         ///     By general rule these components are just gonna be alarms.
         /// </summary>
-        public IDictionary<string, IList<ICalendarComponent>> CalendarComponents { get; }
+        public Dictionary<string, List<ICalendarComponent>> CalendarComponents { get; }
 
         /// <summary>
-        ///     Add an ICalendarComponent to the event
-        ///     or a property.
+        ///     Add an ICalendarComponent or IComponentProperty to the event.
         /// </summary>
         /// <param name="component"></param>
         public override void AddItem(ICalendarObject component)

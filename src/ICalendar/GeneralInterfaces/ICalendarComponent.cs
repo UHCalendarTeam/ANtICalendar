@@ -10,23 +10,23 @@ namespace ICalendar.GeneralInterfaces
     public interface ICalendarComponent : ISerialize, IComponentPropertiesContainer, IAggregator, ICalendarObject
     {
         /// <summary>
-        ///     Returns a property by the given name.
+        ///     Returns a property with the given name.
         /// </summary>
         /// <param name="propName">Property name.</param>
-        /// <returns>The property with the given name. </returns>
-        IComponentProperty GetComponentProperty(string propName);
+        /// <returns>The property with the given name.</returns>
+        IComponentProperty GetComponentProperty(string propertyName);
 
         /// <summary>
-        ///     The iCalendar properties RRUES and
-        ///     ATTENDEE may be defined multiple times
-        ///     in a cal component so are returned as a list
+        ///     The CalendarComponent's properties RRULES,
+        ///     ATTENDEE and others may be defined multiple times
+        ///     in a calendar component so are returned as a list.
         /// </summary>
         /// <param name="propName">"RRULE" || "ATTENDEE"</param>
         /// <returns>Multiple definition of one of this properties</returns>
-        List<IComponentProperty> GetMultipleCompProperties(string propName);
+        List<IComponentProperty> GetMultipleCompProperties(string propertyName);
 
         /// <summary>
-        ///     Convert the object in his iCalendar string representation.
+        ///     Convert the object in its iCalendar string representation.
         /// </summary>
         /// <param name="value">The values that should be represented.</param>
         /// <returns>Returns the string representation of the iCalendar component..</returns>
@@ -42,7 +42,7 @@ namespace ICalendar.GeneralInterfaces
 
         /// <summary>
         ///     Returns the property of the component that
-        ///     has the given name. The HAVE to be one of the
+        ///     has the given name. It has to be one of the
         ///     specifies in iCalendar protocol except
         ///     RRULES and ATTENDEES that might be defined multiple
         ///     times.

@@ -12,7 +12,7 @@ namespace ICalendar.CalendarComponents
 
         public override string Name => "VTIMEZONE";
 
-        public IDictionary<string, IList<ICalendarComponent>> CalendarComponents { get; }
+        public Dictionary<string, List<ICalendarComponent>> CalendarComponents { get; }
 
         /// <summary>
         /// Add a subcomponent of the VTimeZone object or

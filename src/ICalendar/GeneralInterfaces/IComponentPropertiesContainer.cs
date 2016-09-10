@@ -3,14 +3,14 @@
 namespace ICalendar.GeneralInterfaces
 {
     /// <summary>
-    ///     Define the container of the properties of
-    ///     a calendar component;
+    ///     Define the container of the properties in
+    ///     a calendar component object.
     /// </summary>
     public interface IComponentPropertiesContainer
     {
         /// <summary>
         ///     Contains the name and the value of the ICalendarComponent's properties.
         /// </summary>
-        IDictionary<string, IComponentProperty> Properties { get; }
+        Dictionary<string, IComponentProperty> Properties { get; }
     }
 }
