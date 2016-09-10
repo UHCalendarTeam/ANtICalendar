@@ -28,11 +28,11 @@ namespace ICalendar.Calendar
         public VCalendar()
         {
             Properties = new Dictionary<string, IComponentProperty>();
-            CalendarComponents = new Dictionary<string, IList<ICalendarComponent>>();
+            CalendarComponents = new Dictionary<string, List<ICalendarComponent>>();
         }
 
         public VCalendar(Dictionary<string, IComponentProperty> properties,
-            Dictionary<string, IList<ICalendarComponent>> calComponents)
+            Dictionary<string, List<ICalendarComponent>> calComponents)
         {
             Properties = properties;
             CalendarComponents = calComponents;
@@ -122,7 +122,7 @@ namespace ICalendar.Calendar
 
         public Method Method { get; set; }*/
 
-        public Dictionary<string, IList<ICalendarComponent>> CalendarComponents { get; }
+        public Dictionary<string, List<ICalendarComponent>> CalendarComponents { get; }
 
         public Dictionary<string, IComponentProperty> Properties { get; }
 

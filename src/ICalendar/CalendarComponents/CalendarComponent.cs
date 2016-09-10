@@ -69,7 +69,7 @@ namespace ICalendar.CalendarComponents
             //multiple property list.
             if (Properties.ContainsKey(prop.Name))
             {
-                MultipleValuesProperties[prop.Name] = new List<IComponentProperty> { prop, Properties[prop.Name] };
+                MultipleValuesProperties[prop.Name] = new List<IComponentProperty> {prop, Properties[prop.Name]};
                 Properties.Remove(prop.Name);
             }
             else if (MultipleValuesProperties.ContainsKey(prop.Name))
@@ -96,8 +96,8 @@ namespace ICalendar.CalendarComponents
             ///take the  requested properties that are in the mutiple property list
             var multReqProperties =
                 MultipleValuesProperties
-                .Where(prop => properties.Contains(prop.Key))
-                .SelectMany(prop => prop.Value);
+                    .Where(prop => properties.Contains(prop.Key))
+                    .SelectMany(prop => prop.Value);
             foreach (var componentProperty in multReqProperties)
             {
                 strBuilder.Append(componentProperty);
@@ -176,7 +176,7 @@ namespace ICalendar.CalendarComponents
             return calendarComponents?
                 .Where(calComp => calComp.Key == "VALARM")
                 .SelectMany(alarm => alarm.Value)
-                .Select(x=>x as VAlarm).ToList();
+                .Select(x => x as VAlarm).ToList();
         }
 
         #region Properties

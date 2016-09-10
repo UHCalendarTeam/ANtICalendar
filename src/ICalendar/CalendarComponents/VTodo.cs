@@ -7,7 +7,7 @@ namespace ICalendar.CalendarComponents
     {
         public VTodo()
         {
-            CalendarComponents = new Dictionary<string, IList<ICalendarComponent>>();
+            CalendarComponents = new Dictionary<string, List<ICalendarComponent>>();
         }
 
         public override string Name => "VTODO";
