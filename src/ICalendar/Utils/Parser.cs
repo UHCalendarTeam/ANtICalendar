@@ -9,9 +9,7 @@ using ICalendar.GeneralInterfaces;
 namespace ICalendar.Utils
 {
     /// <summary>
-    ///     This class contains the necessary
-    ///     methods to parse an ICalendar file and build
-    ///     our objects that represent them.
+    ///     Contains some useful methods to parse the icalendar files.
     /// </summary>
     public static class Parser
     {
@@ -83,7 +81,7 @@ namespace ICalendar.Utils
 
 
         /// <summary>
-        ///     Used to parse each line in the iCal definition.
+        ///     Parse a line of the iCalendar file definition.
         ///     Return by reference the values of the name, value and
         ///     params of the parsed line.
         /// </summary>
@@ -125,7 +123,7 @@ namespace ICalendar.Utils
         }
 
         /// <summary>
-        ///     Parse a string than contains the params of a property.
+        ///     Parse a line and take the params from it.
         /// </summary>
         /// <param name="strParams">The string that contains the params declaration</param>
         /// <returns>A list with the Name-Value of the params.</returns>

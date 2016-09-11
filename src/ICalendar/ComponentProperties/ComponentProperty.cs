@@ -22,6 +22,7 @@ namespace ICalendar.ComponentProperties
             PropertyParameters = new List<PropertyParameter>();
         }
 
+        [Obsolete]
         public virtual void Serialize(TextWriter writer)
         {
             writer.Write(this.ToString());
